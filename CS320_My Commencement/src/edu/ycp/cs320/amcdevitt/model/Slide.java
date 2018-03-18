@@ -14,7 +14,7 @@ public class Slide {
 	private Photo photo;
 	private Video video;
 	private String major;
-	private String minor;
+	private String minor;						//Comments 
 	private String honors;
 	private String sports;
 	private String clubs;
