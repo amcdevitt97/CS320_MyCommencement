@@ -8,19 +8,6 @@
 	</head>
 
 	<body>
-		<!-- <form action="${pageContext.servletContext.contextPath}/login" method="post">
-			<div>
-				<input name="email" type="text" value="${account.email}" />
-				<input name="pass" type="password" value="${account.password}" />
-			
-				<input name="Submit" type="submit" value="Submit" />
-				
-				<div>
-					User is ${account.firstname} ${account.lastname}
-				</div>
-				
-			</div>
-		</form>- -->
 		
 		<form id="login" action="${pageContext.servletContext.contextPath}/login" method="post">
             	<input type="text" name="email" placeholder="email" value="${email}" required>
