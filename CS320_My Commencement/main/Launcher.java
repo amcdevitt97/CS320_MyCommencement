@@ -1,4 +1,3 @@
-package edu.ycp.cs320.amcdevitt.main;
 
 import java.lang.management.ManagementFactory;
 

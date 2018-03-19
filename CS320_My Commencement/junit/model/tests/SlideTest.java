@@ -1,4 +1,4 @@
-package edu.ycp.cs320.amcdevitt.model;
+package model.tests;
 
 import static org.junit.Assert.*;
 

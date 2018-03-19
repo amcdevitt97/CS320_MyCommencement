@@ -1,4 +1,4 @@
-package edu.ycp.cs320.amcdevitt.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
