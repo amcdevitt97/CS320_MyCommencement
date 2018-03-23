@@ -1,0 +1,31 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="main.css">
+<title>MyCommencement - Login</title>
+</head>
+<body>
+
+
+	<!-- navbar content -->
+	<div id="navBar">
+		<img id="logo" src="Media/logo.png" />
+	</div>
+<div id="content">
+	<div id="errorMessage">
+		<c:if test="${! empty errorMessage}">
+			<tr>${errorMessage}</tr>
+		</c:if>
+	</div>
+
+	<div id="loginPanel">
+		<form id="login" action="${pageContext.servletContext.contextPath}/login" method="post">
+					<input type="text" name="email" placeholder="email"  required>
+					<input type="password" name="password" placeholder="Password"  required>
+					<input type="Submit" value="Login" id="loginSubmit" name="loginSubmit">
+		</form>
+	</div>
+
+</div>
+
+</body>
+</html>
