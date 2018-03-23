@@ -13,6 +13,8 @@ public interface IDatabase {
 	public Connection connect() throws SQLException;
 	public void loadInitialData();
 	public Account returnAccountForEmail(String email);
+	public Boolean queryForValidLogin(String email, String password);
+	
 	/*public int queryForLoginIdByEmail(String email);
 	public boolean updateAccountByEmail(String email, Account account);
 	public String queryForPasswordByEmail(String email);

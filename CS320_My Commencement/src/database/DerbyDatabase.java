@@ -39,6 +39,44 @@ public class DerbyDatabase implements IDatabase {
 	}
 	/*---------------------------QUERIES--------------------------*/
 
+	public Boolean queryForValidLogin(String email, String password) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String password = null;
+				try {
+					// retrieve all attributes from both Books and Authors tables
+					stmt = conn.prepareStatement(
+							"select accounts.email, accounts.password" +
+							"  from accounts " +
+							" where accounts.email = ?" +
+							" and accounts.password = ?"
+					);
+					stmt.setString(1, email);
+					stmt.setString(2, password);
+					
+					resultSet = stmt.executeQuery();
+					
+					
+					if(resultSet.next()){
+						return true;
+					}
+				    else{
+				    	return false; 
+					}
+					
+				} 
+				finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	
 	public String queryForPasswordByEmail(String email) {
 		return executeTransaction(new Transaction<String>() {
 			@Override
@@ -207,12 +245,6 @@ public class DerbyDatabase implements IDatabase {
 		}
 	}
 
-	private void loadAdvisor(Advisor advisor, ResultSet resultSet, int index) throws SQLException {
-		advisor.setFirstname(resultSet.getString(index++));
-		advisor.setLastname(resultSet.getString(index++));
-		advisor.setEmail(resultSet.getString(index++));
-		advisor.setPassword(resultSet.getString(index++));
-	}
 	
 	private void loadAccount(Account account, ResultSet resultSet, int index) throws SQLException {
 		account.setFirstname(resultSet.getString(index++));
@@ -227,6 +259,11 @@ public class DerbyDatabase implements IDatabase {
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				PreparedStatement stmt4 = null;
+				PreparedStatement stmt5 = null;
+				PreparedStatement stmt6 = null;
+				PreparedStatement stmt7 = null;
 					
 				try {
 					//CREATING ACCOUNTS
@@ -238,14 +275,13 @@ public class DerbyDatabase implements IDatabase {
 									"	lastname varchar(70)," +
 									"	email varchar(70)," +
 									"	password varchar(70)," +
-									"   id integer" +
 									")"
 							);	
 
 					stmt1.executeUpdate();
 					System.out.println("----Successfully Created Accounts Table---- ");
 					
-					
+					//CREATING STUDENTS
 					stmt2 = conn.prepareStatement(
 							"create table students (" +
 									"	student_id integer primary key " +
@@ -258,16 +294,91 @@ public class DerbyDatabase implements IDatabase {
 									"	major varchar(70)," +
 									"	minor varchar(70)," +
 									"   gpa integer, " +
-									"   id integer" +
 									")"
 							);
 					stmt2.executeUpdate();
 					System.out.println("----Successfully Created Students Table---- ");
+					
+					//CREATING SLIDES
+					stmt3 = conn.prepareStatement(
+							"create table slides (" +
+									"	slide_id integer primary key " +
+									"		generated always as identity (start with 1, increment by 1), " +
+									"	slideFN varchar(70)," +
+									"	slideLN varchar(70)," +
+									"	hasPhoto bit," +
+									"	hasAudio bit," +
+									"	hasVideo bit," +
+									"	quote varchar(70)," +
+									"	honors varchar(70)," +
+									"	showGPA bit," +
+									"	showMajor bit," +
+									"	slideApproved bit," +
+									"	hasVideo bit," +
+									"	studentEmail varchar(70)," +
+									")"
+							);
+					stmt3.executeUpdate();
+					System.out.println("----Successfully Created Slides Table---- ");
+					
+					//CREATING AUDIO
+					stmt4 = conn.prepareStatement(
+							"create table audio (" +
+									"	audio_id integer primary key " +
+									"		generated always as identity (start with 1, increment by 1), " +
+									"	hours integer," +
+									"	mins integer," +
+									"	seconds integer," +
+									"	file mediumblob," +
+									"	studentEmail varchar(70)," +
+									")"
+							);
+					stmt4.executeUpdate();
+					System.out.println("----Successfully Created Audio Table---- ");
+					
+					//CREATING VIDEOS
+					stmt5 = conn.prepareStatement(
+							"create table videos (" +
+									"	video_id integer primary key " +
+									"		generated always as identity (start with 1, increment by 1), " +
+									"	hours integer," +
+									"	mins integer," +
+									"	seconds integer," +
+									"	length integer," +
+									"	width integer," +
+									"	file mediumblob," +
+									"	studentEmail varchar(70)," +
+									")"
+							);
+					stmt5.executeUpdate();
+					System.out.println("----Successfully Created Videos Table---- ");
+					
+					//CREATING PHOTOS
+					stmt6 = conn.prepareStatement(
+							"create table photos (" +
+									"	photo_id integer primary key " +
+									"		generated always as identity (start with 1, increment by 1), " +
+									"	length integer," +
+									"	width integer," +
+									"	file mediumblob," +
+									"	studentEmail varchar(70)," +
+									")"
+							);
+					stmt6.executeUpdate();
+					System.out.println("----Successfully Created Photos Table---- ");
+					
+					// TODO: REVIEW TABLE CREATION
+					
 
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(stmt4);
+					DBUtil.closeQuietly(stmt5);
+					DBUtil.closeQuietly(stmt6);
+					DBUtil.closeQuietly(stmt7);
 				}
 			}
 		});
@@ -328,7 +439,7 @@ public class DerbyDatabase implements IDatabase {
 
 					// ADDS ALL STUDENTS
 					
-					insertStudent = conn.prepareStatement("insert into students (advisor, firstname, lastname, email, password, major, minor, gpa, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					insertStudent = conn.prepareStatement("insert into students (advisor, firstname, lastname, email, password, major, minor, gpa) values (?, ?, ?, ?, ?, ?, ?, ?)");
 					for (Student student : studentList) {
 						insertStudent.setString(1, student.getAdvisor());
 						insertStudent.setString(2, student.getFirstname());
@@ -338,20 +449,18 @@ public class DerbyDatabase implements IDatabase {
 						insertStudent.setString(6, student.getMajor());
 						insertStudent.setString(7, student.getMinor());
 						insertStudent.setDouble(8, student.getGPA());
-						insertStudent.setInt(9, student.getLoginId());
 						insertStudent.addBatch();
 					}
 					insertStudent.executeBatch();
 
 					// ADDS ALL ACCOUNTS
-					insertAccount = conn.prepareStatement("insert into accounts (firstname, lastname, email, password, id) values (?, ?, ?, ?, ?)");
+					insertAccount = conn.prepareStatement("insert into accounts (firstname, lastname, email, password, id) values (?, ?, ?, ?)");
 					for (Account account : accountList) {
 												
 						insertAccount.setString(1, account.getFirstname());
 						insertAccount.setString(2, account.getLastname());
 						insertAccount.setString(3, account.getEmail());
 						insertAccount.setString(4, account.getPassword());
-						insertAccount.setInt(5, account.getLoginId());
 						insertAccount.addBatch();
 					}
 					insertAccount.executeBatch();
@@ -365,19 +474,7 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 
-	/*
-	// The main method creates the database tables and loads the initial data.
-		public static void main(String[] args) throws IOException {
-			System.out.println("Creating tables...");
-			DerbyDatabase db = new DerbyDatabase();
-			db.createTables();
-
-			System.out.println("Loading initial data...");
-			db.loadInitialData();
-
-			System.out.println("Success!");
-		}
-	 */
+	
 
 
 	public static void main(String[] args) throws SQLException {
