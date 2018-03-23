@@ -52,15 +52,13 @@ public class LoginServlet extends HttpServlet {
 				}
 				else {
 					
-					int loginId = login.loginUser(email, password);
-					if(loginId >= 0){
+					;
+					if(login.loginUser(email, password)){
 						req.getSession().setAttribute("email", email);
-						req.getSession().setAttribute("login_id", loginId);
 						loggedin = true;
-						req.setAttribute("loggedin", loggedin);
 					}
 					else{
-						//errorMessage = "Invalid username or password.";
+						errorMessage = "Invalid username or password.";
 					}
 				}
 				if(loggedin){

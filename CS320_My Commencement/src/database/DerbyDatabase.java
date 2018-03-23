@@ -37,8 +37,6 @@ public class DerbyDatabase implements IDatabase {
 	private interface Query<ReturnType>{
 		public ReturnType query(Connection conn) throws SQLException;
 	}
-	/*---------------------------QUERIES--------------------------*/
-	
 	/*
 	 * TODO:
 	 * 		UI/UX RELATED QUERIES:
@@ -317,6 +315,7 @@ public class DerbyDatabase implements IDatabase {
 									"	showGPA bit," +
 									"	showMajor bit," +
 									"	slideApproved bit," +
+									"	hasVideo bit," +
 									"	studentEmail varchar(70)," +
 									")"
 							);
