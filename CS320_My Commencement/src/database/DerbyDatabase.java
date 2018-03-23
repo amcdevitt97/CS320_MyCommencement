@@ -38,6 +38,42 @@ public class DerbyDatabase implements IDatabase {
 		public ReturnType query(Connection conn) throws SQLException;
 	}
 	/*---------------------------QUERIES--------------------------*/
+	
+	/*
+	 * TODO:
+	 * 		UI/UX RELATED QUERIES:
+	 * 		getAdvisorList (select students where students.advisorEmail = ?)
+	 * 		isStudent (select students.email from students where student.email = ?)
+	 * 		getFirstNameforEmail (select accounts.firstname from accounts where accounts.email=?)
+	 * 		getLastNameforEmail (select accounts.lastname from accounts where accounts.email=?)
+	 * 		
+	 * 		SLIDE RELATED QUERIES:
+	 * 		getSlide (select slides where slides.studentEmail=?)
+	 * 		addSlide (insert into slides values(etc.))
+	 * 		getSlideFNforEmail ()
+	 * 		getSlideLNforEmail ()
+	 * 		getSlideQuoteforEmail()
+	 * 		setGpaVisibilityforEmail()
+	 * 		setMajorVisibilityforEmail()
+	 * 		setAudioVisibilityforEmail()
+	 * 		setVideoVisibilityforEmail()
+	 * 		setPhotoVisibilityforEmail()
+	 * 		getStudentGPA()
+	 * 		getStudentMajor()
+	 * 		getStudentMinor()
+	 * 
+	 * 		DEBUGGING ONLY:
+	 * 		showAllAccounts(select * from accounts)
+	 * 		showAllStudents(select * from students)
+	 * 		showAllSlides(select * from slides)
+	 * 		showAllPhotos(select * from photos)
+	 * 		showAllVideos(select * from videos)
+	 * 		showAllAudio(select * from audio)
+	 * */
+	
+	
+	
+	
 
 	public Boolean queryForValidLogin(String email, String password) {
 		return executeTransaction(new Transaction<Boolean>() {
@@ -69,39 +105,6 @@ public class DerbyDatabase implements IDatabase {
 					
 				} 
 				finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-		});
-	}
-	
-	
-	public String queryForPasswordByEmail(String email) {
-		return executeTransaction(new Transaction<String>() {
-			@Override
-			public String execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
-				String password = null;
-				try {
-					// retrieve all attributes from both Books and Authors tables
-					stmt = conn.prepareStatement(
-							"select accounts.password " +
-							"  from accounts " +
-							" where accounts.email = ?" 
-					);
-					stmt.setString(1, email);
-					
-					resultSet = stmt.executeQuery();
-					
-					
-					while (resultSet.next()) {
-						password=resultSet.getString(1);
-					}
-					
-					return password;
-				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
 				}
@@ -314,7 +317,6 @@ public class DerbyDatabase implements IDatabase {
 									"	showGPA bit," +
 									"	showMajor bit," +
 									"	slideApproved bit," +
-									"	hasVideo bit," +
 									"	studentEmail varchar(70)," +
 									")"
 							);
