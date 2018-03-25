@@ -22,7 +22,7 @@ public class MediaObject {
 		return url;
 	}
 	
-	public static MediaType getMediaType() {
-		return MediaType.INVALID;
+	public static <E> E getMediaType(E x) {
+		return x;
 	}
 }
