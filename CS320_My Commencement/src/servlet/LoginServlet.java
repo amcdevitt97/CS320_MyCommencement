@@ -17,9 +17,11 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try{
+			System.out.println("test");
 			String username = req.getSession().getAttribute("email").toString();
 			if(username != null){
-				resp.sendRedirect(req.getContextPath() + "/user");
+				System.out.println("test");
+				resp.sendRedirect(req.getContextPath() + "/home");
 			}
 		}
 		catch (NullPointerException e){
@@ -30,8 +32,9 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+		System.out.println("test");
 		String email = null;
+		String type = null;
 		String password = null;
 		String buttonPress = null;
 		boolean loggedin = false;
@@ -51,25 +54,41 @@ public class LoginServlet extends HttpServlet {
 					System.out.println(errorMessage);
 				}
 				else {
-					
-					int loginId = login.loginUser(email, password);
-					if(loginId >= 0){
+					// verify login is correct
+					if(login.loginUser(email, password)){
 						req.getSession().setAttribute("email", email);
-						req.getSession().setAttribute("login_id", loginId);
+						
+						// determines which JSP to display based on the account
+						if(login.isStudent(email)){
+							req.getSession().setAttribute("type", "student");
+						}
+						else{
+							req.getSession().setAttribute("type", "advisor");
+						}
 						loggedin = true;
-						req.setAttribute("loggedin", loggedin);
 					}
+					// if login fails...
 					else{
-						//errorMessage = "Invalid username or password.";
+						errorMessage = "Invalid username or password.";
 					}
 				}
+				
+				
 				if(loggedin){
+					System.out.println("test");
 					req.setAttribute("email", email);
+					if(login.isStudent(email)){
+						req.setAttribute("type", "student");
+					}
+					else{
+						req.setAttribute("type", "advisor");
+					}
 					req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 					
 					resp.sendRedirect(req.getContextPath() + "/home");
 				}
 				else{
+					System.out.println("test");
 					req.setAttribute("email", email);
 					req.setAttribute("errorMessage", errorMessage);
 					req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);

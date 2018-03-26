@@ -18,6 +18,7 @@ public class HomeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 				String email = (String) req.getSession().getAttribute("email");
+				
 				if (email == null) {
 					System.out.println("   User: <" + email + "> not logged in or session timed out");
 					
@@ -26,13 +27,15 @@ public class HomeServlet extends HttpServlet {
 					return;
 				}
 				else{
-					String fn=null;
-					String ln=null;
-					fn = "Alyssa";
-					ln = "McDevitt";
-					
-					req.setAttribute("firstname", fn);
-					req.setAttribute("lastname", ln);
+					LoginController controller = new LoginController();
+					Boolean student = controller.isStudent(email);
+					if(student){
+						System.out.println("I AM A STUDENT");
+						req.setAttribute("type", "student");
+					}
+					else{
+						req.setAttribute("type", "advisor");
+					}
 				}
 		
 		
@@ -42,8 +45,6 @@ public class HomeServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		
 			req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 		
 	}

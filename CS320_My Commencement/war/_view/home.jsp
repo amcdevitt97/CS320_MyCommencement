@@ -9,7 +9,7 @@
 
 	<body>
 		<div>
-					User is ${email}
+					User is ${email}, type is ${type} 
 		</div>
 	</body>
 </html>
