@@ -39,15 +39,9 @@ public class DerbyDatabase implements IDatabase {
 	}
 	/*
 	 * TODO:
-	 * 		UI/UX RELATED QUERIES:
-	 * 		getAdvisorList (select students where students.advisorEmail = ?)
-	 * 		
-	 * 		getFirstNameforEmail (select accounts.firstname from accounts where accounts.email=?)
-	 * 		getLastNameforEmail (select accounts.lastname from accounts where accounts.email=?)
 	 * 		
 	 * 		SLIDE RELATED QUERIES:
 	 * 		getSlide (select slides where slides.studentEmail=?)
-	 * 		addSlide (insert into slides values(etc.))
 	 * 		getSlideFNforEmail ()
 	 * 		getSlideLNforEmail ()
 	 * 		getSlideQuoteforEmail()
@@ -69,7 +63,7 @@ public class DerbyDatabase implements IDatabase {
 	 * 		showAllAudio(select * from audio)
 	 * */
 	
-	
+	// ACCOUNT RELATED QUERIES
 	public Boolean isStudent (String email){
 		return executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -85,9 +79,11 @@ public class DerbyDatabase implements IDatabase {
 					stmt.setString(1, email);
 					resultSet = stmt.executeQuery();
 					if(resultSet.next()){
+						System.out.println(email +" is a student");
 						return true;
 					}
 				    else{
+				    	System.out.println(email +" is NOT a student");
 				    	return false; 
 					}
 					
@@ -137,6 +133,64 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	
+	public String getFirstNameForEmail(String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String firstname= null;
+				//Account account = new Account();
+				try {
+					stmt = conn.prepareStatement(
+							"select accounts.firstname " +
+							"  from accounts " +
+							" where accounts.email = ?" 
+					);
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					firstname = resultSet.getString(1);
+					
+					return firstname;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public String getLastNameForEmail(String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String lastname= null;
+				try {
+					stmt = conn.prepareStatement(
+							"select accounts.lastname " +
+							"  from accounts " +
+							" where accounts.email = ?" 
+					);
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					lastname = resultSet.getString(1);
+					
+					return lastname;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	@Override
 	public Account returnAccountForEmail(String email) {
 		return executeTransaction(new Transaction<Account>() {
@@ -172,6 +226,106 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	// SLIDE RELATED QUERIES
+	
+	
+	public void addSlide(String slideFN,String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean slideApproved, String studentEmail){
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement insertSlide   = null;
+
+				try {
+
+					int photo = hasPhoto? 1 : 0;
+					int audio = hasAudio? 1 : 0;
+					int video = hasVideo? 1 : 0;
+					int gpa = showGPA? 1 : 0;
+					int major = showMajor? 1 : 0;
+					int approved = slideApproved? 1 : 0;
+					
+					insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					
+					insertSlide.setString(1, slideFN);
+					insertSlide.setString(2, slideLN);
+					insertSlide.setInt(3, photo);
+					insertSlide.setInt(4, audio);
+					insertSlide.setInt(5, video);
+					insertSlide.setString(6, quote);
+					insertSlide.setString(7, honors);
+					insertSlide.setInt(8, gpa);
+					insertSlide.setInt(9, major);
+					insertSlide.setInt(10, approved);
+					insertSlide.setString(11, studentEmail);
+					
+					insertSlide.executeUpdate();
+					return true;
+				}
+				finally{
+					DBUtil.closeQuietly(insertSlide);
+				}
+					
+				
+			}
+			
+		});
+	}  
+	
+	public String getSlideFNForEmail(String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String firstname= null;
+				try {
+					stmt = conn.prepareStatement(
+							"select slides.slideFN " +
+							"  from slides " +
+							" where slides.studentEmail = ?" 
+					);
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					firstname = resultSet.getString(1);
+					
+					return firstname;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public String getSlideLNForEmail(String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String lastname= null;
+				try {
+					stmt = conn.prepareStatement(
+							"select slides.slideLN " +
+							"  from slides " +
+							" where slides.studentEmail = ?" 
+					);
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					lastname = resultSet.getString(1);
+					
+					return lastname;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 	
 	
 	/* ---------------------------- ------------------------------*/
@@ -341,7 +495,6 @@ public class DerbyDatabase implements IDatabase {
 									"	showGPA bit," +
 									"	showMajor bit," +
 									"	slideApproved bit," +
-									"	hasVideo bit," +
 									"	studentEmail varchar(70)," +
 									")"
 							);

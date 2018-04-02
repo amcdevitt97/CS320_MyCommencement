@@ -9,12 +9,16 @@ import model.Account;
 import model.ObjectHandler;
 
 public class LoginController {
-	
+	private Account model = null;
 	private IDatabase database = null;
 
-	public LoginController(){
+	/*public LoginController(){
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		database = DatabaseProvider.getInstance();
+	}*/
+	
+	public LoginController(Account model) {
+		this.model = model;
 	}
 	//return new login id
 	public Boolean loginUser(String email, String password){
