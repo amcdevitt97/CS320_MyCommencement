@@ -31,7 +31,7 @@ public class ReviewTest {
 		gpaApproved = true;
 		quoteApproved = true;
 		photoApproved = true;
-		audioApproved = true;									//testing if all approved
+		audioApproved = true;									//testing if all approved11
 		videoApproved = true;
 		majorApproved = true;
 		minorApproved = true;
