@@ -8,16 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.LoginController;
 import controller.AccountController;
 
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-				String email = (String) req.getSession().getAttribute("email");
+				String email = (String) req.getSession().getAttribute("user");
 				if (email == null) {
 					System.out.println("   User: <" + email + "> not logged in or session timed out");
 					
@@ -25,25 +24,20 @@ public class HomeServlet extends HttpServlet {
 					resp.sendRedirect(req.getContextPath() + "/login");
 					return;
 				}
-				else{
-					String fn=null;
-					String ln=null;
-					fn = "Alyssa";
-					ln = "McDevitt";
-					
-					req.setAttribute("firstname", fn);
-					req.setAttribute("lastname", ln);
-				}
-		
-		
+				
 				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);	
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		
+			String email = req.getSession().getAttribute("user").toString();
+			System.out.println(email);
+			AccountController controller = new AccountController();
+			String userFirstName = controller.getFirstnameForEmail(email);
+			System.out.println(userFirstName);
+			req.getSession().setAttribute("fn", userFirstName);
+			
 			req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 		
 	}

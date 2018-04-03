@@ -3,23 +3,33 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
-	<head>
-		<title>Guessing Game</title>
-	</head>
+<head>
+<link rel="stylesheet" type="text/css" href="main.css">
+<title>MyCommencement - Login</title>
+</head>
+<body>
 
-	<body>
-		
+
+	<!-- navbar content -->
+	<div id="navBar">
+		<img id="logo" src="Media/logo.png" />
+	</div>
+<div id="content">
+	<div id="errorMessage">
+		<c:if test="${! empty errorMessage}">
+			<tr>${errorMessage}</tr>
+		</c:if>
+	</div>
+
+	<div id="loginPanel">
 		<form id="login" action="${pageContext.servletContext.contextPath}/login" method="post">
-            	<input type="text" name="email" placeholder="email" value="${email}" required>
-                <input type="password" name="password"placeholder="Password" value="${password}" required>
-                <input type="Submit" value="Login" id="loginSubmit" name="loginSubmit">
-                
-                <div id="errorMessage">
-                	<c:if test="${! empty errorMessage}">
-						<tr>${errorMessage}</tr>
-					</c:if>
-				</div>
-				
-		</form><!-- /.login -->	
-	</body>
+					<input type="text" name="email" placeholder="email"  required>
+					<input type="password" name="password" placeholder="Password"  required>
+					<input type="Submit" value="Login" id="loginSubmit" name="loginSubmit">
+		</form>
+	</div>
+
+</div>
+
+</body>
 </html>

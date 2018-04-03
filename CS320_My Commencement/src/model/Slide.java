@@ -46,10 +46,11 @@ public class Slide {
 		slideFN = null;
 		slideLN = null;
 		review = new Review();
-		student = new Student(slideFN, slideLN, clubs, clubs, GPA, major, minor, advisor, 0);
+		account = new Account();
+		//student = new Student(account.getEmail(), account.getPassword(),account.getFirstname(),account.getLastname(), 0, major, minor, account.);
 		mediaObject = new MediaObject();
 		stringsToCheck = new ArrayList<String>();
-		account = new Account();
+		
 	}
 	public Slide(boolean gpa, String quote, String major, String minor, String honors, String sports, String clubs, String slideFN, String slideLN, Photo p, Audio a, Video v) {
 		this.showGPA = gpa;

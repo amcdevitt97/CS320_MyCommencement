@@ -1,7 +1,6 @@
 package model;
 //DO NOT EDIT
 
-import java.util.Random;
 
 // model class for GuessingGame
 // only the controller should be allowed to call the set methods
@@ -15,19 +14,17 @@ public class Account {
 	private String pass = null;
 	private String firstname = null; 
 	private String lastname = null;
-	private int loginId = -1;
 	
 	public enum accountType {
 		INVALID, STUDENT, ADVISOR
 	}
 	
 	
-	public Account(String email, String pass, String firstname, String lastname, int id) {
+	public Account(String email, String pass, String firstname, String lastname) {
 		this.email = email;
 		this.pass = pass;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.loginId = id;
 	}
 	
 	public Account() {
@@ -35,7 +32,6 @@ public class Account {
 		this.pass = "";
 		this.firstname = "";
 		this.lastname = "";
-		this.loginId = 0;
 	}
 	
 	
@@ -71,14 +67,6 @@ public class Account {
 		return lastname;
 	}
 	
-	public int getLoginId(){
-		return this.loginId;
-	}
-	
-	public void setLoginId(int id){
-		this.loginId = id;
-	}
-	
 	public static accountType getType(){
 		return accountType.INVALID;	
 	}
@@ -86,17 +74,7 @@ public class Account {
 	/*
 	 * -------------------------HELPER METHODS----------------------------
 	 */
-		
-	public int createLoginId() {
-		Random r = new Random();
-		this.loginId = r.nextInt(99999999);
-		return this.loginId;
-	}
-	
-	public int resetLoginId(){
-		this.loginId = -1;
-		return this.loginId;
-	}
+
 	
 	
 }
