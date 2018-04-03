@@ -56,7 +56,7 @@ public class Video extends MediaObject {
 	}
 	
 	public boolean isUploadable(int length, int width, int hours, int min, int sec) {
-		if(length > 100 || width > 100 || hours > 1 || min > 10 || sec > 30) {
+		if(length > 100 || width > 100 || hours >= 1 || min > 10 || sec > 30) {
 			return false;
 		}
 		else {

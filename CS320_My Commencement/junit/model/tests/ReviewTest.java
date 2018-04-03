@@ -1,11 +1,12 @@
-package edu.ycp.cs320.amcdevitt.model;
-
+package model.tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import model.*;
 
 public class ReviewTest {
 

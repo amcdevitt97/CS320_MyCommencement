@@ -1,9 +1,11 @@
-package edu.ycp.cs320.amcdevitt.model;
+package model.tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import model.*;
 
 public class SlideTest {
 
@@ -29,9 +31,7 @@ public class SlideTest {
 	
 	@Before
 	public void setUp() {
-		photo = new Photo();
-		audio = new Audio();
-		video = new Video();
+		showGPA = true;
 		quote = "I love my school";
 		major = "Computer Science";
 		minor = "Math";
@@ -40,6 +40,9 @@ public class SlideTest {
 		clubs = "Paintball";
 		slideFN = "Jules";
 		slideLN = "Gleason";
+		photo = new Photo();
+		audio = new Audio();
+		video = new Video();
 		photo.setLength(50);
 		photo.setWidth(50);								//if correct
 		audio.setHours(0);
@@ -50,7 +53,7 @@ public class SlideTest {
 		video.setHours(0);
 		video.setMinutes(5);
 		video.setSeconds(15);
-		slide = new Slide(true, quote, major, minor, honors,sports, clubs, slideFN, slideLN, photo, audio, video);
+		slide = new Slide(showGPA, quote, major, minor, honors,sports, clubs, slideFN, slideLN, photo, audio, video);
 		
 		showGPA = true;
 		quote = "I love my school";
@@ -61,6 +64,9 @@ public class SlideTest {
 		clubs = "Paintball";
 		slideFN = "Jules";
 		slideLN = "Gleason";
+		photo = new Photo();
+		audio = new Audio();
+		video = new Video();
 		photo.setLength(50);
 		photo.setWidth(50);								//Check String for curse word
 		audio.setHours(0);
@@ -82,6 +88,9 @@ public class SlideTest {
 		clubs = "Paintball";
 		slideFN = "Jules";
 		slideLN = "Gleason";
+		photo = new Photo();
+		audio = new Audio();
+		video = new Video();
 		photo.setLength(50);
 		photo.setWidth(500);								//Check Photo object
 		audio.setHours(0);
@@ -103,6 +112,9 @@ public class SlideTest {
 		clubs = "Paintball";
 		slideFN = "Jules";
 		slideLN = "Gleason";
+		photo = new Photo();
+		audio = new Audio();
+		video = new Video();
 		photo.setLength(50);
 		photo.setWidth(50);								//Check audio object
 		audio.setHours(1);
@@ -124,6 +136,9 @@ public class SlideTest {
 		clubs = "Paintball";
 		slideFN = "Jules";
 		slideLN = "Gleason";
+		photo = new Photo();
+		audio = new Audio();
+		video = new Video();
 		photo.setLength(50);
 		photo.setWidth(50);								//Check video object
 		audio.setHours(0);
@@ -136,7 +151,7 @@ public class SlideTest {
 		video.setSeconds(15);
 		slide4 = new Slide(true, quote, major, minor, honors,sports, clubs, slideFN, slideLN, photo, audio, video);
 		
-		showGPA = true;
+		showGPA = false;
 		quote = "I love my school";
 		major = "Computer Science";
 		minor = "Math";
@@ -145,8 +160,11 @@ public class SlideTest {
 		clubs = "Paintball";
 		slideFN = "Jules";
 		slideLN = "Gleason";
+		photo = new Photo();
+		audio = new Audio();
+		video = new Video();
 		photo.setLength(50);
-		photo.setWidth(50);								//Check if true
+		photo.setWidth(50);								//Check Gpa
 		audio.setHours(0);
 		audio.setMinutes(5);
 		audio.setSeconds(15);
@@ -155,7 +173,7 @@ public class SlideTest {
 		video.setHours(0);
 		video.setMinutes(5);
 		video.setSeconds(15);
-		slide5 = new Slide(false, quote, major, minor, honors,sports, clubs, slideFN, slideLN, photo, audio, video);
+		slide5 = new Slide(showGPA, quote, major, minor, honors,sports, clubs, slideFN, slideLN,photo, audio, video);
 		
 	}
 	
@@ -172,12 +190,14 @@ public class SlideTest {
 		assertEquals(false, slide1.blackListCheck());
 		
 	}
+	
 	@Test
 	public void blackListSlide2() {
 		slide2.updateSlide();
 		assertEquals(false, slide2.blackListCheck());
 		
 	}
+	
 	@Test
 	public void blackListSlide3() {
 		slide3.updateSlide();
@@ -196,6 +216,6 @@ public class SlideTest {
 		assertEquals(false, slide5.blackListCheck());
 		
 	}
-
+	
 
 }
