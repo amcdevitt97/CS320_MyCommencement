@@ -8,8 +8,8 @@ public class Student extends Account{
 	private String advisor = null;
 	
 	
-	public Student(String email, String pass, String firstname, String lastname, Double gpa, String major, String minor, String advisor) {
-		super(email, pass, firstname, lastname);
+	public Student(int accountId, String email, String pass, String firstname, String lastname, Double gpa, String major, String minor, String advisor) {
+		super(accountId, email, pass, firstname, lastname);
 		this.gpa = gpa;
 		this.major = major;
 		this.minor = minor;

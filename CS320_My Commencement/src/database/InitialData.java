@@ -13,6 +13,8 @@ public class InitialData {
 		List<Student> studentList = new ArrayList<Student>();
 		ReadCSV readStudents = new ReadCSV("students.csv");
 		try {
+			// auto-generated primary key for table books
+			Integer accountId = 1;
 			while (true) {
 				List<String> tuple = readStudents.next();
 				if (tuple == null) {
@@ -21,7 +23,8 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 
-				Student student = new Student(null, null, null, null, 4.0, null, null, null, 0);	
+				Student student = new Student(0, null, null, null, null, 4.0, null, null, null);	
+				student.setAccountId(accountId++);	
 				student.setAdvisor(i.next());
 				student.setFirstname(i.next());
 				student.setLastname(i.next());
@@ -30,7 +33,6 @@ public class InitialData {
 				student.setMajor(i.next());
 				student.setMinor(i.next());
 				student.setGPA(Double.parseDouble(i.next()));
-				student.setLoginId(-1);
 				System.out.println(student.getFirstname()+" "+student.getLastname()+" "+ student.getGPA());
 				studentList.add(student);
 			}
@@ -44,18 +46,19 @@ public class InitialData {
 		ReadCSV readAdvisor = new ReadCSV("advisors.csv");
 		ReadCSV readStudent = new ReadCSV("students.csv");
 		try {
+			Integer accountId = 1;
 			while (true) {
 				List<String> tuple = readAdvisor.next();
 				if (tuple == null) {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				Account account = new Account(null, null, null, null, 0);
+				Account account = new Account(0, null, null, null, null);
+				account.setAccountId(accountId++);	
 				account.setFirstname(i.next());
 				account.setLastname(i.next());
 				account.setEmail(i.next());
 				account.setPassword(i.next());
-				account.setLoginId(-1);
 				System.out.println(account.getFirstname()+" "+account.getLastname()+" "+account.getEmail()+" "+account.getPassword());
 				accountList.add(account);
 			}
@@ -65,13 +68,12 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				Account account = new Account(null, null, null, null, 0);
+				Account account = new Account(0, null, null, null, null);
 				i.next();
 				account.setFirstname(i.next());
 				account.setLastname(i.next());
 				account.setEmail(i.next());
 				account.setPassword(i.next());
-				account.setLoginId(-1);
 				System.out.println(account.getFirstname()+" "+account.getLastname()+" "+account.getEmail()+" "+account.getPassword());
 				accountList.add(account);
 			}

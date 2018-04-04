@@ -10,6 +10,7 @@ import model.Account.accountType;
 
 public class StudentTest {
 	private Student model;
+	int accountId = 5;
 	String email = "email@test.com";
 	String pass = "password"; 
 	String firstname = "Joseph"; 
@@ -18,16 +19,21 @@ public class StudentTest {
 	String major = "History";
 	String minor = "null";
 	String advisorEmail = "advisor@ycp.edu";
-	int id = 0;
 	
 	@Before
 	public void setUp() {
-		model = new Student(email, pass, firstname, lastname, gpa, major, minor, advisorEmail, id);
+		model = new Student(accountId, email, pass, firstname, lastname, gpa, major, minor, advisorEmail);
 	}
 	
 	
 	//these two also test "gets" so i won't
 	//test for get methods
+	@Test
+	public void testSetId() {
+		model.setAccountId(7);
+		assertEquals(7, model.getAccountId());
+	}
+	
 	@Test
 	public void testSetEmail() {
 		model.setEmail("my@email.com");
@@ -75,16 +81,6 @@ public class StudentTest {
 		model.setAdvisor("djhake2@ycp.edu");
 		assertEquals("djhake2@ycp.edu", model.getAdvisor());
 	}
-	
-	/*@Test
-	public void verifyLoginCorrect(){
-		assertTrue(model.verifyLogin(email, pass));
-	}
-	
-	@Test
-	public void verifyLoginIncorrect(){
-		assertFalse(model.verifyLogin(email, "notCorrect"));
-	}*/
 	
 	@Test
 	public void testAccountType(){

@@ -26,6 +26,9 @@ public interface IDatabase {
 	// SLIDE DATA
 	public void addSlide(String slideFN,String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean slideApproved, String studentEmail);
 	
+	//TESTING 
+	public String showAllAccounts();
+	
 	/*public int queryForLoginIdByEmail(String email);
 	public boolean updateAccountByEmail(String email, Account account);
 	public String queryForPasswordByEmail(String email);

@@ -14,10 +14,9 @@ public class AdvisorTest {
 	String pass = "password"; 
 	String firstname = "Joseph"; 
 	String lastname = "Miller";
-	int id = 0;
 	@Before
 	public void setUp() {
-		model = new Advisor(email, pass, firstname, lastname, id);
+		model = new Advisor(email, pass, firstname, lastname);
 	}
 	
 	
@@ -46,16 +45,6 @@ public class AdvisorTest {
 		model.setLastname("Doe");
 		assertEquals("Doe", model.getLastname());
 	}
-	
-	/*@Test
-	public void verifyLoginCorrect(){
-		assertTrue(model.verifyLogin(email, pass));
-	}
-	
-	@Test
-	public void verifyLoginIncorrect(){
-		assertFalse(model.verifyLogin(email, "notCorrect"));
-	}*/
 	
 	@Test
 	public void testAccountType(){

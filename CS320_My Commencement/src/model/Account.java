@@ -10,6 +10,7 @@ package model;
 // when the JSP specifies if(game.done), that gets converted to
 //    a call to model.isDone()
 public class Account {
+	private int accountId;
 	private String email = null;
 	private String pass = null;
 	private String firstname = null; 
@@ -18,9 +19,15 @@ public class Account {
 	public enum accountType {
 		INVALID, STUDENT, ADVISOR
 	}
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
+	}
 	
+	public int getAccountId() {
+		return accountId;
+	}
 	
-	public Account(String email, String pass, String firstname, String lastname) {
+	public Account(int bookId, String firstname, String lastname, String email, String pass) {
 		this.email = email;
 		this.pass = pass;
 		this.firstname = firstname;
@@ -70,7 +77,7 @@ public class Account {
 	public static accountType getType(){
 		return accountType.INVALID;	
 	}
-	
+
 	/*
 	 * -------------------------HELPER METHODS----------------------------
 	 */

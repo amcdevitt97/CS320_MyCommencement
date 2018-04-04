@@ -42,7 +42,7 @@ public class Slide {
 		slideFN = null;
 		slideLN = null;
 		review = new Review();
-		student = new Student(slideFN, slideLN, clubs, clubs, GPA, major, minor, advisor, 0);
+		student = new Student(slideFN, slideLN, clubs, clubs, GPA, major, minor, advisor);
 		mediaObject = new MediaObject();
 		stringsToCheck = new ArrayList<String>();
 		account = new Account();

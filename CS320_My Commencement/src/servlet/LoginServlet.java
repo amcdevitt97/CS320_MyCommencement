@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.LoginController;
+import controller.AccountController;
 import model.Account;
 
 public class LoginServlet extends HttpServlet {
@@ -32,7 +33,10 @@ public class LoginServlet extends HttpServlet {
 		String pw           = null;
 		boolean validLogin  = false;
 		boolean isStudent = false;
-
+		Account model = new Account();
+		LoginController controller = new LoginController(model);
+		AccountController acctController = new AccountController(model);
+		
 		// Decode form parameters and dispatch to controller
 		email = req.getParameter("email");
 		pw   = req.getParameter("password");
@@ -42,8 +46,7 @@ public class LoginServlet extends HttpServlet {
 		if (email == null || pw == null || email.equals("") || pw.equals("")) {
 			errorMessage = "Please specify both email and password";
 		} else {
-			Account model = new Account();
-			LoginController controller = new LoginController(model);
+			
 			validLogin = controller.loginUser(email, pw);
 			isStudent = controller.isStudent(email);
 			if (!validLogin) {
@@ -54,6 +57,8 @@ public class LoginServlet extends HttpServlet {
 		// Add parameters as request attributes
 		req.setAttribute("email", req.getParameter("email"));
 		req.setAttribute("password", req.getParameter("password"));
+		System.out.println(acctController.getFirstnameForEmail(email));
+		req.setAttribute("fn", acctController.getFirstnameForEmail(email));
 
 		// Add result objects as request attributes
 		req.setAttribute("errorMessage", errorMessage);
@@ -61,18 +66,19 @@ public class LoginServlet extends HttpServlet {
 
 		// if login is valid, start a session
 		if (validLogin) {
-			System.out.println("   Valid login - starting session, redirecting to /home or /advisor");
 
 			// store user object in session
 			req.getSession().setAttribute("user", email);
 			
 			if(isStudent){
 				// redirect to /home page
-				resp.sendRedirect(req.getContextPath() + "/home");
+				System.out.println("   Valid login - starting session, redirecting to /home");
+				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);	
 			}
 			else{
+				System.out.println("   Valid login - starting session, redirecting to /advisor");
 				// redirect to /advisor page
-				resp.sendRedirect(req.getContextPath() + "/advisor");
+				req.getRequestDispatcher("/_view/advisor.jsp").forward(req, resp);	
 			}
 			
 

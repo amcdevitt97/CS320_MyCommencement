@@ -10,18 +10,18 @@ import model.Account;
  */
 
 public class AccountController {
-	private Account model=null;
-	private IDatabase db = null;
+	private Account model = null;
+	private IDatabase database = null;
 	
-	public AccountController() {
+	public AccountController(Account model) {
 		// creating DB instance here
+		this.model = model;
 		DatabaseProvider.setInstance(new DerbyDatabase());
-		db = DatabaseProvider.getInstance();		
+		database = DatabaseProvider.getInstance();		
 	}
 	
 	public String getFirstnameForEmail(String email){
-		System.out.println(email);
-		String firstname = db.getFirstNameForEmail(email);
+		String firstname = database.getFirstNameForEmail(email);
 		return firstname;
 	}
 	

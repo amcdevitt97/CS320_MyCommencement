@@ -103,7 +103,6 @@ public class DerbyDatabase implements IDatabase {
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
-				String password = null;
 				try {
 					stmt = conn.prepareStatement(
 							"select accounts.email, accounts.password" +
@@ -140,11 +139,10 @@ public class DerbyDatabase implements IDatabase {
 			public String execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
-				String firstname= null;
-				//Account account = new Account();
+				List<Account> result = new ArrayList<Account>();
 				try {
 					stmt = conn.prepareStatement(
-							"select accounts.firstname " +
+							"select *" +
 							"  from accounts " +
 							" where accounts.email = ?" 
 					);
@@ -152,9 +150,14 @@ public class DerbyDatabase implements IDatabase {
 					
 					resultSet = stmt.executeQuery();
 					
-					firstname = resultSet.getString(1);
+					while (resultSet.next()) {
+						
+						Account account = new Account();
+						loadAccount(account, resultSet, 1);
+						result.add(account);
+					}
 					
-					return firstname;
+					return result.get(0).getFirstname();
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -169,10 +172,10 @@ public class DerbyDatabase implements IDatabase {
 			public String execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
-				String lastname= null;
+				List<Account> result = new ArrayList<Account>();
 				try {
 					stmt = conn.prepareStatement(
-							"select accounts.lastname " +
+							"select *" +
 							"  from accounts " +
 							" where accounts.email = ?" 
 					);
@@ -180,9 +183,14 @@ public class DerbyDatabase implements IDatabase {
 					
 					resultSet = stmt.executeQuery();
 					
-					lastname = resultSet.getString(1);
-					
-					return lastname;
+					while (resultSet.next()) {
+						
+						Account account = new Account();
+						loadAccount(account, resultSet, 1);
+						result.add(account);
+					}
+					System.out.println(result.get(0).getLastname());
+					return result.get(0).getLastname();
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -327,6 +335,46 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	/*
+	 * DEBUGGING ONLY:
+	 * 		showAllAccounts(select * from accounts)
+	 * 		showAllStudents(select * from students)
+	 * 		showAllSlides(select * from slides)
+	 * 		showAllPhotos(select * from photos)
+	 * 		showAllVideos(select * from videos)
+	 * 		showAllAudio(select * from audio)
+	 */
+	
+	public String showAllAccounts() {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String dump = "All Accounts: ";
+				List<Account> result = new ArrayList<Account>();
+				try {
+					stmt = conn.prepareStatement(
+							"select *" +
+							"  from accounts "
+					);
+					
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						Account account = new Account();
+						loadAccount(account, resultSet, 1);
+						result.add(account);
+						dump += "<"+account.getFirstname() +" | "+ account.getLastname() +" | "+ account.getEmail() +" | "+ account.getPassword()+"> ";
+					}
+					return dump;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 	
 	/* ---------------------------- ------------------------------*/
 
@@ -414,6 +462,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	private void loadStudent(Student student, ResultSet resultSet, int index) throws SQLException {
+		student.setAccountId(resultSet.getInt(index++));
 		student.setEmail(resultSet.getString(index++));
 		student.setPassword(resultSet.getString(index++));
 		student.setAdvisor(resultSet.getString(index++));
@@ -428,6 +477,7 @@ public class DerbyDatabase implements IDatabase {
 
 	
 	private void loadAccount(Account account, ResultSet resultSet, int index) throws SQLException {
+		account.setAccountId(resultSet.getInt(index++));
 		account.setFirstname(resultSet.getString(index++));
 		account.setLastname(resultSet.getString(index++));
 		account.setEmail(resultSet.getString(index++));
@@ -447,6 +497,8 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt7 = null;
 					
 				try {
+					
+					
 					//CREATING ACCOUNTS
 					stmt1 = conn.prepareStatement(
 							"create table accounts (" +
@@ -455,7 +507,7 @@ public class DerbyDatabase implements IDatabase {
 									"	firstname varchar(70)," +
 									"	lastname varchar(70)," +
 									"	email varchar(70)," +
-									"	password varchar(70)," +
+									"	password varchar(70)" +
 									")"
 							);	
 
@@ -474,7 +526,7 @@ public class DerbyDatabase implements IDatabase {
 									"	password varchar(70)," +
 									"	major varchar(70)," +
 									"	minor varchar(70)," +
-									"   gpa integer, " +
+									"   gpa integer" +
 									")"
 							);
 					stmt2.executeUpdate();
@@ -487,15 +539,15 @@ public class DerbyDatabase implements IDatabase {
 									"		generated always as identity (start with 1, increment by 1), " +
 									"	slideFN varchar(70)," +
 									"	slideLN varchar(70)," +
-									"	hasPhoto bit," +
-									"	hasAudio bit," +
-									"	hasVideo bit," +
+									"	hasPhoto int," +
+									"	hasAudio int," +
+									"	hasVideo int," +
 									"	quote varchar(70)," +
 									"	honors varchar(70)," +
-									"	showGPA bit," +
-									"	showMajor bit," +
-									"	slideApproved bit," +
-									"	studentEmail varchar(70)," +
+									"	showGPA int," +
+									"	showMajor int," +
+									"	slideApproved int," +
+									"	studentEmail varchar(70)" +
 									")"
 							);
 					stmt3.executeUpdate();
@@ -509,8 +561,8 @@ public class DerbyDatabase implements IDatabase {
 									"	hours integer," +
 									"	mins integer," +
 									"	seconds integer," +
-									"	file mediumblob," +
-									"	studentEmail varchar(70)," +
+									"	file blob," +
+									"	studentEmail varchar(70)" +
 									")"
 							);
 					stmt4.executeUpdate();
@@ -526,8 +578,8 @@ public class DerbyDatabase implements IDatabase {
 									"	seconds integer," +
 									"	length integer," +
 									"	width integer," +
-									"	file mediumblob," +
-									"	studentEmail varchar(70)," +
+									"	file blob," +
+									"	studentEmail varchar(70)" +
 									")"
 							);
 					stmt5.executeUpdate();
@@ -540,8 +592,8 @@ public class DerbyDatabase implements IDatabase {
 									"		generated always as identity (start with 1, increment by 1), " +
 									"	length integer," +
 									"	width integer," +
-									"	file mediumblob," +
-									"	studentEmail varchar(70)," +
+									"	file blob," +
+									"	studentEmail varchar(70)" +
 									")"
 							);
 					stmt6.executeUpdate();
@@ -571,16 +623,32 @@ public class DerbyDatabase implements IDatabase {
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				PreparedStatement stmt4 = null;
+				PreparedStatement stmt5 = null;
+				PreparedStatement stmt6 = null;
+				PreparedStatement stmt7 = null;
 
 
 				try{
+					
 					stmt1 = conn.prepareStatement("DROP TABLE accounts");
 					stmt2 = conn.prepareStatement("DROP TABLE students");
+					stmt3 = conn.prepareStatement("DROP TABLE slides");
+					stmt4 = conn.prepareStatement("DROP TABLE audio");
+					stmt5 = conn.prepareStatement("DROP TABLE videos");
+					stmt6 = conn.prepareStatement("DROP TABLE photos");
+					//stmt7 = conn.prepareStatement("DROP TABLE review");
 
 
 
 					stmt1.executeUpdate();
 					stmt2.executeUpdate();
+					stmt3.executeUpdate();
+					stmt4.executeUpdate();
+					stmt5.executeUpdate();
+					stmt6.executeUpdate();
+					//stmt7.executeUpdate();
 
 					conn.commit();
 				}catch(SQLException e){
@@ -589,6 +657,11 @@ public class DerbyDatabase implements IDatabase {
 				}finally{
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(stmt4);
+					DBUtil.closeQuietly(stmt5);
+					DBUtil.closeQuietly(stmt6);
+					DBUtil.closeQuietly(stmt7);
 				}
 				return true;
 			}
@@ -634,7 +707,7 @@ public class DerbyDatabase implements IDatabase {
 					insertStudent.executeBatch();
 
 					// ADDS ALL ACCOUNTS
-					insertAccount = conn.prepareStatement("insert into accounts (firstname, lastname, email, password, id) values (?, ?, ?, ?)");
+					insertAccount = conn.prepareStatement("insert into accounts (firstname, lastname, email, password) values (?, ?, ?, ?)");
 					for (Account account : accountList) {
 												
 						insertAccount.setString(1, account.getFirstname());

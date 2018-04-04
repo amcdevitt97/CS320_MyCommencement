@@ -1,10 +1,13 @@
-package edu.ycp.cs320.amcdevitt.model;
+package model.tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import model.Slide;
+import model.Photo;
+import model.Audio;
+import model.Video;
 public class SlideTest {
 
 	private Slide slide;

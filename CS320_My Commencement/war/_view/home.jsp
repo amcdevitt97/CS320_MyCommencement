@@ -21,8 +21,7 @@
 <div id="content">
 	<!-- left-sided content -->
 	<div class="left">
-		<h3><%= request.getAttribute("fn") %>
- Commencement</h3>
+		<h3><%= request.getAttribute("fn") %>'s Commencement</h3>
 
 		<p>Major: <input type="text" name="major"></p>
 		<p>Minor: <input type="text" name="minor"></p>
