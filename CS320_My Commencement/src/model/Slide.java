@@ -27,6 +27,9 @@ public class Slide {
 	private MediaObject mediaObject;
 	private ArrayList<String> stringsToCheck;
 	private Account account;
+	private Audio audio;
+	private Scanner scan;
+	
 	
 	public Slide() {
 		showGPA = true;
@@ -34,6 +37,7 @@ public class Slide {
 		quote = null;
 		photo = null;
 		video = null;
+		audio = null;
 		major = null;
 		minor = null;
 		honors = null;
@@ -42,16 +46,27 @@ public class Slide {
 		slideFN = null;
 		slideLN = null;
 		review = new Review();
-		student = new Student(slideFN, slideLN, clubs, clubs, GPA, major, minor, advisor);
+		account = new Account();
+		//student = new Student(account.getEmail(), account.getPassword(),account.getFirstname(),account.getLastname(), 0, major, minor, account.);
 		mediaObject = new MediaObject();
 		stringsToCheck = new ArrayList<String>();
-		account = new Account();
+		
 	}
-	
-	public void updateSlide() {
-		blackListCheck();
-	}
-	public boolean blackListCheck() {
+	public Slide(boolean gpa, String quote, String major, String minor, String honors, String sports, String clubs, String slideFN, String slideLN, Photo p, Audio a, Video v) {
+		this.showGPA = gpa;
+		this.quote = quote;
+		this.major = major;
+		this.minor = minor;
+		this.honors = honors;
+		this.sports = sports;
+		this.clubs = clubs;
+		this.slideFN = slideFN;
+		this.slideLN = slideLN;
+		this.audio = a;
+		this.video = v;
+		this.photo = p;
+		mediaObject = new MediaObject();
+		stringsToCheck = new ArrayList<String>();
 		stringsToCheck.add(quote);
 		stringsToCheck.add(major);
 		stringsToCheck.add(minor);
@@ -60,14 +75,24 @@ public class Slide {
 		stringsToCheck.add(clubs);
 		stringsToCheck.add(slideFN);
 		stringsToCheck.add(slideLN);
+		
+		
+	}
+	
+	public void updateSlide() {
+		blackListCheck();
+	}
+	public boolean blackListCheck() {
+		boolean end = true;
+		
 		try {
-			Scanner scan = new Scanner(new File("BadWords.txt"));
+			scan = new Scanner(new File("BadWords"));
 			while(scan.hasNext()) {
 				String line = scan.nextLine().toLowerCase().toString();
 				for (String c: stringsToCheck) {
 					if (line.contains(c)) {
-						return false;
-						break;
+						end = false;
+						
 					}
 					
 				}
@@ -77,6 +102,27 @@ public class Slide {
 		}catch(IOException e) {
 			System.out.print("Cannot search to file ");
 		}
+		if ( showGPA == false) {
+			end = false;
+		}
+		mediaObject.setMediaObject(audio);
+		Audio a = (Audio)mediaObject.getMediaObject();
+		if (a.isUploadable(a.getHours(), a.getMinutes(), a.getSeconds()) == false) {
+			end = false;
+		}
+		mediaObject.setMediaObject(photo);
+		Photo p = (Photo)mediaObject.getMediaObject();
+		if(p.isUploadable(p.getLength(), p.getWidth())== false) {
+			end = false;
+		}
+		mediaObject.setMediaObject(video);
+		Video v = (Video)mediaObject.getMediaObject();
+		if (v.isUploadable(v.getLength(), v.getWidth(), v.getHours(), v.getMinutes(), v.getSeconds()) == false) {
+			end = false;
+		}
+		
+		
+		return end;
 		
 		
 	}

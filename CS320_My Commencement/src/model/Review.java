@@ -1,5 +1,4 @@
-package edu.ycp.cs320.amcdevitt.model;
-
+package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,7 +22,7 @@ public class Review {
 	private ArrayList<Boolean> list;
 	private boolean approved;
 	
-	Review(){
+	public Review(){
 		gpaApproved = false;
 		quoteApproved = false;
 		photoApproved = false;
@@ -53,7 +52,7 @@ public class Review {
 		approved = false;
 		
 	}
-	Review(boolean gpa, boolean quote, boolean photo, boolean audio, boolean video, boolean major, boolean minor, boolean honors, boolean sports, boolean clubs, boolean first, boolean last, String explination){
+	public Review(boolean gpa, boolean quote, boolean photo, boolean audio, boolean video, boolean major, boolean minor, boolean honors, boolean sports, boolean clubs, boolean first, boolean last, String explination){
 		this.gpaApproved = gpa;
 		this.quoteApproved = quote;
 		this.photoApproved = photo;

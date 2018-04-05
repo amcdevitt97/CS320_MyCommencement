@@ -14,8 +14,9 @@ public class AccountControllerTest {
 	
 	@Before
 	public void setUp() {
-		model = new Account("Joe@gmail.com", "badPassword", "Joe", "Miller");
+		model = new Account("Joe@gmail.com", "badPassword", "Joe", "Miller", 0);
 		controller = new AccountController();
+		controller.setModel(model);
 	}
 
 }

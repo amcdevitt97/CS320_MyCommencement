@@ -36,7 +36,7 @@ public class Audio extends MediaObject {
 	}
 	
 	public boolean isUploadable(int hours, int min, int sec) {
-		if(hours > 1 || min > 10 || sec > 30) {
+		if(hours >= 1 || min > 10 || sec > 30) {
 			return false;
 		}
 		else {

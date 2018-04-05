@@ -1,8 +1,9 @@
 package model;
 
-public class MediaObject {
+public class MediaObject<E> {
 	private String url;
 	private MediaType type = MediaType.INVALID;
+	private  E mediaObject;
 	
 	public enum MediaType{
 		PHOTO,
@@ -30,19 +31,11 @@ public class MediaObject {
 	public void setMediaType(MediaType type) {
 		this.type = type;
 	}
+	public void setMediaObject(E x) {
+		this.mediaObject = x;
+	}
 	
-	public MediaObject getMediaObject(MediaType type) {
-		if(type == MediaType.VIDEO) {
-			return new Video();
-		}
-		else if(type == MediaType.AUDIO) {
-			return new Audio();
-		}
-		else if(type == MediaType.PHOTO) {
-			return new Photo();
-		}
-		else {
-			return null;
-		}
+	public E getMediaObject() {
+		return this.mediaObject;
 	}
 }
