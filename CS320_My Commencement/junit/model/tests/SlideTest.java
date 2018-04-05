@@ -216,6 +216,10 @@ public class SlideTest {
 		assertEquals(false, slide5.blackListCheck());
 		
 	}
+	@Test
+	public void testEmail() {
+		slide.emailAdvisor();
+	}
 	
 
 }
