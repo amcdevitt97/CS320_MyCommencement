@@ -2,6 +2,7 @@ package model;
 
 public class Student extends Account{
 
+	
 	private double gpa = 0.0;
 	private String major = null;
 	private String minor = null;

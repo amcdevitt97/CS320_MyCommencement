@@ -199,7 +199,7 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	@Override
+
 	public Account returnAccountForEmail(String email) {
 		return executeTransaction(new Transaction<Account>() {
 			@Override
@@ -233,6 +233,40 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	
+	public String getStudentsForAdvisorEmail(String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String dump = "All Students beloning to "+email+ ": ";
+				List<Student> result = new ArrayList<Student>();
+				try {
+					stmt = conn.prepareStatement(
+							"select * " +
+							"  from students "+
+							"  where students.advisor = ? "
+					);
+					stmt.setString(1, email);
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						Student student = new Student(0, null, null, null, null, 0.0, null, null, null);
+						loadStudent(student, resultSet, 1);
+						result.add(student);
+						dump += student.getFirstname()+" "+student.getLastname() +", ";
+					}
+					return dump;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	
 	
 	// SLIDE RELATED QUERIES
 	
@@ -376,6 +410,39 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	
+	public String showAllStudents() {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String dump = "All Students: ";
+				List<Student> result = new ArrayList<Student>();
+				try {
+					stmt = conn.prepareStatement(
+							"select *" +
+							"  from students "
+					);
+					
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						Student student = new Student(0, "", "", "", "", 0.0, "", "", "");
+						loadStudent(student, resultSet, 1);
+						result.add(student);
+						dump += "<"+student.getFirstname() +" | "+ student.getLastname() +" | "+ student.getEmail() +" | "+ student.getPassword()+"> ";
+					}
+					return dump;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	
 	/* ---------------------------- ------------------------------*/
 
 	private <ReturnType> ReturnType doQueryLoop(Query<ReturnType> query) throws SQLException{
@@ -463,16 +530,15 @@ public class DerbyDatabase implements IDatabase {
 
 	private void loadStudent(Student student, ResultSet resultSet, int index) throws SQLException {
 		student.setAccountId(resultSet.getInt(index++));
-		student.setEmail(resultSet.getString(index++));
-		student.setPassword(resultSet.getString(index++));
 		student.setAdvisor(resultSet.getString(index++));
 		student.setFirstname(resultSet.getString(index++));
 		student.setLastname(resultSet.getString(index++));
-		student.setGPA(resultSet.getDouble(index++));
+		student.setEmail(resultSet.getString(index++));
+		student.setPassword(resultSet.getString(index++));
 		student.setMajor(resultSet.getString(index++));
-		if(student.hasMinor()){
-			student.setMinor(resultSet.getString(index++));
-		}
+		student.setMinor(resultSet.getString(index++));
+		student.setGPA(resultSet.getDouble(index++));
+		
 	}
 
 	
@@ -498,6 +564,10 @@ public class DerbyDatabase implements IDatabase {
 					
 				try {
 					
+					stmt1 = conn.prepareStatement("DROP TABLE accounts");
+					stmt2 = conn.prepareStatement("DROP TABLE students");
+					stmt1.executeUpdate();
+					stmt2.executeUpdate();
 					
 					//CREATING ACCOUNTS
 					stmt1 = conn.prepareStatement(
@@ -543,9 +613,11 @@ public class DerbyDatabase implements IDatabase {
 									"	hasAudio int," +
 									"	hasVideo int," +
 									"	quote varchar(70)," +
+									"	clubs varchar(70)," +
 									"	honors varchar(70)," +
 									"	showGPA int," +
 									"	showMajor int," +
+									"	showMinor int," +
 									"	slideApproved int," +
 									"	studentEmail varchar(70)" +
 									")"
