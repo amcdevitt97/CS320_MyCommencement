@@ -66,7 +66,7 @@ public class LoginServlet extends HttpServlet {
 
 		// if login is valid, start a session
 		if (validLogin) {
-
+			controller.checkReviewSlide(model.getFirstname(), hasPhoto, hasAudio, hasQuote, hasVideo, showMajor, showMinor, showHonors, showSports, showClubs, showFN, showLN, explination, email);
 			// store user object in session
 			req.getSession().setAttribute("user", email);
 			

@@ -26,6 +26,8 @@ public interface IDatabase {
 	// SLIDE DATA
 	public void addSlide(String slideFN,String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean slideApproved, String studentEmail);
 	
+	public void addReview(boolean showGPA, boolean hasQuote, boolean hasPhoto, boolean hasAudio, boolean hasVideo, boolean showMajor, boolean showMinor, boolean showHonors, boolean showSports, boolean showClubs, boolean showFN, boolean showLN, String explination, String email);
+	public void getReviewSlide(String email);
 	//TESTING 
 	public String showAllAccounts();
 	
