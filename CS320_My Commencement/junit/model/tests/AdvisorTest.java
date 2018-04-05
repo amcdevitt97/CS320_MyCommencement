@@ -10,18 +10,25 @@ import model.Account.accountType;
 
 public class AdvisorTest {
 	private Advisor model;
+	int id=3;
 	String email = "email@test.com";
 	String pass = "password"; 
 	String firstname = "Joseph"; 
 	String lastname = "Miller";
 	@Before
 	public void setUp() {
-		model = new Advisor(email, pass, firstname, lastname);
+		model = new Advisor(id, email, pass, firstname, lastname);
 	}
 	
 	
 	//these two also test "gets" so i won't
 	//test for get methods
+	@Test
+	public void testSetId() {
+		model.setAccountId(2);
+		assertEquals(2, model.getAccountId());
+	}
+	
 	@Test
 	public void testSetEmail() {
 		model.setEmail("my@email.com");

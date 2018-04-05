@@ -22,6 +22,7 @@ public interface IDatabase {
 	// UX DATA
 	public String getFirstNameForEmail(String email);
 	public String getLastNameForEmail(String email);
+	public String getStudentsForAdvisorEmail(String email);
 	
 	// SLIDE DATA
 	public void addSlide(String slideFN,String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean slideApproved, String studentEmail);
@@ -30,6 +31,7 @@ public interface IDatabase {
 	public void getReviewSlide(String email);
 	//TESTING 
 	public String showAllAccounts();
+	public String showAllStudents();
 	
 	/*public int queryForLoginIdByEmail(String email);
 	public boolean updateAccountByEmail(String email, Account account);

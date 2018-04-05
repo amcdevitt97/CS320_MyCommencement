@@ -76,6 +76,7 @@ public class LoginServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);	
 			}
 			else{
+				System.out.println(acctController.getStudentsForAdvisor(email));
 				System.out.println("   Valid login - starting session, redirecting to /advisor");
 				// redirect to /advisor page
 				req.getRequestDispatcher("/_view/advisor.jsp").forward(req, resp);	

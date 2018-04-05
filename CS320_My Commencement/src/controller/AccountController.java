@@ -25,5 +25,10 @@ public class AccountController {
 		return firstname;
 	}
 	
+	public String getStudentsForAdvisor(String email){
+		String students = database.getStudentsForAdvisorEmail(email);
+		return students;
+	}
+	
 
 }
