@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 //File Name SendEmail.java
 import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
+//import javax.mail.*;
+//import javax.mail.internet.*;
 
 
 
@@ -131,7 +131,7 @@ public class Slide {
 		
 	}
 	
-	public void emailAdvisor() {
+	/*public void emailAdvisor() {
 		// Recipient's email ID needs to be mentioned.
 	      String to = "cdeshong1@ycp.edu";
 
@@ -172,6 +172,6 @@ public class Slide {
 	      } catch (MessagingException mex) {
 	         mex.printStackTrace();
 	      }
-	}
+	}*/
 	
 }

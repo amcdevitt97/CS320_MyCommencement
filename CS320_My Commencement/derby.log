@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Wed Apr 04 18:41:29 EDT 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0162-92d2-78b3-000002910940 
-on database directory /Users/alyssamcdevitt/git/myCommencement/CS320_My Commencement/test.db with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
-Loaded from file:/Users/alyssamcdevitt/git/myCommencement/CS320_My%20Commencement/lib/derby.jar
+Thu Apr 05 13:15:56 EDT 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0162-96ce-c735-000002939420 
+on database directory /Users/alyssamcdevitt/git/CS320_MyCommencement/CS320_My Commencement/test.db with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
+Loaded from file:/Users/alyssamcdevitt/git/CS320_MyCommencement/CS320_My%20Commencement/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_91-b14
-user.dir=/Users/alyssamcdevitt/git/myCommencement/CS320_My Commencement
+user.dir=/Users/alyssamcdevitt/git/CS320_MyCommencement/CS320_My Commencement
 os.name=Mac OS X
 os.arch=x86_64
 os.version=10.12.6

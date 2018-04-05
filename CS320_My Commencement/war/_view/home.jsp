@@ -15,7 +15,12 @@
 <div id="navBarFix"></div>
 <div id="navBar">
 	<img id="logo" src="Media/logo.png" />
-	<a href="#"> <div id="logOut"> Log Out </div> </a> 
+		<form id="logout" action="${pageContext.servletContext.contextPath}/logout" method="post">
+					<input type="Submit" value="Log Out" id="logOut" name="loginSubmit">
+		</form>
+		<!-- - <form>
+			<a href="#"> <div id="logOut"> Log Out </div> </a> 
+		</form>--->
 </div>
 
 <div id="content">
