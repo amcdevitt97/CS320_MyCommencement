@@ -9,51 +9,77 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.LoginController;
 import controller.AccountController;
-import model.Account;
+import model.Slide;
 
-public class LoginServlet extends HttpServlet {
+public class SlideServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("\nLoginServlet: doGet");
+		System.out.println("\nSlideServlet: doGet");
 
-		req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("\nLoginServlet: doPost");
+		System.out.println("\nSlideServlet: doPost");
 
-		String errorMessage = null;
-		String email        = null;
-		String pw           = null;
-		boolean validLogin  = false;
-		boolean isStudent = false;
-		Account model = new Account();
-		LoginController controller = new LoginController(model);
-		AccountController acctController = new AccountController(model);
+		String major;
+		boolean addMajor;
+		String minor;
+		boolean addMinor;
+		String honors;
+		String GPA;
+		boolean showGPA;
+		String sports;
+		String clubs;
+		String quote;
+		Slide model = new Slide();
+		
+		//LoginController controller = new LoginController(model);
+		//AccountController acctController = new AccountController(model);
 		
 		// Decode form parameters and dispatch to controller
-		email = req.getParameter("email");
-		pw   = req.getParameter("password");
-
-		System.out.println("   Name: <" + email + "> PW: <" + pw + ">");			
-
-		if (email == null || pw == null || email.equals("") || pw.equals("")) {
-			errorMessage = "Please specify both email and password";
-		} else {
-			
-			validLogin = controller.loginUser(email, pw);
-			isStudent = controller.isStudent(email);
-			if (!validLogin) {
-				errorMessage = "Email and/or password invalid";
-			}
+		
+		//determines state of major checkbox
+		major = req.getParameter("major");
+		if (major != null){
+		    addMajor = true;
 		}
+		else{
+		    addMajor= false;
+		}
+		
+		//determines state of minor checkbox
+		minor = req.getParameter("minor");
+		if (minor != null){
+		    addMinor = true;
+		}
+		else{
+		    addMinor= false;
+		}
+		honors = req.getParameter("honors");
+		
+		//determines state of GPA checkbox
+		GPA = req.getParameter("GPA");
+		if (GPA != null){
+		    showGPA = true;
+		}
+		else{
+		    showGPA= false;
+		}
+		sports= req.getParameter("sports");
+		clubs= req.getParameter("clubs");
+		quote= req.getParameter("quote");
+		
 
+		//System.out.println("   Name: <" + email + "> PW: <" + pw + ">");			
+
+		/*
 		// Add parameters as request attributes
 		req.setAttribute("email", req.getParameter("email"));
 		req.setAttribute("password", req.getParameter("password"));
@@ -63,7 +89,7 @@ public class LoginServlet extends HttpServlet {
 		// Add result objects as request attributes
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("login",        validLogin);
-
+		
 		// if login is valid, start a session
 		if (validLogin) {
 			//controller.checkReviewSlide(model.getFirstname(), hasPhoto, hasAudio, hasQuote, hasVideo, showMajor, showMinor, showHonors, showSports, showClubs, showFN, showLN, explination, email);
@@ -91,7 +117,7 @@ public class LoginServlet extends HttpServlet {
 			// Forward to view to render the result HTML document
 			req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
 		}
-
+		 */
 		
 	}
 

@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import database.DatabaseProvider;
 import model.Student;
 import model.Account;
 import model.Advisor;
-import model.Review;
 
 public class DerbyDatabase implements IDatabase {
 	static {
@@ -313,7 +311,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 			
 		});
-	}
+	}  
 	
 	public String getSlideFNForEmail(String email) {
 		return executeTransaction(new Transaction<String>() {
@@ -371,112 +369,9 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public void addReview(boolean showGPA, boolean hasQuote, boolean hasPhoto, boolean hasAudio, boolean hasVideo, boolean showMajor, boolean showMinor, boolean showHonors, boolean showSports, boolean showClubs, boolean showFN, boolean showLN, String explination, String email){
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement insertReview   = null;
-
-				try {
-
-					int photo = hasPhoto? 1 : 0;
-					int audio = hasAudio? 1 : 0;
-					int video = hasVideo? 1 : 0;
-					int gpa = showGPA? 1 : 0;
-					int quote = hasQuote? 1: 0; 
-					int major = showMajor? 1 : 0;
-					int minor = showMinor? 1 : 0;
-					int honors = showHonors? 1: 0;
-					int sports = showSports? 1: 0;
-					int clubs = showClubs? 1: 0;
-					int firstname = showFN? 1: 0;
-					int lastname = showLN? 1: 0;
-					
-					
-					
-					insertReview = conn.prepareStatement("insert into review (firstname, lastname, hasPhoto, hasAudio, hasVideo, hasQuote, hasHonors, showGPA, showMajor, showMinor, hasClubs, explination, email) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-					
-					insertReview.setInt(1, firstname);
-					insertReview.setInt(2, lastname);
-					insertReview.setInt(3, photo);
-					insertReview.setInt(4, audio);
-					insertReview.setInt(5, video);
-					insertReview.setInt(6, quote);
-					insertReview.setInt(7, honors);
-					insertReview.setInt(8, gpa);
-					insertReview.setInt(9, major);
-					insertReview.setInt(10, minor);
-					insertReview.setInt(11, clubs);
-					insertReview.setString(12, explination);
-					insertReview.setString(13, email);
-					insertReview.executeUpdate();
-					return true;
-				}
-				finally{
-					DBUtil.closeQuietly(insertReview);
-				}
-					
-				
-			}
-			
-		});
-	}
-	public void getReviewSlide(String email){
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt   = null;
-				ResultSet resultSet = null;
-				Review review = new Review();
-				try {
-					stmt = conn.prepareStatement(
-							"select review.* " +
-							"  from review " +
-						    "  where review.email = ?"
-					);
-					stmt.setString(1, email);
-					
-					resultSet = stmt.executeQuery();
-					
-					
-					
-					while (resultSet.next()) {
-						
-						// create new Author object
-						// retrieve attributes from resultSet starting with index 1
-						
-						loadReview(review, resultSet, 1);
-						
-					}
-					
-					ResultSetMetaData rsmd = resultSet.getMetaData();
-				    int columnsNumber = rsmd.getColumnCount();
-				    while (resultSet.next()) {
-				        for (int i = 1; i <= columnsNumber; i++) {
-				            if (i > 1) System.out.print(" | ");
-				            System.out.print(resultSet.getString(i));
-				        }
-				        System.out.println("");
-				    }
-					   
-					
-					return true;
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-				
-					
-				}	
-			}
-			
-		});
-	}
-	
-	
-	
 	/*
 	 * DEBUGGING ONLY:
-	 *		showAllAccounts(select * from accounts)
+	 * 		showAllAccounts(select * from accounts)
 	 * 		showAllStudents(select * from students)
 	 * 		showAllSlides(select * from slides)
 	 * 		showAllPhotos(select * from photos)
@@ -645,23 +540,6 @@ public class DerbyDatabase implements IDatabase {
 		student.setGPA(resultSet.getDouble(index++));
 		
 	}
-	private void loadReview(Review review, ResultSet resultSet, int index) throws SQLException{
-		review.setFN(resultSet.getBoolean(index++));
-		review.setLN(resultSet.getBoolean(index++));
-		review.setPhoto(resultSet.getBoolean(index++));
-		review.setAudio(resultSet.getBoolean(index++));
-		review.setVideo(resultSet.getBoolean(index++));
-		review.setQuote(resultSet.getBoolean(index++));
-		review.setHonors(resultSet.getBoolean(index++));
-		review.setGpa(resultSet.getBoolean(index++));
-		review.setMajor(resultSet.getBoolean(index++));
-		review.setFN(resultSet.getBoolean(index++));
-		review.setMinor(resultSet.getBoolean(index++));
-		review.setClubs(resultSet.getBoolean(index++));
-		review.setExplination(resultSet.getString(index++));
-		review.setEmail(resultSet.getString(index++));
-		
-	}
 
 	
 	private void loadAccount(Account account, ResultSet resultSet, int index) throws SQLException {
@@ -683,17 +561,14 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt5 = null;
 				PreparedStatement stmt6 = null;
 				PreparedStatement stmt7 = null;
-				
 					
 				try {
 					
-
-					stmt1 = conn.prepareStatement("DROP TABLE accounts");
-					stmt2 = conn.prepareStatement("DROP TABLE students");
-					stmt1.executeUpdate();
-					stmt2.executeUpdate();
+					//stmt1 = conn.prepareStatement("DROP TABLE accounts");
+					//stmt2 = conn.prepareStatement("DROP TABLE students");
+					//stmt1.executeUpdate();
+					//stmt2.executeUpdate();
 					
-
 					//CREATING ACCOUNTS
 					stmt1 = conn.prepareStatement(
 							"create table accounts (" +
@@ -749,27 +624,6 @@ public class DerbyDatabase implements IDatabase {
 							);
 					stmt3.executeUpdate();
 					System.out.println("----Successfully Created Slides Table---- ");
-					stmt7 = conn.prepareStatement(
-							"create table review (" +
-									"	review_id integer primary key " +
-									"		generated always as identity (start with 1, increment by 1), " +
-									"	gpaApproved int," +
-									"	quoteApproved int," +
-									"	photoApproved int," +
-									"	audioApproved int," +
-									"	videoApproved int," +
-									"	majorApproved int," +
-									"	minorApproved int," +
-									"	honorsApproved int," +
-									"	sportsApproved int," +
-									"	clubsApproved int," +
-									"	fnApproved int," +
-									"   lnApproved int," +
-									"   explination varchar(70)"+
-									")"
-							);
-					stmt7.executeUpdate();
-					System.out.println("----Successfully Created Review Table---- ");
 					
 					//CREATING AUDIO
 					stmt4 = conn.prepareStatement(
@@ -850,7 +704,6 @@ public class DerbyDatabase implements IDatabase {
 
 				try{
 					
-					
 					stmt1 = conn.prepareStatement("DROP TABLE accounts");
 					stmt2 = conn.prepareStatement("DROP TABLE students");
 					stmt3 = conn.prepareStatement("DROP TABLE slides");
@@ -858,7 +711,6 @@ public class DerbyDatabase implements IDatabase {
 					stmt5 = conn.prepareStatement("DROP TABLE videos");
 					stmt6 = conn.prepareStatement("DROP TABLE photos");
 					stmt7 = conn.prepareStatement("DROP TABLE review");
-					
 
 
 

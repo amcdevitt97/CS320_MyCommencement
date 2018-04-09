@@ -14,53 +14,47 @@ import javax.activation.*;
 
 public class Slide {
 	private boolean showGPA;
-	private double GPA;
 	private String quote;
 	private Photo photo;
 	private Video video;
-	private String major;
-	private String minor;						 
+	private Audio audio;
+	private boolean showMajor;
+	private boolean showMinor;						 
 	private String honors;
 	private String sports;
 	private String clubs;
 	private String slideFN;
 	private String slideLN;
-	private String advisor;
 	private Review review;
-	private Student student;
-	private MediaObject mediaObject;
+	private String studentEmail;
 	private ArrayList<String> stringsToCheck;
-	private Account account;
-	private Audio audio;
+	
 	private Scanner scan;
 	
 	
 	public Slide() {
 		showGPA = true;
-		GPA=0;
 		quote = null;
 		photo = null;
 		video = null;
 		audio = null;
-		major = null;
-		minor = null;
+		showMajor = true;
+		showMinor = true;
 		honors = null;
 		sports = null;
 		clubs = null;
 		slideFN = null;
 		slideLN = null;
 		review = new Review();
-		account = new Account();
-		//student = new Student(account.getEmail(), account.getPassword(),account.getFirstname(),account.getLastname(), 0, major, minor, account.);
-		mediaObject = new MediaObject();
+		studentEmail = null;
 		stringsToCheck = new ArrayList<String>();
 		
 	}
-	public Slide(boolean gpa, String quote, String major, String minor, String honors, String sports, String clubs, String slideFN, String slideLN, Photo p, Audio a, Video v) {
+	public Slide(boolean gpa, String quote, boolean showMajor, boolean showMinor, String honors, String sports, String clubs, String slideFN, String slideLN, Photo p, Audio a, Video v) {
 		this.showGPA = gpa;
 		this.quote = quote;
-		this.major = major;
-		this.minor = minor;
+		this.showMajor = showMajor;
+		this.showMinor = showMinor;
 		this.honors = honors;
 		this.sports = sports;
 		this.clubs = clubs;
@@ -69,19 +63,90 @@ public class Slide {
 		this.audio = a;
 		this.video = v;
 		this.photo = p;
-		mediaObject = new MediaObject();
 		stringsToCheck = new ArrayList<String>();
 		stringsToCheck.add(quote);
-		stringsToCheck.add(major);
-		stringsToCheck.add(minor);
 		stringsToCheck.add(honors);
 		stringsToCheck.add(sports);
 		stringsToCheck.add(clubs);
 		stringsToCheck.add(slideFN);
 		stringsToCheck.add(slideLN);
-		
-		
 	}
+	
+	// GETTERS AND SETTERS
+	
+	public void setShowGPA(Boolean value){
+		this.showGPA = value;
+	}
+	
+	public boolean getShowGPA(){
+		return showGPA;
+	}
+	
+	public void setQuote(String quote){
+		this.quote = quote;
+	}
+	
+	public String getQuote(){
+		return quote;
+	}
+	
+	public void setShowMajorA(Boolean value){
+		this.showMajor = value;
+	}
+	
+	public boolean getShowMajor(){
+		return showMajor;
+	}
+	
+	public void setShowMinor(Boolean value){
+		this.showMinor = value;
+	}
+	
+	public boolean getShowMinor(){
+		return showMinor;
+	}
+	
+	public void setHonors(String honors){
+		this.honors = honors;
+	}
+	
+	public String getHonors(){
+		return honors;
+	}
+	
+	public void setClubs(String clubs){
+		this.clubs = clubs;
+	}
+	
+	public String getClubs(){
+		return clubs;
+	}
+	
+	public void setSports(String sports){
+		this.sports = sports;
+	}
+	
+	public String getSports(){
+		return sports;
+	}
+	
+	public void setSlideFN(String slideFN){
+		this.slideFN = slideFN;
+	}
+	
+	public String getSlideFN(){
+		return slideFN;
+	}
+	
+	public void setSlideLN(String slideLN){
+		this.slideLN = slideLN;
+	}
+	
+	public String getSlideLN(){
+		return slideLN;
+	}
+	
+	// Not sure about these because I didnt make them, please comment some explinations - ANM
 	
 	public void updateSlide() {
 		blackListCheck();
@@ -109,21 +174,22 @@ public class Slide {
 		if ( showGPA == false) {
 			end = false;
 		}
-		mediaObject.setMediaObject(audio);
-		Audio a = (Audio)mediaObject.getMediaObject();
+		
+		/*audio.setMediaObject(audio);
+		Audio a = new Audio();
 		if (a.isUploadable(a.getHours(), a.getMinutes(), a.getSeconds()) == false) {
 			end = false;
 		}
-		mediaObject.setMediaObject(photo);
-		Photo p = (Photo)mediaObject.getMediaObject();
+		photo.setMediaObject(photo);
+		Photo p = new Photo();
 		if(p.isUploadable(p.getLength(), p.getWidth())== false) {
 			end = false;
 		}
-		mediaObject.setMediaObject(video);
-		Video v = (Video)mediaObject.getMediaObject();
+		video.setMediaObject(video);
+		Video v = new Video();
 		if (v.isUploadable(v.getLength(), v.getWidth(), v.getHours(), v.getMinutes(), v.getSeconds()) == false) {
 			end = false;
-		}
+		}*/
 		
 		
 		return end;
