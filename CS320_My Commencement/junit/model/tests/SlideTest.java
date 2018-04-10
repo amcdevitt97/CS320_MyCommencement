@@ -9,6 +9,8 @@ import model.*;
 
 public class SlideTest {
 
+	// Yeah this is gonna need some work - ANM
+	
 	private Slide slide;
 	private Slide slide1;
 	private Slide slide2;

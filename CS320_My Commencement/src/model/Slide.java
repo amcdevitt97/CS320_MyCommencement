@@ -25,19 +25,15 @@ public class Slide {
 	private String clubs;
 	private String slideFN;
 	private String slideLN;
-	private Review review;
 	private String studentEmail;
-	private ArrayList<String> stringsToCheck;
+	//private ArrayList<String> stringsToCheck;
 	
-	private Scanner scan;
+	//private Scanner scan;
 	
 	
 	public Slide() {
 		showGPA = true;
 		quote = null;
-		photo = null;
-		video = null;
-		audio = null;
 		showMajor = true;
 		showMinor = true;
 		honors = null;
@@ -45,12 +41,14 @@ public class Slide {
 		clubs = null;
 		slideFN = null;
 		slideLN = null;
-		review = new Review();
+		photo = null;
+		video = null;
+		audio = null;
 		studentEmail = null;
-		stringsToCheck = new ArrayList<String>();
+		//stringsToCheck = new ArrayList<String>();
 		
 	}
-	public Slide(boolean gpa, String quote, boolean showMajor, boolean showMinor, String honors, String sports, String clubs, String slideFN, String slideLN, Photo p, Audio a, Video v) {
+	public Slide(boolean gpa, String quote, boolean showMajor, boolean showMinor, String honors, String sports, String clubs, String slideFN, String slideLN, Photo p, Audio a, Video v, String studentEmail) {
 		this.showGPA = gpa;
 		this.quote = quote;
 		this.showMajor = showMajor;
@@ -63,13 +61,6 @@ public class Slide {
 		this.audio = a;
 		this.video = v;
 		this.photo = p;
-		stringsToCheck = new ArrayList<String>();
-		stringsToCheck.add(quote);
-		stringsToCheck.add(honors);
-		stringsToCheck.add(sports);
-		stringsToCheck.add(clubs);
-		stringsToCheck.add(slideFN);
-		stringsToCheck.add(slideLN);
 	}
 	
 	// GETTERS AND SETTERS
@@ -146,11 +137,30 @@ public class Slide {
 		return slideLN;
 	}
 	
-	// Not sure about these because I didnt make them, please comment some explinations - ANM
+	public void setStudentEmail(String studentEmail){
+		this.studentEmail = studentEmail;
+	}
 	
+	public String getStudentEmail(){
+		return studentEmail;
+	}
+	
+	// After further inspection, they belong in a controller - ANM
+	
+	
+	/*
 	public void updateSlide() {
 		blackListCheck();
 	}
+	
+	stringsToCheck = new ArrayList<String>();
+	stringsToCheck.add(quote);
+	stringsToCheck.add(honors);
+	stringsToCheck.add(sports);
+	stringsToCheck.add(clubs);
+	stringsToCheck.add(slideFN);
+	stringsToCheck.add(slideLN);
+	
 	public boolean blackListCheck() {
 		boolean end = true;
 		
@@ -174,7 +184,8 @@ public class Slide {
 		if ( showGPA == false) {
 			end = false;
 		}
-		
+		*/
+	
 		/*audio.setMediaObject(audio);
 		Audio a = new Audio();
 		if (a.isUploadable(a.getHours(), a.getMinutes(), a.getSeconds()) == false) {
@@ -189,14 +200,14 @@ public class Slide {
 		Video v = new Video();
 		if (v.isUploadable(v.getLength(), v.getWidth(), v.getHours(), v.getMinutes(), v.getSeconds()) == false) {
 			end = false;
-		}*/
+		}
 		
 		
 		return end;
 		
 		
 	}
-	
+	*/
 	/*public void emailAdvisor() {
 		// Recipient's email ID needs to be mentioned.
 	      String to = "cdeshong1@ycp.edu";

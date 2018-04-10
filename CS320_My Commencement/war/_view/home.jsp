@@ -27,13 +27,15 @@
 	<!-- left-sided content -->
 	<div class="left">
 		<h3><%= request.getAttribute("fn") %>'s Commencement</h3>
-
-		<p>Major: <input type="text" name="major"></p>
-		<p>Minor: <input type="text" name="minor"></p>
+		<form id="update" action="${pageContext.servletContext.contextPath}/slide" method="post">
+		<p>First Name: <input type="text" name="slideFN" style="width:70%"></p>
+		<p>Last Name: <input type="text" name="slideLN" style="width:70%"></p>
 		<p>Honors: <input type="text" name="honors"></p>
 		<p>Check to show my GPA: <input type="checkbox" name="gpa" value="showGPA" id="gpaBox"></p>
-		<p>Sports: <input type="text" name="sport"></p>
-		<p>Clubs: <input type="text" name="club"></p>
+		<p>Check to show my Major: <input type="checkbox" name="showMajor" value="showMajor" id="gpaBox"></p>
+		<p>Check to show my Minor: <input type="checkbox" name="showMinor" value="showMinor" id="gpaBox"></p>
+		<p>Sports: <input type="text" name="sports"></p>
+		<p>Clubs: <input type="text" name="clubs"></p>
 		<p>Quote: <input type="text" name="quote"></p>
 		<p>Upload Photo:</p> <input class="fileChoosers" type="file" name="photo" accept="image/*"></p>
 		<p>Upload name pronunciation:</p> <input class="fileChoosers" type="file" name="audio" accept="audio/*"></p>
@@ -62,17 +64,17 @@
 				</audio>
 				
 				
-				<h3><b><u>Default Name</b></u></h3>
+				<h3><b><u> <%= request.getAttribute("slideFN") %> <%= request.getAttribute("slideLN") %></b></u></h3>
 					<div class="attributes">
 						<p>Major: </p>
 						<p>Minor: </p>
-						<p>Honors: </p>
-						<p>Sports: </p>
-						<p>Clubs: </p>
+						<p>Honors: <%= request.getAttribute("honors") %></p>
+						<p>Sports: <%= request.getAttribute("sports") %></p>
+						<p>Clubs: <%= request.getAttribute("clubs") %></p>
 						<p>GPA: </p>
 					</div>
 				<div id="quotebox">	
-					<h2><i>This is a quote</i></h2>
+					<h2><i><%= request.getAttribute("quote") %></i></h2>
 				</div>
 				<video width="240" height="160" controls autoplay muted>
   					<source src="Media/15Sec.mp4" type="video/mp4" >
@@ -80,7 +82,10 @@
 				</video>
 	
 			</div>
-		<a href="#" id="saveButton"> Update & Save </a>
+		
+		<input type="Submit" value="Update & Save" id="saveButton" name="updateSubmit">
+		
+		</form>
 	</div>
 </div>
 

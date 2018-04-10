@@ -28,6 +28,8 @@ public class SlideServlet extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("\nSlideServlet: doPost");
 
+		String slideFN;
+		String slideLN;
 		String major;
 		boolean addMajor;
 		String minor;
@@ -44,6 +46,19 @@ public class SlideServlet extends HttpServlet {
 		//AccountController acctController = new AccountController(model);
 		
 		// Decode form parameters and dispatch to controller
+		
+		honors = req.getParameter("honors");
+		slideFN = req.getParameter("slideFN");
+		slideLN = req.getParameter("slideLN");
+		
+		//determines state of GPA checkbox
+		GPA = req.getParameter("GPA");
+		if (GPA != null){
+		    showGPA = true;
+		}
+		else{
+		    showGPA= false;
+		}
 		
 		//determines state of major checkbox
 		major = req.getParameter("major");
@@ -62,62 +77,34 @@ public class SlideServlet extends HttpServlet {
 		else{
 		    addMinor= false;
 		}
-		honors = req.getParameter("honors");
 		
-		//determines state of GPA checkbox
-		GPA = req.getParameter("GPA");
-		if (GPA != null){
-		    showGPA = true;
-		}
-		else{
-		    showGPA= false;
-		}
+		
 		sports= req.getParameter("sports");
 		clubs= req.getParameter("clubs");
 		quote= req.getParameter("quote");
+		String email = (String) req.getSession().getAttribute("user");
 		
-
-		//System.out.println("   Name: <" + email + "> PW: <" + pw + ">");			
-
-		/*
-		// Add parameters as request attributes
-		req.setAttribute("email", req.getParameter("email"));
-		req.setAttribute("password", req.getParameter("password"));
-		System.out.println(acctController.getFirstnameForEmail(email));
-		req.setAttribute("fn", acctController.getFirstnameForEmail(email));
-
-		// Add result objects as request attributes
-		req.setAttribute("errorMessage", errorMessage);
-		req.setAttribute("login",        validLogin);
+		model.setSlideFN(slideFN);
+		model.setSlideLN(slideLN);
+		model.setShowMajorA(addMajor);
+		model.setShowMinor(addMinor);
+		model.setHonors(honors);
+		model.setShowGPA(showGPA);
+		model.setSports(sports);
+		model.setClubs(clubs);
+		model.setQuote(quote);
+	
+		//ADD CONTROLLER AND ITS METHOD FOR SLIDE CHECK HERE			
 		
-		// if login is valid, start a session
-		if (validLogin) {
-			//controller.checkReviewSlide(model.getFirstname(), hasPhoto, hasAudio, hasQuote, hasVideo, showMajor, showMinor, showHonors, showSports, showClubs, showFN, showLN, explination, email);
-			// store user object in session
-			req.getSession().setAttribute("user", email);
-			
-			if(isStudent){
-				// redirect to /home page
-				System.out.println("   Valid login - starting session, redirecting to /home");
-				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);						//Comments
-			}
-			else{
-				System.out.println(acctController.getStudentsForAdvisor(email));
-				System.out.println("   Valid login - starting session, redirecting to /advisor");
-				// redirect to /advisor page
-				req.getRequestDispatcher("/_view/advisor.jsp").forward(req, resp);	
-			}
-			
-
-			return;
-		}
-		else{
-			System.out.println("   Invalid login - returning to /login");
-
-			// Forward to view to render the result HTML document
-			req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
-		}
-		 */
+		req.setAttribute("slideFN", slideFN);
+		req.setAttribute("slideLN", slideLN);
+		req.setAttribute("quote", quote);
+		req.setAttribute("honors", honors);
+		req.setAttribute("sports", sports);
+		req.setAttribute("clubs", clubs);
+		System.out.println("Quote: "+quote);
+		
+		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 		
 	}
 
