@@ -18,6 +18,7 @@ public interface IDatabase {
 	public Account returnAccountForEmail(String email);
 	public Boolean queryForValidLogin(String email, String password);
 	public Boolean isStudent (String email);
+	public Student getStudentForEmail(String email);
 	
 	// UX DATA
 	public String getFirstNameForEmail(String email);
@@ -26,6 +27,9 @@ public interface IDatabase {
 	
 	// SLIDE DATA
 	public void addSlide(String slideFN,String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean slideApproved, String studentEmail);
+	public Double getGPAForEmail(String email);
+	public String getMajorForEmail(String email);
+	public String getMinorForEmail(String email);
 	
 	// THESE NEED MADE: 
 	//public void addReview(boolean showGPA, boolean hasQuote, boolean hasPhoto, boolean hasAudio, boolean hasVideo, boolean showMajor, boolean showMinor, boolean showHonors, boolean showSports, boolean showClubs, boolean showFN, boolean showLN, String explination, String email);
@@ -34,10 +38,5 @@ public interface IDatabase {
 	//TESTING 
 	public String showAllAccounts();
 	public String showAllStudents();
-	
-	/*public int queryForLoginIdByEmail(String email);
-	public boolean updateAccountByEmail(String email, Account account);
-	public String queryForPasswordByEmail(String email);
-	public boolean insertNewAccountIntoDatabase(Account newb);*/
 	
 }

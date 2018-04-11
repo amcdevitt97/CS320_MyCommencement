@@ -4,6 +4,7 @@ import database.IDatabase;
 import database.DatabaseProvider;
 import database.DerbyDatabase;
 import model.Account;
+import model.Student;
 
 /**
  * Controller for the Account Class.
@@ -30,5 +31,9 @@ public class AccountController {
 		return students;
 	}
 	
+	public Student getStudentForEmail(String email){
+		Student student = database.getStudentForEmail(email);
+		return student;
+	}
 
 }

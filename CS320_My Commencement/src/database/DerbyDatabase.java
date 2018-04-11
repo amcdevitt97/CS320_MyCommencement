@@ -266,6 +266,36 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	public Student getStudentForEmail(String email) {
+		return executeTransaction(new Transaction<Student>() {
+			@Override
+			public Student execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				List<Student> result = new ArrayList<Student>();
+				try {
+					stmt = conn.prepareStatement(
+							"select * " +
+							"  from students "+
+							"  where students.email = ? "
+					);
+					stmt.setString(1, email);
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						Student student = new Student(0, null, null, null, null, 0.0, null, null, null);
+						loadStudent(student, resultSet, 1);
+						result.add(student);
+					}
+					return result.get(0);
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	
 	
 	// SLIDE RELATED QUERIES
@@ -338,7 +368,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt);
 				}
 			}
-		});															//push
+		});															
 	}
 	
 	public String getSlideLNForEmail(String email) {
@@ -361,6 +391,105 @@ public class DerbyDatabase implements IDatabase {
 					lastname = resultSet.getString(1);
 					
 					return lastname;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public Double getGPAForEmail(String email) {
+		return executeTransaction(new Transaction<Double>() {
+			@Override
+			public Double execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				List<Student> result = new ArrayList<Student>();
+				try {
+					stmt = conn.prepareStatement(
+							"select *" +
+							"  from students " +
+							" where students.email = ?" 
+					);
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						
+						Student student = new Student(0, null, null, null, null, null, null, null, null);
+						loadStudent(student, resultSet, 1);
+						result.add(student);
+					}
+					System.out.println(result.get(0).getGPA());
+					return result.get(0).getGPA();
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
+	public String getMajorForEmail(String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				List<Student> result = new ArrayList<Student>();
+				try {
+					stmt = conn.prepareStatement(
+							"select *" +
+							"  from students " +
+							" where students.email = ?" 
+					);
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						
+						Student student = new Student(0, null, null, null, null, null, null, null, null);
+						loadStudent(student, resultSet, 1);
+						result.add(student);
+					}
+					System.out.println(result.get(0).getMajor());
+					return result.get(0).getMajor();
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public String getMinorForEmail(String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				List<Student> result = new ArrayList<Student>();
+				try {
+					stmt = conn.prepareStatement(
+							"select *" +
+							"  from students " +
+							" where students.email = ?" 
+					);
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						
+						Student student = new Student(0, null, null, null, null, null, null, null, null);
+						loadStudent(student, resultSet, 1);
+						result.add(student);
+					}
+					System.out.println(result.get(0).getMinor());
+					return result.get(0).getMinor();
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);

@@ -31,7 +31,7 @@
 		<p>First Name: <input type="text" name="slideFN" style="width:70%"></p>
 		<p>Last Name: <input type="text" name="slideLN" style="width:70%"></p>
 		<p>Honors: <input type="text" name="honors"></p>
-		<p>Check to show my GPA: <input type="checkbox" name="gpa" value="showGPA" id="gpaBox"></p>
+		<p>Check to show my GPA: <input type="checkbox" name="gpaCheck" value="showGPA" id="gpaBox"></p>
 		<p>Check to show my Major: <input type="checkbox" name="showMajor" value="showMajor" id="gpaBox"></p>
 		<p>Check to show my Minor: <input type="checkbox" name="showMinor" value="showMinor" id="gpaBox"></p>
 		<p>Sports: <input type="text" name="sports"></p>
@@ -66,12 +66,12 @@
 				
 				<h3><b><u> <%= request.getAttribute("slideFN") %> <%= request.getAttribute("slideLN") %></b></u></h3>
 					<div class="attributes">
-						<p>Major: </p>
-						<p>Minor: </p>
+						<p>Major: <%= request.getAttribute("major") %></p>
+						<p>Minor:<%= request.getAttribute("minor") %> </p>
 						<p>Honors: <%= request.getAttribute("honors") %></p>
 						<p>Sports: <%= request.getAttribute("sports") %></p>
 						<p>Clubs: <%= request.getAttribute("clubs") %></p>
-						<p>GPA: </p>
+						<p>GPA:<%= request.getAttribute("gpa") %> </p>
 					</div>
 				<div id="quotebox">	
 					<h2><i><%= request.getAttribute("quote") %></i></h2>

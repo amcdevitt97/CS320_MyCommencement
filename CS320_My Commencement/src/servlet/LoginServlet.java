@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import controller.LoginController;
 import controller.AccountController;
 import model.Account;
+import model.Student;
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -72,6 +73,11 @@ public class LoginServlet extends HttpServlet {
 			
 			if(isStudent){
 				// redirect to /home page
+				
+				// ACCTCONTROLLER.GETSTUDETFOREMAIL 
+				Student student = acctController.getStudentForEmail(email);
+				req.getSession().setAttribute("student", student);
+
 				System.out.println("   Valid login - starting session, redirecting to /home");
 				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);						//Comments
 			}
