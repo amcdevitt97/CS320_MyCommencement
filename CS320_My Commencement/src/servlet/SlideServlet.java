@@ -7,7 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.AccountController;
+import controller.SlideController;
 import controller.StudentController;
+import model.Account;
 import model.Slide;
 import model.Student;
 
@@ -26,6 +29,18 @@ public class SlideServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/login");
 			return;
 		}
+		Account model = new Account();
+		AccountController controller = new AccountController(model);
+		String userFirstName = controller.getFirstnameForEmail(email);
+		System.out.println(userFirstName);
+		req.getSession().setAttribute("fn", userFirstName);
+		
+		//TODO:
+		//getSlideForEmail
+		//set attributes to given slide elements
+		
+		
+		
 		System.out.println("\nSlideServlet: doGet");
 
 		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
@@ -35,6 +50,8 @@ public class SlideServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		System.out.println("\nSlideServlet: doPost");
+		
+
 
 		String slideFN;
 		String slideLN;
@@ -52,13 +69,10 @@ public class SlideServlet extends HttpServlet {
 		Slide model = new Slide();
 		
 		
-		// GetStudentForEmail ?
 		Student student = (Student) req.getSession().getAttribute("student");
-		//LoginController controller = new LoginController(model);
-		//AccountController acctController = new AccountController(model);
+		SlideController controller = new SlideController(model);
 		
 		// Decode form parameters and dispatch to controller
-		
 		honors = req.getParameter("honors");
 		slideFN = req.getParameter("slideFN");
 		slideLN = req.getParameter("slideLN");
@@ -105,9 +119,10 @@ public class SlideServlet extends HttpServlet {
 		quote= req.getParameter("quote");
 		String email = (String) req.getSession().getAttribute("user");
 		
+		
 		model.setSlideFN(slideFN);
 		model.setSlideLN(slideLN);
-		model.setShowMajorA(addMajor);
+		model.setShowMajor(addMajor);
 		model.setShowMinor(addMinor);
 		model.setHonors(honors);
 		model.setShowGPA(showGPA);
@@ -116,9 +131,6 @@ public class SlideServlet extends HttpServlet {
 		model.setQuote(quote);
 		model.setStudentEmail(email);
 	
-		//TODO:
-		//INSERTSLIDE SQL QUERY
-		//ADD CONTROLLER AND ITS METHOD FOR SLIDE CHECK HERE			
 		
 		req.setAttribute("gpa", studentGPA);
 		req.setAttribute("major", major);
@@ -129,8 +141,10 @@ public class SlideServlet extends HttpServlet {
 		req.setAttribute("honors", honors);
 		req.setAttribute("sports", sports);
 		req.setAttribute("clubs", clubs);
-		System.out.println("Quote: "+quote);
 		
+		//	-------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
+		controller.addSlide(slideFN, slideLN, false, false, false, quote, honors, showGPA, addMajor, addMinor, false, email);
+
 		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 		
 	}

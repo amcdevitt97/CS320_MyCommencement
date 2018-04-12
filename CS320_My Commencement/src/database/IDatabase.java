@@ -26,7 +26,7 @@ public interface IDatabase {
 	public String getStudentsForAdvisorEmail(String email);
 	
 	// SLIDE DATA
-	public void addSlide(String slideFN,String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean slideApproved, String studentEmail);
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
 	public Double getGPAForEmail(String email);
 	public String getMajorForEmail(String email);
 	public String getMinorForEmail(String email);
@@ -38,5 +38,6 @@ public interface IDatabase {
 	//TESTING 
 	public String showAllAccounts();
 	public String showAllStudents();
+	public String showAllSlides();
 	
 }

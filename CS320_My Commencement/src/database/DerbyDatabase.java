@@ -18,6 +18,7 @@ import database.DatabaseProvider;
 import model.Student;
 import model.Account;
 import model.Advisor;
+import model.Slide;
 
 public class DerbyDatabase implements IDatabase {
 	static {
@@ -301,12 +302,18 @@ public class DerbyDatabase implements IDatabase {
 	// SLIDE RELATED QUERIES
 	
 	
-	public void addSlide(String slideFN,String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean slideApproved, String studentEmail){
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement insertSlide   = null;
 
+				/*TODO: CHECK TO SEE IF SLIDE FOR STUDENT
+				* ALREADY EXISTS. IF IT DOES, USE AN UPDATE QUERY
+				* IF NOT, USE THE PROVIDED CODE BELOW
+				*/ 
+				
+				
 				try {
 
 					int photo = hasPhoto? 1 : 0;
@@ -314,9 +321,10 @@ public class DerbyDatabase implements IDatabase {
 					int video = hasVideo? 1 : 0;
 					int gpa = showGPA? 1 : 0;
 					int major = showMajor? 1 : 0;
+					int minor = showMinor? 1 : 0;
 					int approved = slideApproved? 1 : 0;
 					
-					insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
 					
 					insertSlide.setString(1, slideFN);
 					insertSlide.setString(2, slideLN);
@@ -327,8 +335,9 @@ public class DerbyDatabase implements IDatabase {
 					insertSlide.setString(7, honors);
 					insertSlide.setInt(8, gpa);
 					insertSlide.setInt(9, major);
-					insertSlide.setInt(10, approved);
-					insertSlide.setString(11, studentEmail);
+					insertSlide.setInt(10, minor);
+					insertSlide.setInt(11, approved);
+					insertSlide.setString(12, studentEmail);
 					
 					insertSlide.executeUpdate();
 					return true;
@@ -500,8 +509,6 @@ public class DerbyDatabase implements IDatabase {
 	
 	/*
 	 * DEBUGGING ONLY:
-	 * 		showAllAccounts(select * from accounts)
-	 * 		showAllStudents(select * from students)
 	 * 		showAllSlides(select * from slides)
 	 * 		showAllPhotos(select * from photos)
 	 * 		showAllVideos(select * from videos)
@@ -539,7 +546,6 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	
 	public String showAllStudents() {
 		return executeTransaction(new Transaction<String>() {
 			@Override
@@ -571,6 +577,36 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	public String showAllSlides() {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String dump = "All Slides: ";
+				List<Slide> result = new ArrayList<Slide>();
+				try {
+					stmt = conn.prepareStatement(
+							"select *" +
+							"  from slides "
+					);
+					
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						Slide slide = new Slide();
+						loadSlide(slide, resultSet, 1);
+						result.add(slide);
+						dump += "<"+slide.getSlideId()+ " | "+ slide.getSlideFN()+ " | " +slide.getSlideLN() +" | "+slide.getHasPhoto()+" | "+slide.getHasAudio()+" | "+slide.getHasVideo()+"> ";
+					}
+					return dump;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 	
 	/* ---------------------------- ------------------------------*/
 
@@ -677,6 +713,70 @@ public class DerbyDatabase implements IDatabase {
 		account.setLastname(resultSet.getString(index++));
 		account.setEmail(resultSet.getString(index++));
 		account.setPassword(resultSet.getString(index++));
+	}
+	
+	private void loadSlide(Slide slide, ResultSet resultSet, int index) throws SQLException {
+		// TODO: make getter and setter for primary key in slide
+		
+		
+		slide.setSlideId(resultSet.getInt(index++));
+		slide.setSlideFN(resultSet.getString(index++));
+		slide.setSlideLN(resultSet.getString(index++));
+		
+		// CONVERTS DATABASE VALUE OF 1 OR 0 TO A TRUE OR FALSE 
+		if(resultSet.getInt(index++) == 1 ){
+			slide.setHasPhoto(true);
+		}
+		else{
+			slide.setHasPhoto(false);
+		}
+		
+		if(resultSet.getInt(index++) == 1 ){
+			slide.setHasAudio(true);
+		}
+		else{
+			slide.setHasAudio(false);
+		}
+		
+		if(resultSet.getInt(index++) == 1 ){
+			slide.setHasVideo(true);
+		}
+		else{
+			slide.setHasVideo(false);
+		}
+		slide.setQuote(resultSet.getString(index++));
+		slide.setClubs(resultSet.getString(index++));
+		slide.setHonors(resultSet.getString(index++));
+		// CONVERTS DATABASE VALUE OF 1 OR 0 TO A TRUE OR FALSE 
+		if(resultSet.getInt(index++) == 1 ){
+			slide.setShowGPA(true);
+		}
+		else{
+			slide.setShowGPA(false);
+		}
+		
+		if(resultSet.getInt(index++) == 1 ){
+			slide.setShowMajor(true);
+		}
+		else{
+			slide.setShowMajor(false);
+		}
+		
+		if(resultSet.getInt(index++) == 1 ){
+			slide.setShowMinor(true);
+		}
+		else{
+			slide.setShowMinor(false);
+		}
+		if(resultSet.getInt(index++) == 1 ){
+			slide.setApproved(true);
+		}
+		else{
+			slide.setApproved(false);
+		}
+		
+		slide.setStudentEmail(resultSet.getString(index++));
+
 	}
 
 	public boolean createTables() {

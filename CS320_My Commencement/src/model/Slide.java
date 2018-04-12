@@ -13,13 +13,15 @@ import java.util.*;
 import javax.activation.*;
 
 public class Slide {
+	private int slideId;
 	private boolean showGPA;
 	private String quote;
-	private Photo photo;
-	private Video video;
-	private Audio audio;
+	private boolean hasPhoto;
+	private boolean hasVideo;
+	private boolean hasAudio;
 	private boolean showMajor;
-	private boolean showMinor;						 
+	private boolean showMinor;	
+	private boolean approved;
 	private String honors;
 	private String sports;
 	private String clubs;
@@ -27,11 +29,12 @@ public class Slide {
 	private String slideLN;
 	private String studentEmail;
 	//private ArrayList<String> stringsToCheck;
-	
 	//private Scanner scan;
 	
+	// yo just FYI we're gonna need a ton of new tests for this class...
 	
 	public Slide() {
+		slideId = 0;
 		showGPA = true;
 		quote = null;
 		showMajor = true;
@@ -41,14 +44,16 @@ public class Slide {
 		clubs = null;
 		slideFN = null;
 		slideLN = null;
-		photo = null;
-		video = null;
-		audio = null;
+		hasPhoto = false;
+		hasVideo = false;
+		hasAudio = false;
+		approved = false;
 		studentEmail = null;
 		//stringsToCheck = new ArrayList<String>();
 		
 	}
-	public Slide(boolean gpa, String quote, boolean showMajor, boolean showMinor, String honors, String sports, String clubs, String slideFN, String slideLN, Photo p, Audio a, Video v, String studentEmail) {
+	public Slide(int slideId, boolean gpa, String quote, boolean showMajor, boolean showMinor, String honors, String sports, String clubs, String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String studentEmail, boolean approved) {
+		this.slideId = slideId;
 		this.showGPA = gpa;
 		this.quote = quote;
 		this.showMajor = showMajor;
@@ -58,12 +63,20 @@ public class Slide {
 		this.clubs = clubs;
 		this.slideFN = slideFN;
 		this.slideLN = slideLN;
-		this.audio = a;
-		this.video = v;
-		this.photo = p;
+		this.hasAudio = hasAudio;
+		this.hasVideo = hasPhoto;
+		this.hasPhoto = hasVideo;
 	}
 	
 	// GETTERS AND SETTERS
+	
+	public void setSlideId(int id){
+		this.slideId = id;
+	}
+	
+	public int getSlideId(){
+		return slideId;
+	}
 	
 	public void setShowGPA(Boolean value){
 		this.showGPA = value;
@@ -81,7 +94,7 @@ public class Slide {
 		return quote;
 	}
 	
-	public void setShowMajorA(Boolean value){
+	public void setShowMajor(Boolean value){
 		this.showMajor = value;
 	}
 	
@@ -143,6 +156,38 @@ public class Slide {
 	
 	public String getStudentEmail(){
 		return studentEmail;
+	}
+	
+	public void setHasAudio(boolean hasAudio){
+		this.hasAudio = hasAudio;
+	}
+	
+	public boolean getHasAudio(){
+		return hasAudio;
+	}
+	
+	public void setHasPhoto(boolean hasPhoto){
+		this.hasPhoto = hasPhoto;
+	}
+	
+	public boolean getHasPhoto(){
+		return hasPhoto;
+	}
+	
+	public void setHasVideo(boolean hasVideo){
+		this.hasVideo = hasVideo;
+	}
+	
+	public boolean getHasVideo(){
+		return hasVideo;
+	}
+	
+	public void setApproved(boolean approved){
+		this.approved = approved;
+	}
+	
+	public boolean getApproved(){
+		return approved;
 	}
 	
 	// After further inspection, they belong in a controller - ANM
