@@ -1,2 +1,5 @@
+/controller/
 /database/
+/model/
 /servlet/
+  *.db
