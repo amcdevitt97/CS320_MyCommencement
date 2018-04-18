@@ -1,4 +1,7 @@
 /test-bin/
 *.db
 *.class
+**/*.class
+bin/
+.DS_Store
 war/WEB-INF/classes
