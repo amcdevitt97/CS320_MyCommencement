@@ -2,4 +2,5 @@
 /database/
 /model/
 /servlet/
-  *.db
+*.db
+*.class
