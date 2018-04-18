@@ -1,0 +1,4 @@
+/test-bin/
+*.db
+*.class
+war/WEB-INF/classes

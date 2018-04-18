@@ -1,18 +1,9 @@
-<<<<<<< HEAD
 ----------------------------------------------------------------
-Thu Apr 05 12:08:35 EDT 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0162-9691-1b4b-000006ccaa58 
-on database directory C:\Users\chris\git\CS320_MyCommencement\CS320_My Commencement\test.db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Mon Apr 16 13:31:57 EDT 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0162-cf83-6575-000006ccbe98 
+on database directory C:\CS320-2018\library.db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 Loaded from file:/C:/Users/chris/git/CS320_MyCommencement/CS320_My%20Commencement/lib/derby.jar
-=======
-----------------------------------------------------------------
-Thu Apr 05 14:24:02 EDT 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0162-970d-2009-0000030fdbd0 
-on database directory /Users/alyssamcdevitt/git/CS320_MyCommencement/CS320_My Commencement/test.db with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
-Loaded from file:/Users/alyssamcdevitt/git/CS320_MyCommencement/CS320_My%20Commencement/lib/derby.jar
->>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 java.vendor=Oracle Corporation
-<<<<<<< HEAD
 java.runtime.version=1.8.0_144-b01
 user.dir=C:\Users\chris\git\CS320_MyCommencement\CS320_My Commencement
 os.name=Windows 10
@@ -20,12 +11,3 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
-=======
-java.runtime.version=1.8.0_91-b14
-user.dir=/Users/alyssamcdevitt/git/CS320_MyCommencement/CS320_My Commencement
-os.name=Mac OS X
-os.arch=x86_64
-os.version=10.12.6
-derby.system.home=null
-Database Class Loader started - derby.database.classpath=''
->>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git

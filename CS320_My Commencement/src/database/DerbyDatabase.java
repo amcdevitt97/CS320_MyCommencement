@@ -717,7 +717,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	public Connection connect() throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:derby:test.db;create=true");
+		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-2018/library.db;create=true");
 
 		// Set autocommit to false to allow execution of
 		// multiple queries/statements as part of the same transaction.
@@ -972,17 +972,17 @@ public class DerbyDatabase implements IDatabase {
 					stmt4 = conn.prepareStatement("DROP TABLE audio");
 					stmt5 = conn.prepareStatement("DROP TABLE videos");
 					stmt6 = conn.prepareStatement("DROP TABLE photos");
-					stmt7 = conn.prepareStatement("DROP TABLE review");
+					//stmt7 = conn.prepareStatement("DROP TABLE review");
 
 
 
-					stmt1.executeUpdate();
+					stmt1.executeUpdate();									//Please
 					stmt2.executeUpdate();
 					stmt3.executeUpdate();
 					stmt4.executeUpdate();
 					stmt5.executeUpdate();
 					stmt6.executeUpdate();
-					stmt7.executeUpdate();
+					//stmt7.executeUpdate();
 
 					conn.commit();
 				}catch(SQLException e){
@@ -995,7 +995,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt4);
 					DBUtil.closeQuietly(stmt5);
 					DBUtil.closeQuietly(stmt6);
-					DBUtil.closeQuietly(stmt7);
+					//DBUtil.closeQuietly(stmt7);
 				}
 				return true;
 			}
