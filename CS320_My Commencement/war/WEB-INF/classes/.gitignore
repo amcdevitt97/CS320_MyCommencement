@@ -1,6 +1,0 @@
-/controller/
-/database/
-/model/
-/servlet/
-*.db
-*.class
