@@ -23,55 +23,14 @@
 	<!-- left-sided content -->
 	<div class="left" style="height:430px">
 		<h3><%= request.getAttribute("fn") %>'s Students</h3>
-		<div class="studentList">
-			<div class="studentRowOdd"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowEven"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowOdd"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowEven"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowOdd"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowEven"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowOdd"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowEven"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowOdd"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowEven"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowOdd"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowEven"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowOdd"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowEven"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowOdd"> 
-				<p> A Student </p>
-			</div>
-			<div class="studentRowEven"> 
-				<p> A Student </p>
-			</div>
+		<div class="studentList" >
+		<table style="width:380px;">
+		<c:forEach items="${students}" var="student">
+			<tr class="studentRowOdd" >
+				<td>${student.firstname} ${student.lastname}</td>           
+			</tr>
+		</c:forEach>
+		</table>
 		</div>
 
 	</div>

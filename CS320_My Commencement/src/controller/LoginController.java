@@ -27,10 +27,10 @@ public class LoginController {
 		return isStudentValue;
 	}
 	
-	public void checkReviewSlide(boolean showGPA, boolean hasPhoto, boolean hasAudio, boolean hasQuote, boolean hasVideo, boolean showMajor, boolean showMinor, boolean showHonors, boolean showSports, boolean showClubs, boolean showFN, boolean showLN, String explination, String email) {
+	/*public void checkReviewSlide(boolean showGPA, boolean hasPhoto, boolean hasAudio, boolean hasQuote, boolean hasVideo, boolean showMajor, boolean showMinor, boolean showHonors, boolean showSports, boolean showClubs, boolean showFN, boolean showLN, String explination, String email) {
 		this.database.addReview(showGPA, hasQuote, hasPhoto, hasAudio, hasVideo, showMajor, showMinor, showHonors, showSports, showClubs, showFN, showLN, explination, email);
 		this.database.getReviewSlide(email);
-	}
+	}*/
 	
 }
 

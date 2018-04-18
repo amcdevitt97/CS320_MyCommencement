@@ -235,13 +235,12 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public String getStudentsForAdvisorEmail(String email) {
-		return executeTransaction(new Transaction<String>() {
+	public List<Student> getStudentsForAdvisorEmail(String email) {
+		return executeTransaction(new Transaction<List<Student>>() {
 			@Override
-			public String execute(Connection conn) throws SQLException {
+			public List<Student> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
-				String dump = "All Students beloning to "+email+ ": ";
 				List<Student> result = new ArrayList<Student>();
 				try {
 					stmt = conn.prepareStatement(
@@ -256,9 +255,8 @@ public class DerbyDatabase implements IDatabase {
 						Student student = new Student(0, null, null, null, null, 0.0, null, null, null);
 						loadStudent(student, resultSet, 1);
 						result.add(student);
-						dump += student.getFirstname()+" "+student.getLastname() +", ";
 					}
-					return dump;
+					return result;
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -352,6 +350,39 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}  
 	
+	public Slide getSlideForEmail(String email) {
+		return executeTransaction(new Transaction<Slide>() {
+			@Override
+			public Slide execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				Slide slide= null;
+				List<Slide> result = new ArrayList<Slide>();
+				try {
+					stmt = conn.prepareStatement(
+							"select * " +
+							"  from slides " +
+							" where slides.studentEmail = ?" 
+					);
+					stmt.setString(1, email);
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						slide = new Slide();
+						loadSlide(slide, resultSet, 1);
+						result.add(slide);
+					}
+					return result.get(0);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});															
+	}
+	
+	/*
 	public String getSlideFNForEmail(String email) {
 		return executeTransaction(new Transaction<String>() {
 			@Override
@@ -407,6 +438,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	*/
 	
 	public Double getGPAForEmail(String email) {
 		return executeTransaction(new Transaction<Double>() {
@@ -427,7 +459,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					while (resultSet.next()) {
 						
-						Student student = new Student(0, null, null, null, null, null, null, null, null);
+						Student student = new Student(1, "blank", "blank", "blank", "blank", 0.0, "blank", "blank", "blank");
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
@@ -460,7 +492,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					while (resultSet.next()) {
 						
-						Student student = new Student(0, null, null, null, null, null, null, null, null);
+						Student student = new Student(1, "blank", "blank", "blank", "blank", 0.0, "blank", "blank", "blank");
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
@@ -493,12 +525,13 @@ public class DerbyDatabase implements IDatabase {
 					
 					while (resultSet.next()) {
 						
-						Student student = new Student(0, null, null, null, null, null, null, null, null);
+						Student student = new Student(1, "blank", "blank", "blank", "blank", 0.0, "blank", "blank", "blank");
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
 					System.out.println(result.get(0).getMinor());
 					return result.get(0).getMinor();
+					
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);

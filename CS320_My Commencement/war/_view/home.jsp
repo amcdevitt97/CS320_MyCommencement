@@ -4,6 +4,7 @@
 
 <html>
 <head>
+<title>MyCommencement - <%= request.getAttribute("fn") %>'s slide </title>
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
@@ -66,8 +67,13 @@
 				
 				<h3><b><u> <%= request.getAttribute("slideFN") %> <%= request.getAttribute("slideLN") %></b></u></h3>
 					<div class="attributes">
-						<p>Major: <%= request.getAttribute("major") %></p>
-						<p>Minor:<%= request.getAttribute("minor") %> </p>
+					
+						<!--<c:set var = "serverMajor" value = ""/>
+      					<c:if test = "${major != null}">
+      					</c:if>-->
+         				
+         				<p>Major: <%= request.getAttribute("majorView") %></p>
+						<p>Minor:<%= request.getAttribute("minorView") %> </p>
 						<p>Honors: <%= request.getAttribute("honors") %></p>
 						<p>Sports: <%= request.getAttribute("sports") %></p>
 						<p>Clubs: <%= request.getAttribute("clubs") %></p>
