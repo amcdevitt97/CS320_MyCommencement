@@ -11,18 +11,18 @@ import javax.activation.*;
 public class Slide {
 	private int slideId;
 	private boolean showGPA;
-	private boolean quote;
+	private String quote;
 	private boolean hasPhoto;
 	private boolean hasVideo;
 	private boolean hasAudio;
 	private boolean showMajor;
 	private boolean showMinor;	
 	private boolean approved;
-	private boolean honors;
-	private boolean sports;
-	private boolean clubs;
-	private boolean slideFN;
-	private boolean slideLN;
+	private String honors;
+	private String sports;
+	private String clubs;
+	private String slideFN;
+	private String slideLN;
 	private String studentEmail;
 	//private ArrayList<String> stringsToCheck;
 	//private Scanner scan;
@@ -32,14 +32,14 @@ public class Slide {
 	public Slide() {
 		slideId = 0;
 		showGPA = true;
-		quote = true;
+		quote = null;
 		showMajor = true;
 		showMinor = true;
-		honors = true;
-		sports = true;
-		clubs = true;
-		slideFN = true;
-		slideLN = true;
+		honors = null;
+		sports = null;
+		clubs = null;
+		slideFN = null;
+		slideLN = null;
 		hasPhoto = true;
 		hasVideo = true;
 		hasAudio = true;
@@ -48,7 +48,7 @@ public class Slide {
 		//stringsToCheck = new ArrayList<String>();
 	}
 	
-	public Slide(int slideId, boolean gpa, boolean quote, boolean major, boolean minor, boolean honors, boolean sports, boolean clubs, boolean slideFN, boolean slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String studentEmail, boolean approved) {
+	public Slide(int slideId, boolean gpa, String quote, boolean major, boolean minor, String honors, String sports, String clubs, String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String studentEmail, boolean approved) {
 		this.slideId = slideId;
 		this.showGPA = gpa;
 		this.quote = quote;
@@ -82,11 +82,11 @@ public class Slide {
 		return showGPA;
 	}
 	
-	public void setQuote(boolean quote){
+	public void setQuote(String quote){
 		this.quote = quote;
 	}
 	
-	public boolean getQuote(){
+	public String getQuote(){
 		return quote;
 	}
 	
@@ -106,43 +106,43 @@ public class Slide {
 		return showMinor;
 	}
 	
-	public void setHonors(boolean honors){
+	public void setHonors(String honors){
 		this.honors = honors;
 	}
 	
-	public boolean getHonors(){
+	public String getHonors(){
 		return honors;
 	}
 	
-	public void setClubs(boolean clubs){
+	public void setClubs(String clubs){
 		this.clubs = clubs;
 	}
 	
-	public boolean getClubs(){
+	public String getClubs(){
 		return clubs;
 	}
 	
-	public void setSports(boolean sports){
+	public void setSports(String sports){
 		this.sports = sports;
 	}
 	
-	public boolean getSports(){
+	public String getSports(){
 		return sports;
 	}
 	
-	public void setSlideFN(boolean slideFN){
+	public void setSlideFN(String slideFN){
 		this.slideFN = slideFN;
 	}
 	
-	public boolean getSlideFN(){
+	public String getSlideFN(){
 		return slideFN;
 	}
 	
-	public void setSlideLN(boolean slideLN){
+	public void setSlideLN(String slideLN){
 		this.slideLN = slideLN;
 	}
 	
-	public boolean getSlideLN(){
+	public String getSlideLN(){
 		return slideLN;
 	}
 	
