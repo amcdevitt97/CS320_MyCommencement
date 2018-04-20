@@ -301,8 +301,7 @@ public class DerbyDatabase implements IDatabase {
 	
 	// SLIDE RELATED QUERIES
 	
-	
-	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+	public void addSlide(boolean slideFN, boolean slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, boolean quote, boolean honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -323,16 +322,21 @@ public class DerbyDatabase implements IDatabase {
 					int major = showMajor? 1 : 0;
 					int minor = showMinor? 1 : 0;
 					int approved = slideApproved? 1 : 0;
+					int first = slideFN? 1 : 0;
+					int last = slideLN? 1 : 0;
+					int q = quote? 1 : 0;
+					int h = honors? 1 : 0;
+					
 					
 					insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
 					
-					insertSlide.setString(1, slideFN);
-					insertSlide.setString(2, slideLN);
+					insertSlide.setInt(1, last);
+					insertSlide.setInt(2, last);
 					insertSlide.setInt(3, photo);
 					insertSlide.setInt(4, audio);
 					insertSlide.setInt(5, video);
-					insertSlide.setString(6, quote);
-					insertSlide.setString(7, honors);
+					insertSlide.setInt(6, q);
+					insertSlide.setInt(7, h);
 					insertSlide.setInt(8, gpa);
 					insertSlide.setInt(9, major);
 					insertSlide.setInt(10, minor);
@@ -720,8 +724,19 @@ public class DerbyDatabase implements IDatabase {
 		
 		
 		slide.setSlideId(resultSet.getInt(index++));
-		slide.setSlideFN(resultSet.getString(index++));
-		slide.setSlideLN(resultSet.getString(index++));
+		if (resultSet.getInt(index++) == 1) {
+			slide.setSlideFN(true);
+		}
+		else {
+			slide.setSlideFN(false);
+		}
+		slide.setSlideId(resultSet.getInt(index++));
+		if (resultSet.getInt(index++) == 1) {
+			slide.setSlideLN(true);
+		}
+		else {
+			slide.setSlideLN(false);
+		}
 		
 		// CONVERTS DATABASE VALUE OF 1 OR 0 TO A TRUE OR FALSE 
 		if(resultSet.getInt(index++) == 1 ){
@@ -744,9 +759,29 @@ public class DerbyDatabase implements IDatabase {
 		else{
 			slide.setHasVideo(false);
 		}
-		slide.setQuote(resultSet.getString(index++));
-		slide.setClubs(resultSet.getString(index++));
-		slide.setHonors(resultSet.getString(index++));
+		
+		
+		if (resultSet.getInt(index++) == 1) {
+			slide.setQuote(true);
+		}
+		else {
+			slide.setQuote(false);
+		}
+		slide.setSlideId(resultSet.getInt(index++));
+		
+		
+		if (resultSet.getInt(index++) == 1) {
+			slide.setClubs(true);
+		}
+		else {
+			slide.setClubs(false);
+		}
+		if (resultSet.getInt(index++) == 1) {
+			slide.setHonors(true);
+		}
+		else {
+			slide.setHonors(false);
+		}
 		// CONVERTS DATABASE VALUE OF 1 OR 0 TO A TRUE OR FALSE 
 		if(resultSet.getInt(index++) == 1 ){
 			slide.setShowGPA(true);
@@ -836,14 +871,14 @@ public class DerbyDatabase implements IDatabase {
 							"create table slides (" +
 									"	slide_id integer primary key " +
 									"		generated always as identity (start with 1, increment by 1), " +
-									"	slideFN varchar(70)," +
-									"	slideLN varchar(70)," +
+									"	slideFN int," +
+									"	slideLN int," +
 									"	hasPhoto int," +
 									"	hasAudio int," +
 									"	hasVideo int," +
-									"	quote varchar(70)," +
-									"	clubs varchar(70)," +
-									"	honors varchar(70)," +
+									"	quote int," +
+									"	clubs int," +
+									"	honors int," +
 									"	showGPA int," +
 									"	showMajor int," +
 									"	showMinor int," +
@@ -902,7 +937,28 @@ public class DerbyDatabase implements IDatabase {
 					
 					// TODO: REVIEW TABLE CREATION
 					
-
+					stmt7 = conn.prepareStatement(
+							"create table review (" +
+									"	review_id integer primary key " +
+									"		generated always as identity (start with 1, increment by 1), " +
+									"	gpa int," +
+									"	quote int," +
+									"	photo int," +
+									"	audio int," +
+									"	video int," +
+									"	major int," +
+									"	minor int," +
+									"	honors int," +
+									"	sports int," +
+									"	clubs int," +
+									"	firstName int," +
+									"	lastName int," +
+									"	Explination varchar(70)," +
+									"	studentEmail varchar(70)" +
+									")"
+							);
+					stmt7.executeUpdate();
+					System.out.println("----Successfully Created Review Table---- ");
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
@@ -939,7 +995,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt4 = conn.prepareStatement("DROP TABLE audio");
 					stmt5 = conn.prepareStatement("DROP TABLE videos");
 					stmt6 = conn.prepareStatement("DROP TABLE photos");
-					//stmt7 = conn.prepareStatement("DROP TABLE review");
+					stmt7 = conn.prepareStatement("DROP TABLE review");
 
 
 
@@ -949,7 +1005,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt4.executeUpdate();
 					stmt5.executeUpdate();
 					stmt6.executeUpdate();
-					//stmt7.executeUpdate();
+					stmt7.executeUpdate();
 
 					conn.commit();
 				}catch(SQLException e){
@@ -962,7 +1018,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt4);
 					DBUtil.closeQuietly(stmt5);
 					DBUtil.closeQuietly(stmt6);
-					//DBUtil.closeQuietly(stmt7);
+					DBUtil.closeQuietly(stmt7);
 				}
 				return true;
 			}
@@ -1028,9 +1084,6 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 
-	
-
-
 	public static void main(String[] args) throws SQLException {
 		System.out.println("----Loading Database Driver---- ");
 		DatabaseProvider.setInstance(new DerbyDatabase());
@@ -1066,6 +1119,9 @@ public class DerbyDatabase implements IDatabase {
 		in.close();
 		DBUtil.closeQuietly(conn);
 	}
+
+
+	
 
 	
 

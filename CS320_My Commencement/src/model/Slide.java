@@ -3,30 +3,26 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-//File Name SendEmail.java
 import java.util.*;
-//import javax.mail.*;
-//import javax.mail.internet.*;
-
-
-
+import javax.mail.*;
+import javax.mail.internet.*;
 import javax.activation.*;
 
 public class Slide {
 	private int slideId;
 	private boolean showGPA;
-	private String quote;
+	private boolean quote;
 	private boolean hasPhoto;
 	private boolean hasVideo;
 	private boolean hasAudio;
 	private boolean showMajor;
 	private boolean showMinor;	
 	private boolean approved;
-	private String honors;
-	private String sports;
-	private String clubs;
-	private String slideFN;
-	private String slideLN;
+	private boolean honors;
+	private boolean sports;
+	private boolean clubs;
+	private boolean slideFN;
+	private boolean slideLN;
 	private String studentEmail;
 	//private ArrayList<String> stringsToCheck;
 	//private Scanner scan;
@@ -36,28 +32,28 @@ public class Slide {
 	public Slide() {
 		slideId = 0;
 		showGPA = true;
-		quote = null;
+		quote = true;
 		showMajor = true;
 		showMinor = true;
-		honors = null;
-		sports = null;
-		clubs = null;
-		slideFN = null;
-		slideLN = null;
-		hasPhoto = false;
-		hasVideo = false;
-		hasAudio = false;
-		approved = false;
+		honors = true;
+		sports = true;
+		clubs = true;
+		slideFN = true;
+		slideLN = true;
+		hasPhoto = true;
+		hasVideo = true;
+		hasAudio = true;
+		approved = true;
 		studentEmail = null;
 		//stringsToCheck = new ArrayList<String>();
-		
 	}
-	public Slide(int slideId, boolean gpa, String quote, boolean showMajor, boolean showMinor, String honors, String sports, String clubs, String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String studentEmail, boolean approved) {
+	
+	public Slide(int slideId, boolean gpa, boolean quote, boolean major, boolean minor, boolean honors, boolean sports, boolean clubs, boolean slideFN, boolean slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String studentEmail, boolean approved) {
 		this.slideId = slideId;
 		this.showGPA = gpa;
 		this.quote = quote;
-		this.showMajor = showMajor;
-		this.showMinor = showMinor;
+		this.showMajor = major;
+		this.showMinor = minor;
 		this.honors = honors;
 		this.sports = sports;
 		this.clubs = clubs;
@@ -86,11 +82,11 @@ public class Slide {
 		return showGPA;
 	}
 	
-	public void setQuote(String quote){
+	public void setQuote(boolean quote){
 		this.quote = quote;
 	}
 	
-	public String getQuote(){
+	public boolean getQuote(){
 		return quote;
 	}
 	
@@ -110,43 +106,43 @@ public class Slide {
 		return showMinor;
 	}
 	
-	public void setHonors(String honors){
+	public void setHonors(boolean honors){
 		this.honors = honors;
 	}
 	
-	public String getHonors(){
+	public boolean getHonors(){
 		return honors;
 	}
 	
-	public void setClubs(String clubs){
+	public void setClubs(boolean clubs){
 		this.clubs = clubs;
 	}
 	
-	public String getClubs(){
+	public boolean getClubs(){
 		return clubs;
 	}
 	
-	public void setSports(String sports){
+	public void setSports(boolean sports){
 		this.sports = sports;
 	}
 	
-	public String getSports(){
+	public boolean getSports(){
 		return sports;
 	}
 	
-	public void setSlideFN(String slideFN){
+	public void setSlideFN(boolean slideFN){
 		this.slideFN = slideFN;
 	}
 	
-	public String getSlideFN(){
+	public boolean getSlideFN(){
 		return slideFN;
 	}
 	
-	public void setSlideLN(String slideLN){
+	public void setSlideLN(boolean slideLN){
 		this.slideLN = slideLN;
 	}
 	
-	public String getSlideLN(){
+	public boolean getSlideLN(){
 		return slideLN;
 	}
 	
@@ -253,47 +249,44 @@ public class Slide {
 		
 	}
 	*/
-	/*public void emailAdvisor() {
+	public void emailAdvisor() {
 		// Recipient's email ID needs to be mentioned.
-	      String to = "cdeshong1@ycp.edu";
+		final String username = "testchris437@gmail.com";
+		final String password = "DonHake123";
 
-	      // Sender's email ID needs to be mentioned
-	      String from = "cdeshong1@ycp.edu";
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.debug", "true");
 
-	      // Assuming you are sending email from localhost
-	      String host = "localhost";
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
 
-	      // Get system properties
-	      Properties properties = System.getProperties();
+		try {
 
-	      // Setup mail server
-	      properties.setProperty("mail.smtp.host", host);
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(username));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(username));
+			message.setSubject("Testing Subject");
+			message.setText("Dear Mail Crawler,"
+				+ "\n\n No spam to my email, please!");
 
-	      // Get the default Session object.
-	      Session session = Session.getDefaultInstance(properties);
+			Transport.send(message);
 
-	      try {
-	         // Create a default MimeMessage object.
-	         MimeMessage message = new MimeMessage(session);
+			System.out.println("Done");
 
-	         // Set From: header field of the header.
-	         message.setFrom(new InternetAddress(from));
-
-	         // Set To: header field of the header.
-	         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-	         // Set Subject: header field
-	         message.setSubject("This is the Subject Line!");
-
-	         // Now set the actual message
-	         message.setText("Testing");
-
-	         // Send message
-	         Transport.send(message);
-	         System.out.println("Sent message successfully....");
-	      } catch (MessagingException mex) {
-	         mex.printStackTrace();
-	      }
-	}*/
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	
 }
