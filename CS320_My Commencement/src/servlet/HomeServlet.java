@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.AccountController;
+import controller.LoginController;
+import controller.SlideController;
 import model.Account;
+import model.Slide;
 
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,9 +31,19 @@ public class HomeServlet extends HttpServlet {
 				}
 				Account model = new Account();
 				AccountController controller = new AccountController(model);
+				
 				String userFirstName = controller.getFirstnameForEmail(email);
 				System.out.println(userFirstName);
 				req.getSession().setAttribute("fn", userFirstName);
+				
+				LoginController logCont = new LoginController(model);
+				if(logCont.isStudent(email)){
+					SlideController slideCont = new SlideController(null); 
+					Slide slide= slideCont.getSlideForEmail(email);
+					System.out.println(slide.getHonors());
+					System.out.println(slide.getClubs());
+					System.out.println(slide.getQuote());
+				}
 				
 				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);	
 	}

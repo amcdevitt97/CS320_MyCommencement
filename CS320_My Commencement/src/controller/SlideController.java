@@ -34,5 +34,10 @@ public class SlideController {
 		String students = database.getMinorForEmail(email);
 		return students;
 	}
+	
+	public Slide getSlideForEmail(String email){
+		Slide slide = database.getSlideForEmail(email);
+		return slide;
+	}
 
 }

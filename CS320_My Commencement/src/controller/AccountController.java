@@ -1,6 +1,10 @@
 package controller;
 
 import database.IDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import database.DatabaseProvider;
 import database.DerbyDatabase;
 import model.Account;
@@ -26,14 +30,8 @@ public class AccountController {
 		return firstname;
 	}
 	
-	public String getStudentsForAdvisor(String email){
-		String students = database.getStudentsForAdvisorEmail(email);
+	public List<Student> getStudentsForAdvisor(String email){
+		List<Student> students = database.getStudentsForAdvisorEmail(email);
 		return students;
 	}
-	
-	public Student getStudentForEmail(String email){
-		Student student = database.getStudentForEmail(email);
-		return student;
-	}
-
 }

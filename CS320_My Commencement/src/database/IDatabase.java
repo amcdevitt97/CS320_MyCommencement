@@ -6,6 +6,7 @@ import java.util.List;
 import model.Account;
 import model.Student;
 import model.Advisor;
+import model.Slide;
 
 public interface IDatabase {
 	//	CREATION
@@ -23,13 +24,14 @@ public interface IDatabase {
 	// UX DATA
 	public String getFirstNameForEmail(String email);
 	public String getLastNameForEmail(String email);
-	public String getStudentsForAdvisorEmail(String email);
+	public List<Student> getStudentsForAdvisorEmail(String email);
 	
 	// SLIDE DATA
 	public void addSlide(boolean slideFN, boolean slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, boolean quote, boolean honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
 	public Double getGPAForEmail(String email);
 	public String getMajorForEmail(String email);
 	public String getMinorForEmail(String email);
+	public Slide getSlideForEmail(String email);
 	
 	// THESE NEED MADE: 
 	//public void addReview(boolean showGPA, boolean hasQuote, boolean hasPhoto, boolean hasAudio, boolean hasVideo, boolean showMajor, boolean showMinor, boolean showHonors, boolean showSports, boolean showClubs, boolean showFN, boolean showLN, String explination, String email);

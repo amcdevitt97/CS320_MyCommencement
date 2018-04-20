@@ -26,19 +26,18 @@ margin-right:50px;
 }
 
 #logOut{
-position:relative;
-top:10px;
-font: 15px Arial, sans-serif;
-color: white;
-text-decoration: none;
-display:block;
-float:right;
-background-color:red;
-width: 150px;
-height:35px;
-margin-right:150px;
-text-align:center;
-padding-top:15px;
+    position: relative;
+    bottom: 20px;
+    font: 15px Arial, sans-serif;
+    color: white;
+    text-decoration: none;
+    display: block;
+    float: right;
+    background-color: red;
+    width: 150px;
+    height: 45px;
+    margin-right: 150px;
+    text-align: center;
 }
 
 #content{
@@ -50,7 +49,7 @@ margin-top:115px;
 position:relative;
 left:50px;
 width:370px;
-height:530px;
+height:630px;
 background-color: #000066;
 float:left;
 display:block;
@@ -63,6 +62,11 @@ padding-bottom:30px;
 .left h3{
 font: 20px Arial, sans-serif;
 text-align:center;
+}
+
+.left td{
+font: 15px Arial, sans-serif;
+width:100%;
 }
 
 .left p{
@@ -182,18 +186,17 @@ bottom:200px;
 }
 
 #saveButton{
-position:relative;
+position: relative;
 font: 15px Arial, sans-serif;
 color: white;
 text-decoration: none;
-display:block;
-text-align:center;
-padding-top:15px;
-right:100px;
-top:500px;
-background-color:#79c64f;
+display: block;
+text-align: center;
+right: 100px;
+top: 500px;
+background-color: #79c64f;
 width: 150px;
-height:35px;
+height: 45px;
 float: left;
 }
 
@@ -256,5 +259,18 @@ background-color:white;
 font: 20px Arial, sans-serif;
 color:red;
 text-align:center;
+}
+
+#checklist{
+position:fixed;
+left: 0px;
+bottom:0px;
+float: none;
+width:100% !important;
+height:100px;
+background-color: #003366;
+z-index:99;
+font: 15px Arial, sans-serif;
+color: white;
 }
 

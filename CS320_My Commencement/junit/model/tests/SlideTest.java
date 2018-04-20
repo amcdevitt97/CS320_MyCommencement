@@ -9,15 +9,10 @@ import model.*;
 
 public class SlideTest {
 
-	// Yeah this is gonna need some work - ANM
-	
-	private Slide slide;
 	private Slide slide1;
-	private Slide slide2;
-	private Slide slide3;
-	private Slide slide4;
-	private Slide slide5;
+	private int slideId;
 	private boolean showGPA;
+
 	private boolean quote;
 	private Photo photo;
 	private Video video;
@@ -33,6 +28,7 @@ public class SlideTest {
 	
 	@Before
 	public void setUp() {
+
 		/*
 		
 		
@@ -70,13 +66,21 @@ public class SlideTest {
 	}
 		/*
 		
+=======
+		slideId=1;
+>>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 		showGPA = true;
 		quote = "I love my school";
-		major = "Computer Science";
-		minor = "Math";
-		honors = "YESSSS";
+		hasPhoto = true;
+		hasVideo = true;
+		hasAudio= true;
+		showMajor = true;
+		showMinor = true;
+		approved = false;
+		honors = "Validvictorian";
 		sports = "Baseball";
 		clubs = "Paintball";
+<<<<<<< HEAD
 		slideFN = "Jules";
 		slideLN = "Gleason";
 		photo = new Photo();
@@ -221,9 +225,108 @@ public class SlideTest {
 		video.setSeconds(15);
 		//slide5 = new Slide(showGPA, quote, major, minor, honors,sports, clubs, slideFN, slideLN,photo, audio, video);
 		
+=======
+		slideFN = "Julie";
+		slideLN = "Jones";
+		slide = new Slide(slideId, showGPA, quote, showMajor, showMinor, honors, sports, clubs, slideFN, slideLN, hasPhoto, hasAudio, hasVideo, studentEmail, approved);
+>>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 	}
 	
+
+	// GETTERS AND SETTERS
 	
+	@Test
+	public void testSetSlideID(){
+		slide.setSlideId(7);
+		assertEquals (7, slide.getSlideId());
+	}
+	
+	@Test
+	public void testSetShowGPA(){
+		slide.setShowGPA(false);
+		assertEquals (false, slide.getShowGPA());
+	}
+	
+	@Test
+	public void testSetQuote(){
+		slide.setQuote("my quote");
+		assertEquals ("my quote", slide.getQuote());
+	}
+	
+	@Test
+	public void testSetHasPhoto(){
+		slide.setHasPhoto(false);
+		assertEquals (false, slide.getHasPhoto());
+	}
+	
+	@Test
+	public void testSetHasAudio(){
+		slide.setHasAudio(false);
+		assertEquals (false, slide.getHasAudio());
+	}
+	
+	@Test
+	public void testSetHasVideo(){
+		slide.setHasVideo(false);
+		assertEquals (false, slide.getHasVideo());
+	}
+
+	@Test
+	public void testSetShowMajor(){
+		slide.setShowMajor(false);
+		assertEquals (false, slide.getShowMajor());
+	}
+	
+	@Test
+	public void testSetShowMinor(){
+		slide.setShowMinor(false);
+		assertEquals (false, slide.getShowMinor());
+	}
+
+	@Test
+	public void testSetApproved(){
+		slide.setApproved(true);
+		assertEquals (true, slide.getApproved());
+	}
+	
+	@Test
+	public void testSetHonors(){
+		slide.setHonors("meme queen");
+		assertEquals ("meme queen", slide.getHonors());
+	}
+	
+	@Test
+	public void testSetSports(){
+		slide.setSports("underwater basketweaving");
+		assertEquals ("underwater basketweaving", slide.getSports());
+	}
+	
+	@Test
+	public void testSetClubs(){
+		slide.setClubs("Anime club");
+		assertEquals ("Anime club", slide.getClubs());
+	}
+	
+	@Test
+	public void testSetSlideFN(){
+		slide.setSlideFN("Doug");
+		assertEquals ("Doug", slide.getSlideFN());
+	}
+	@Test
+	public void testSetSlideLN(){
+		slide.setSlideLN("Dimmadome");
+		assertEquals ("Dimmadome", slide.getSlideLN());
+	}
+	@Test
+	public void testSetEmail(){
+		slide.setStudentEmail("doug@gmail.com");
+		assertEquals ("doug@gmail.com", slide.getStudentEmail());
+	}
+	
+	// TODO: REMOVE AND PLACE IN SLIDECONTROLLER
+	// TESTS THAT BELONG IN THE CONTROLLER
+	
+	/*
 	@Test
 	public void blackListSlide() {
 		//slide.updateSlide();
