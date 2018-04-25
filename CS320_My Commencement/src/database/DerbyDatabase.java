@@ -299,7 +299,8 @@ public class DerbyDatabase implements IDatabase {
 	
 	// SLIDE RELATED QUERIES
 	
-	public void addSlide(boolean slideFN, boolean slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, boolean quote, boolean honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+	
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -320,21 +321,18 @@ public class DerbyDatabase implements IDatabase {
 					int major = showMajor? 1 : 0;
 					int minor = showMinor? 1 : 0;
 					int approved = slideApproved? 1 : 0;
-					int first = slideFN? 1 : 0;
-					int last = slideLN? 1 : 0;
-					int q = quote? 1 : 0;
-					int h = honors? 1 : 0;
+					
 					
 					
 					insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
 					
-					insertSlide.setInt(1, last);
-					insertSlide.setInt(2, last);
+					insertSlide.setString(1, slideFN);
+					insertSlide.setString(2, slideLN);
 					insertSlide.setInt(3, photo);
 					insertSlide.setInt(4, audio);
 					insertSlide.setInt(5, video);
-					insertSlide.setInt(6, q);
-					insertSlide.setInt(7, h);
+					insertSlide.setString(6, quote);
+					insertSlide.setString(7, honors);
 					insertSlide.setInt(8, gpa);
 					insertSlide.setInt(9, major);
 					insertSlide.setInt(10, minor);
@@ -757,19 +755,8 @@ public class DerbyDatabase implements IDatabase {
 		
 		
 		slide.setSlideId(resultSet.getInt(index++));
-		if (resultSet.getInt(index++) == 1) {
-			slide.setSlideFN(true);
-		}
-		else {
-			slide.setSlideFN(false);
-		}
-		slide.setSlideId(resultSet.getInt(index++));
-		if (resultSet.getInt(index++) == 1) {
-			slide.setSlideLN(true);
-		}
-		else {
-			slide.setSlideLN(false);
-		}
+		slide.setSlideFN(resultSet.getString(index++));
+		slide.setSlideLN(resultSet.getString(index++));
 		
 		// CONVERTS DATABASE VALUE OF 1 OR 0 TO A TRUE OR FALSE 
 		if(resultSet.getInt(index++) == 1 ){
@@ -793,28 +780,11 @@ public class DerbyDatabase implements IDatabase {
 			slide.setHasVideo(false);
 		}
 		
+		slide.setQuote(resultSet.getString(index++));
 		
-		if (resultSet.getInt(index++) == 1) {
-			slide.setQuote(true);
-		}
-		else {
-			slide.setQuote(false);
-		}
-		slide.setSlideId(resultSet.getInt(index++));
+		slide.setClubs(resultSet.getString(index++));
+		slide.setHonors(resultSet.getString(index++));
 		
-		
-		if (resultSet.getInt(index++) == 1) {
-			slide.setClubs(true);
-		}
-		else {
-			slide.setClubs(false);
-		}
-		if (resultSet.getInt(index++) == 1) {
-			slide.setHonors(true);
-		}
-		else {
-			slide.setHonors(false);
-		}
 		// CONVERTS DATABASE VALUE OF 1 OR 0 TO A TRUE OR FALSE 
 		if(resultSet.getInt(index++) == 1 ){
 			slide.setShowGPA(true);

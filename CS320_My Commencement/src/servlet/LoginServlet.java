@@ -85,7 +85,7 @@ public class LoginServlet extends HttpServlet {
 				
 				// SETS SLIDE ATTRIBUTES FROM DB
 				SlideController slideCont = new SlideController(null); 
-				Slide slide= slideCont.getSlideForEmail(email);
+				/*Slide slide= slideCont.getSlideForEmail(email);
 				System.out.println(slide.getHonors());
 				req.getSession().setAttribute("slideFN", slide.getSlideFN());
 				req.getSession().setAttribute("slideLN", slide.getSlideLN());
@@ -104,7 +104,7 @@ public class LoginServlet extends HttpServlet {
 					req.getSession().setAttribute("gpa", studController.getGPAForEmail(email));
 				}
 				req.getSession().setAttribute("quote", slide.getQuote());
-				
+				*/
 				System.out.println("   Valid login - starting session, redirecting to /home");
 				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);						
 			}
