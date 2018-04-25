@@ -2,3 +2,4 @@
 *.db
 *.class
 war/WEB-INF/classes
+/bin/
