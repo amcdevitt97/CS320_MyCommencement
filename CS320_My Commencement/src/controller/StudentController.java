@@ -35,4 +35,8 @@ public class StudentController {
 		return students;
 	}
 
+	public Student getStudentForEmail(String email){
+		Student student = database.getStudentForEmail(email);
+		return student;
+	}
 }

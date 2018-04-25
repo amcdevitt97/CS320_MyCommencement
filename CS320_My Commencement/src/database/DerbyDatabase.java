@@ -235,13 +235,12 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public String getStudentsForAdvisorEmail(String email) {
-		return executeTransaction(new Transaction<String>() {
+	public List<Student> getStudentsForAdvisorEmail(String email) {
+		return executeTransaction(new Transaction<List<Student>>() {
 			@Override
-			public String execute(Connection conn) throws SQLException {
+			public List<Student> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
-				String dump = "All Students beloning to "+email+ ": ";
 				List<Student> result = new ArrayList<Student>();
 				try {
 					stmt = conn.prepareStatement(
@@ -256,9 +255,8 @@ public class DerbyDatabase implements IDatabase {
 						Student student = new Student(0, null, null, null, null, 0.0, null, null, null);
 						loadStudent(student, resultSet, 1);
 						result.add(student);
-						dump += student.getFirstname()+" "+student.getLastname() +", ";
 					}
-					return dump;
+					return result;
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -301,8 +299,8 @@ public class DerbyDatabase implements IDatabase {
 	
 	// SLIDE RELATED QUERIES
 	
-	
 	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+	
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -323,6 +321,8 @@ public class DerbyDatabase implements IDatabase {
 					int major = showMajor? 1 : 0;
 					int minor = showMinor? 1 : 0;
 					int approved = slideApproved? 1 : 0;
+					
+					
 					
 					insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
 					
@@ -352,6 +352,39 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}  
 	
+	public Slide getSlideForEmail(String email) {
+		return executeTransaction(new Transaction<Slide>() {
+			@Override
+			public Slide execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				Slide slide= null;
+				List<Slide> result = new ArrayList<Slide>();
+				try {
+					stmt = conn.prepareStatement(
+							"select * " +
+							"  from slides " +
+							" where slides.studentEmail = ?" 
+					);
+					stmt.setString(1, email);
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						slide = new Slide();
+						loadSlide(slide, resultSet, 1);
+						result.add(slide);
+					}
+					return result.get(0);
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});															
+	}
+	
+	/*
 	public String getSlideFNForEmail(String email) {
 		return executeTransaction(new Transaction<String>() {
 			@Override
@@ -407,6 +440,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	*/
 	
 	public Double getGPAForEmail(String email) {
 		return executeTransaction(new Transaction<Double>() {
@@ -427,7 +461,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					while (resultSet.next()) {
 						
-						Student student = new Student(0, null, null, null, null, null, null, null, null);
+						Student student = new Student(1, "blank", "blank", "blank", "blank", 0.0, "blank", "blank", "blank");
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
@@ -460,7 +494,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					while (resultSet.next()) {
 						
-						Student student = new Student(0, null, null, null, null, null, null, null, null);
+						Student student = new Student(1, "blank", "blank", "blank", "blank", 0.0, "blank", "blank", "blank");
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
@@ -493,12 +527,13 @@ public class DerbyDatabase implements IDatabase {
 					
 					while (resultSet.next()) {
 						
-						Student student = new Student(0, null, null, null, null, null, null, null, null);
+						Student student = new Student(1, "blank", "blank", "blank", "blank", 0.0, "blank", "blank", "blank");
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
 					System.out.println(result.get(0).getMinor());
 					return result.get(0).getMinor();
+					
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -744,9 +779,12 @@ public class DerbyDatabase implements IDatabase {
 		else{
 			slide.setHasVideo(false);
 		}
+		
 		slide.setQuote(resultSet.getString(index++));
+		
 		slide.setClubs(resultSet.getString(index++));
 		slide.setHonors(resultSet.getString(index++));
+		
 		// CONVERTS DATABASE VALUE OF 1 OR 0 TO A TRUE OR FALSE 
 		if(resultSet.getInt(index++) == 1 ){
 			slide.setShowGPA(true);
@@ -836,14 +874,14 @@ public class DerbyDatabase implements IDatabase {
 							"create table slides (" +
 									"	slide_id integer primary key " +
 									"		generated always as identity (start with 1, increment by 1), " +
-									"	slideFN varchar(70)," +
-									"	slideLN varchar(70)," +
+									"	slideFN int," +
+									"	slideLN int," +
 									"	hasPhoto int," +
 									"	hasAudio int," +
 									"	hasVideo int," +
-									"	quote varchar(70)," +
-									"	clubs varchar(70)," +
-									"	honors varchar(70)," +
+									"	quote int," +
+									"	clubs int," +
+									"	honors int," +
 									"	showGPA int," +
 									"	showMajor int," +
 									"	showMinor int," +
@@ -902,7 +940,28 @@ public class DerbyDatabase implements IDatabase {
 					
 					// TODO: REVIEW TABLE CREATION
 					
-
+					stmt7 = conn.prepareStatement(
+							"create table review (" +
+									"	review_id integer primary key " +
+									"		generated always as identity (start with 1, increment by 1), " +
+									"	gpa int," +
+									"	quote int," +
+									"	photo int," +
+									"	audio int," +
+									"	video int," +
+									"	major int," +
+									"	minor int," +
+									"	honors int," +
+									"	sports int," +
+									"	clubs int," +
+									"	firstName int," +
+									"	lastName int," +
+									"	Explination varchar(70)," +
+									"	studentEmail varchar(70)" +
+									")"
+							);
+					stmt7.executeUpdate();
+					System.out.println("----Successfully Created Review Table---- ");
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
@@ -939,7 +998,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt4 = conn.prepareStatement("DROP TABLE audio");
 					stmt5 = conn.prepareStatement("DROP TABLE videos");
 					stmt6 = conn.prepareStatement("DROP TABLE photos");
-					//stmt7 = conn.prepareStatement("DROP TABLE review");
+					stmt7 = conn.prepareStatement("DROP TABLE review");
 
 
 
@@ -949,7 +1008,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt4.executeUpdate();
 					stmt5.executeUpdate();
 					stmt6.executeUpdate();
-					//stmt7.executeUpdate();
+					stmt7.executeUpdate();
 
 					conn.commit();
 				}catch(SQLException e){
@@ -962,7 +1021,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt4);
 					DBUtil.closeQuietly(stmt5);
 					DBUtil.closeQuietly(stmt6);
-					//DBUtil.closeQuietly(stmt7);
+					DBUtil.closeQuietly(stmt7);
 				}
 				return true;
 			}
@@ -1028,9 +1087,6 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 
-	
-
-
 	public static void main(String[] args) throws SQLException {
 		System.out.println("----Loading Database Driver---- ");
 		DatabaseProvider.setInstance(new DerbyDatabase());
@@ -1066,6 +1122,9 @@ public class DerbyDatabase implements IDatabase {
 		in.close();
 		DBUtil.closeQuietly(conn);
 	}
+
+
+	
 
 	
 

@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,8 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.LoginController;
+import controller.SlideController;
+import controller.StudentController;
 import controller.AccountController;
 import model.Account;
+import model.Slide;
 import model.Student;
 
 public class LoginServlet extends HttpServlet {
@@ -37,6 +41,7 @@ public class LoginServlet extends HttpServlet {
 		Account model = new Account();
 		LoginController controller = new LoginController(model);
 		AccountController acctController = new AccountController(model);
+		
 		
 		// Decode form parameters and dispatch to controller
 		email = req.getParameter("email");
@@ -73,15 +78,43 @@ public class LoginServlet extends HttpServlet {
 			
 			if(isStudent){
 				// redirect to /home page
-				
-				// ACCTCONTROLLER.GETSTUDETFOREMAIL 
-				Student student = acctController.getStudentForEmail(email);
+				Student student  = new Student(0,"", "", "", "", 0.0, "", "", "");
+				StudentController studController = new StudentController(student);
+				student = studController.getStudentForEmail(email);
 				req.getSession().setAttribute("student", student);
+				
+				// SETS SLIDE ATTRIBUTES FROM DB
+				SlideController slideCont = new SlideController(null); 
+				/*Slide slide= slideCont.getSlideForEmail(email);
+				System.out.println(slide.getHonors());
+				req.getSession().setAttribute("slideFN", slide.getSlideFN());
+				req.getSession().setAttribute("slideLN", slide.getSlideLN());
+				
+				if(slide.getShowMajor()){
+					req.getSession().setAttribute("major", studController.getMajorForEmail(email));
+				}
+				if(slide.getShowMinor()){
 
+					req.getSession().setAttribute("minor", studController.getMinorForEmail(email));
+				}
+				req.getSession().setAttribute("honors", slide.getHonors());
+				req.getSession().setAttribute("sports", slide.getSports());
+				req.getSession().setAttribute("clubs", slide.getClubs());
+				if(slide.getShowGPA()){
+					req.getSession().setAttribute("gpa", studController.getGPAForEmail(email));
+				}
+				req.getSession().setAttribute("quote", slide.getQuote());
+				*/
 				System.out.println("   Valid login - starting session, redirecting to /home");
-				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);						//Comments
+				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);						
 			}
 			else{
+				List<Student> students = null;
+				System.out.println(email);
+				students = acctController.getStudentsForAdvisor(email);
+				System.out.println(students.get(0).getFirstname());
+				req.setAttribute("students",  students);
+				
 				System.out.println(acctController.getStudentsForAdvisor(email));
 				System.out.println("   Valid login - starting session, redirecting to /advisor");
 				// redirect to /advisor page

@@ -3,13 +3,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-//File Name SendEmail.java
 import java.util.*;
-//import javax.mail.*;
-//import javax.mail.internet.*;
-
-
-
+import javax.mail.*;
+import javax.mail.internet.*;
 import javax.activation.*;
 
 public class Slide {
@@ -44,20 +40,20 @@ public class Slide {
 		clubs = null;
 		slideFN = null;
 		slideLN = null;
-		hasPhoto = false;
-		hasVideo = false;
-		hasAudio = false;
-		approved = false;
+		hasPhoto = true;
+		hasVideo = true;
+		hasAudio = true;
+		approved = true;
 		studentEmail = null;
 		//stringsToCheck = new ArrayList<String>();
-		
 	}
-	public Slide(int slideId, boolean gpa, String quote, boolean showMajor, boolean showMinor, String honors, String sports, String clubs, String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String studentEmail, boolean approved) {
+	
+	public Slide(int slideId, boolean gpa, String quote, boolean major, boolean minor, String honors, String sports, String clubs, String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String studentEmail, boolean approved) {
 		this.slideId = slideId;
 		this.showGPA = gpa;
 		this.quote = quote;
-		this.showMajor = showMajor;
-		this.showMinor = showMinor;
+		this.showMajor = major;
+		this.showMinor = minor;
 		this.honors = honors;
 		this.sports = sports;
 		this.clubs = clubs;
@@ -253,47 +249,44 @@ public class Slide {
 		
 	}
 	*/
-	/*public void emailAdvisor() {
+	public void emailAdvisor() {
 		// Recipient's email ID needs to be mentioned.
-	      String to = "cdeshong1@ycp.edu";
+		final String username = "testchris437@gmail.com";
+		final String password = "DonHake123";
 
-	      // Sender's email ID needs to be mentioned
-	      String from = "cdeshong1@ycp.edu";
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.debug", "true");
 
-	      // Assuming you are sending email from localhost
-	      String host = "localhost";
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
 
-	      // Get system properties
-	      Properties properties = System.getProperties();
+		try {
 
-	      // Setup mail server
-	      properties.setProperty("mail.smtp.host", host);
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(username));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(username));
+			message.setSubject("Testing Subject");
+			message.setText("Dear Mail Crawler,"
+				+ "\n\n No spam to my email, please!");
 
-	      // Get the default Session object.
-	      Session session = Session.getDefaultInstance(properties);
+			Transport.send(message);
 
-	      try {
-	         // Create a default MimeMessage object.
-	         MimeMessage message = new MimeMessage(session);
+			System.out.println("Done");
 
-	         // Set From: header field of the header.
-	         message.setFrom(new InternetAddress(from));
-
-	         // Set To: header field of the header.
-	         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-	         // Set Subject: header field
-	         message.setSubject("This is the Subject Line!");
-
-	         // Now set the actual message
-	         message.setText("Testing");
-
-	         // Send message
-	         Transport.send(message);
-	         System.out.println("Sent message successfully....");
-	      } catch (MessagingException mex) {
-	         mex.printStackTrace();
-	      }
-	}*/
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	
 }
