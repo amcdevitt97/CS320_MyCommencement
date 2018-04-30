@@ -7,5 +7,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CS320_Jetty9"/>
+	<classpathentry kind="lib" path="C:/Users/Robert Politi/Downloads/javamail1_4_5/javamail-1.4.5/mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Robert Politi/Downloads/jaf-1_1_1/jaf-1.1.1/activation.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

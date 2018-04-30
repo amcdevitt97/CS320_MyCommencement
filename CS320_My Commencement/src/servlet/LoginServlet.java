@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
 
 		System.out.println("\nLoginServlet: doGet");
 
-		req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 	}
 
 	@Override

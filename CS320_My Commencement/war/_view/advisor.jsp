@@ -67,7 +67,15 @@
 		<div id="checklist">
 			<!--TODO: MAKE SERIES OF CHECK BOXES IN A FORM FOR THE REVIEW CLASS-->
 			<form action="#">
-  				<input type="checkbox" > 
+  				<input type="checkbox" name="AdvisorCheck" value="fname"> First Name
+  				<input type="checkbox" name="AdvisorCheck" value="lname"> Last Name
+  				<input type="checkbox" name="AdvisorCheck" value="honors"> Honors
+  				<input type="checkbox" name="AdvisorCheck" value="sports"> Sports
+  				<input type="checkbox" name="AdvisorCheck" value="club"> Clubs
+  				<input type="checkbox" name="AdvisorCheck" value="quote"> Quote
+  				<input type="checkbox" name="AdvisorCheck" value="photo"> Photo
+  				<input type="checkbox" name="AdvisorCheck" value="video"> Video
+  				<input type="checkbox" name="AdvisorCheck" value="audio"> Audio
   				<input type="submit" value="Submit">
 			</form>
 		
