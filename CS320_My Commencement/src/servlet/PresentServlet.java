@@ -40,6 +40,8 @@ public class PresentServlet extends HttpServlet {
 				Slide slide = null;
 				SlideController controller = new SlideController(slide);
 				List<Slide> slides = null;
+				
+				// CHANGE TO CONTROLLER.getAllApprovedSlides WHEN REVIEW STUFF IS DONE
 				slides = controller.getAllSlides();
 				req.setAttribute("slides",  slides);
 				

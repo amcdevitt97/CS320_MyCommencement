@@ -148,7 +148,7 @@ public class SlideServlet extends HttpServlet {
 		req.setAttribute("quote", controller.getSlideForEmail(email).getQuote());
 		req.setAttribute("honors", controller.getSlideForEmail(email).getHonors());
 		req.setAttribute("sports", controller.getSlideForEmail(email).getSports());
-		req.setAttribute("clubs", controller.getSlideForEmail(email).getSports());
+		req.setAttribute("clubs", controller.getSlideForEmail(email).getClubs());
 		
 		
 		// SETTING NAME

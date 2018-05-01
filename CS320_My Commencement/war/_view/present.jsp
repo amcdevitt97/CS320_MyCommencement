@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="css/theme/simple.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="web_lib/css/zenburn.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -48,7 +48,7 @@
 	         				<p>Major: <%= request.getAttribute("majorView") %></p>
 							<p>Minor:<%= request.getAttribute("minorView") %> </p>
 							<p>Honors: ${slide.honors}</p>
-							<p>Sports: ${slide.sports}p>
+							<p>Sports: ${slide.sports}<p>
 							<p>Clubs: ${slide.clubs}</p>
 							<p>GPA:<%= request.getAttribute("gpa") %> </p>
 						</div>
@@ -65,7 +65,7 @@
 			</div>
 		</div>
 
-		<script src="lib/js/head.min.js"></script>
+		<script src="web_lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
 
 		<script>

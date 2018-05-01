@@ -1,6 +1,9 @@
 package controller;
 
 import database.IDatabase;
+
+import java.util.List;
+
 import database.DatabaseProvider;
 import database.DerbyDatabase;
 import model.Slide;
@@ -20,8 +23,8 @@ public class SlideController {
 		database = DatabaseProvider.getInstance();		
 	}
 	
-	public void addSlide(String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
-		database.addSlide(slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, showMinor, slideApproved, studentEmail);
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+		database.addSlide(slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, clubs, honors, showGPA, showMajor, showMinor, slideApproved, studentEmail);
 		System.out.println(database.showAllSlides());
 	}
 	
@@ -40,4 +43,8 @@ public class SlideController {
 		return slide;
 	}
 
+	public List<Slide> getAllSlides(){
+		List<Slide> slides = database.showAllSlides();
+		return slides;
+	}
 }
