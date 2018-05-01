@@ -51,8 +51,8 @@ public class SlideServlet extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("\nSlideServlet: doPost");
 		
-
-
+		// DISPLAYING SLIDE INFO
+		
 		String slideFN;
 		String slideLN;
 		String major;
@@ -68,7 +68,6 @@ public class SlideServlet extends HttpServlet {
 		String quote;
 		Slide model = new Slide();
 		
-		
 		Student student = (Student) req.getSession().getAttribute("student");
 		SlideController controller = new SlideController(model);
 		
@@ -76,8 +75,6 @@ public class SlideServlet extends HttpServlet {
 		honors = req.getParameter("honors");
 		slideFN = req.getParameter("slideFN");
 		slideLN = req.getParameter("slideLN");
-		
-		
 		
 		//determines state of GPA checkbox
 		GPA = req.getParameter("gpaCheck");
@@ -113,13 +110,12 @@ public class SlideServlet extends HttpServlet {
 		    addMinor= false;
 		}
 		
-		
 		sports= req.getParameter("sports");
 		clubs= req.getParameter("clubs");
 		quote= req.getParameter("quote");
 		String email = (String) req.getSession().getAttribute("user");
 		
-		
+		// ADDS SLIDE ATTRIBUTES TO THE MODEL
 		model.setSlideFN(slideFN);
 		model.setSlideLN(slideLN);
 		model.setShowMajor(addMajor);
@@ -130,21 +126,38 @@ public class SlideServlet extends HttpServlet {
 		model.setClubs(clubs);
 		model.setQuote(quote);
 		model.setStudentEmail(email);
-	
 		
-		req.setAttribute("gpa", studentGPA);
-		req.setAttribute("major", major);
-		req.setAttribute("minor", minor);
-		req.setAttribute("slideFN", slideFN);
-		req.setAttribute("slideLN", slideLN);
-		req.setAttribute("quote", quote);
-		req.setAttribute("honors", honors);
-		req.setAttribute("sports", sports);
-		req.setAttribute("clubs", clubs);
-		
-		//	-------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
-		controller.addSlide(slideFN, slideLN, false, false, false, quote, honors, showGPA, addMajor, addMinor, false, email);
+		//	------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
+		controller.addSlide(slideFN, slideLN, false, false, false, quote, clubs, honors, showGPA, addMajor, addMinor, false, email);
 
+	
+		// ADDS SUBMITTED INFO TO NEXT PAGE
+		if(controller.getSlideForEmail(email).getShowGPA()){
+			req.setAttribute("gpa", student.getGPA());
+		}
+		if(controller.getSlideForEmail(email).getShowMajor()){
+			req.setAttribute("major", student.getMajor());
+		}
+		if(controller.getSlideForEmail(email).getShowMinor()){
+			req.setAttribute("minor", student.getMinor());
+		}
+		
+		
+		req.setAttribute("slideFN", controller.getSlideForEmail(email).getSlideFN());
+		req.setAttribute("slideLN", controller.getSlideForEmail(email).getSlideLN());
+		req.setAttribute("quote", controller.getSlideForEmail(email).getQuote());
+		req.setAttribute("honors", controller.getSlideForEmail(email).getHonors());
+		req.setAttribute("sports", controller.getSlideForEmail(email).getSports());
+		req.setAttribute("clubs", controller.getSlideForEmail(email).getSports());
+		
+		
+		// SETTING NAME
+		Account acctModel = new Account();
+		AccountController acctController = new AccountController(acctModel);
+		System.out.println(acctController.getFirstnameForEmail(email));
+		req.setAttribute("fn", acctController.getFirstnameForEmail(email));
+		
+		
 		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 		
 	}

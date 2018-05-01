@@ -1,0 +1,56 @@
+.slides h3{
+font: 35px Arial, sans-serif;
+float:right;
+position:relative;
+bottom:20px;
+}
+
+.slides h2{
+font: 30px Arial, sans-serif;
+}
+
+#quotebox {
+float: left;
+position: relative;
+bottom: 250px;
+width: 600px;
+height: 300px;
+}
+
+.slides p{
+font: 20px Arial, sans-serif;
+margin-top:2px;
+margin-bottom:2px;
+}
+
+.studentImage {
+position: relative;
+right: 100px;
+top:25px;
+width: 200px;
+height: auto;
+}
+
+.attributes{
+position: relative;
+width: 400px;
+right: 400px;
+float: right;
+bottom: 300px;
+overflow: hidden;
+}
+
+video{
+position: relative;
+left: 500px;
+top:100px;
+width: 360px;
+height: auto;
+}
+
+audio{
+width: 75px;
+position: relative;
+bottom: 290px;
+right: 100px;
+}

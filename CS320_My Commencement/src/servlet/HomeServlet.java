@@ -40,9 +40,9 @@ public class HomeServlet extends HttpServlet {
 				if(logCont.isStudent(email)){
 					SlideController slideCont = new SlideController(null); 
 					Slide slide= slideCont.getSlideForEmail(email);
-					System.out.println(slide.getHonors());
-					System.out.println(slide.getClubs());
-					System.out.println(slide.getQuote());
+					System.out.println("Honors: "+slide.getHonors());
+					System.out.println("Clubs: "+slide.getClubs());
+					System.out.println("Quote: "+slide.getQuote());
 				}
 				
 				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);	
