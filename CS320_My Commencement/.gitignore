@@ -6,3 +6,5 @@ bin/
 .DS_Store
 **/.DS_Store
 war/WEB-INF/classes
+war/.classpath
+war/.log
