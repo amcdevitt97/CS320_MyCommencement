@@ -22,6 +22,7 @@ public class Review {
 	private String email;
 	private ArrayList<Boolean> list;
 	private boolean approved;
+	private int reviewID;
 	
 	public Review(){
 		gpaApproved = false;
@@ -38,6 +39,7 @@ public class Review {
 		lnApproved = false;
 		explination = null;
 		email = null;
+		reviewID = 0;
 		list=new ArrayList<Boolean>();
 		list.add(gpaApproved);
 		list.add(quoteApproved);
@@ -54,7 +56,7 @@ public class Review {
 		approved = false;
 		
 	}
-	public Review(boolean gpa, boolean quote, boolean photo, boolean audio, boolean video, boolean major, boolean minor, boolean honors, boolean sports, boolean clubs, boolean first, boolean last, String explination, String email){
+	public Review(int reviewID, boolean gpa, boolean quote, boolean photo, boolean audio, boolean video, boolean major, boolean minor, boolean honors, boolean sports, boolean clubs, boolean first, boolean last, String explination, String email){
 		this.gpaApproved = gpa;
 		this.quoteApproved = quote;
 		this.photoApproved = photo;
@@ -69,6 +71,7 @@ public class Review {
 		this.lnApproved = last;
 		this.explination = explination;
 		this.email = email;
+		this.reviewID = reviewID;
 		list=new ArrayList<Boolean>();
 		list.add(gpaApproved);
 		list.add(quoteApproved);
@@ -184,6 +187,12 @@ public class Review {
 	}
 	public String getEmail() {
 		return this.email;
+	}
+	public void setReviewID(int id) {
+		this.reviewID = id;
+	}
+	public int getReviewID() {
+		return this.reviewID;
 	}
 	
 }

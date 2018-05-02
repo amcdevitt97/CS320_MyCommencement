@@ -28,9 +28,9 @@
     <servlet-class>servlet.SlideServlet</servlet-class>
   </servlet>  
   <servlet>
-    <servlet-name>PresentServlet</servlet-name>
-    <servlet-class>servlet.PresentServlet</servlet-class>
-  </servlet>  
+    <servlet-name>ReviewServlet</servlet-name>
+    <servlet-class>servlet.ReviewServlet</servlet-class>
+  </servlet> 
 
   <!-- Servlet mappings -->
   <servlet-mapping>
@@ -54,8 +54,8 @@
     <url-pattern>/slide</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>PresentServlet</servlet-name>
-    <url-pattern>/present</url-pattern>
+    <servlet-name>ReviewServlet</servlet-name>
+    <url-pattern>/review</url-pattern>
   </servlet-mapping>
  
 </web-app>

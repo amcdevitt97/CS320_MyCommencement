@@ -1,12 +1,12 @@
 package database;
 
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import model.Account;
 import model.Student;
 import model.Advisor;
+import model.Review;
 import model.Slide;
 
 public interface IDatabase {
@@ -29,11 +29,9 @@ public interface IDatabase {
 	
 	// SLIDE DATA
 	
-<<<<<<< HEAD
-	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
-=======
-	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
->>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
+	public void addReview(boolean slideFN, boolean slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, boolean quote, boolean honors, boolean showGPA, boolean showMajor, boolean showMinor, String studentEmail, String explination, boolean sports, boolean clubs);
+	public Review getReviewForEmail(String email);
 	public Double getGPAForEmail(String email);
 	public String getMajorForEmail(String email);
 	public String getMinorForEmail(String email);
@@ -46,6 +44,6 @@ public interface IDatabase {
 	//TESTING 
 	public String showAllAccounts();
 	public String showAllStudents();
-	public List<Slide> showAllSlides();
+	public String showAllSlides();
 	
 }
