@@ -22,16 +22,16 @@ public class ReviewController {
 	
 	public void addReview(boolean slideFN, boolean slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, boolean quote, boolean honors, boolean showGPA, boolean showMajor, boolean showMinor, String studentEmail, String explination, boolean sports, boolean clubs){
 		database.addReview(slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, showMinor, studentEmail, explination, sports, clubs);
-		System.out.println(database.showAllSlides());
+		System.out.println(database.showAllReview());
 	}
 	
-	public String getMajorForEmail(String email){
-		String students = database.getMajorForEmail(email);
+	public boolean getMajorFromEmailReview(String email){
+		boolean students = database.getMajorFromEmailReview(email);
 		return students;
 	}
 	
-	public String getMinorForEmail(String email){
-		String students = database.getMinorForEmail(email);
+	public boolean getMinorFromEmailReview(String email){
+		boolean students = database.getMinorFromEmailReview(email);
 		return students;
 	}
 	

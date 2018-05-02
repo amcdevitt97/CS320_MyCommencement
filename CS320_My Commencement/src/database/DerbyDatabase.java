@@ -332,7 +332,9 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	
-	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio,
+			boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA,
+			boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
 
 	
 		executeTransaction(new Transaction<Boolean>() {
@@ -634,6 +636,38 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	public boolean getMajorFromEmailReview(String email) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				List<Review> result = new ArrayList<Review>();
+				try {
+					stmt = conn.prepareStatement(
+							"select *" +
+							"  from review " +
+							" where review.studentEmail = ?" 
+					);
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						
+						Review review = new Review();
+						loadReview(review, resultSet, 1);
+						result.add(review);
+					}
+					System.out.println(result.get(0).getMajor());
+					return result.get(0).getMajor();
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 	
 	public String getMinorForEmail(String email) {
 		return executeTransaction(new Transaction<String>() {
@@ -668,7 +702,39 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	
+	public boolean getMinorFromEmailReview(String email) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				List<Review> result = new ArrayList<Review>();
+				try {
+					stmt = conn.prepareStatement(
+							"select *" +
+							"  from review " +
+							" where review.studentEmail = ?" 
+					);
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						
+						Review review = new Review();
+						loadReview(review, resultSet, 1);
+						result.add(review);
+					}
+					System.out.println(result.get(0).getMinor());
+					return result.get(0).getMinor();
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 	/*
 	 * DEBUGGING ONLY:
 	 * 		showAllSlides(select * from slides)
@@ -760,6 +826,36 @@ public class DerbyDatabase implements IDatabase {
 						loadSlide(slide, resultSet, 1);
 						result.add(slide);
 						dump += "<"+slide.getSlideId()+ " | "+ slide.getSlideFN()+ " | " +slide.getSlideLN() +" | "+slide.getHasPhoto()+" | "+slide.getHasAudio()+" | "+slide.getHasVideo()+"> ";
+					}
+					return dump;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	public String showAllReview() {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String dump = "All Review: ";
+				List<Review> result = new ArrayList<Review>();
+				try {
+					stmt = conn.prepareStatement(
+							"select *" +
+							"  from review "
+					);
+					
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						Review review = new Review();
+						loadReview(review, resultSet, 1);
+						result.add(review);
+						dump += "<"+review.getReviewID()+ " | "+ review.getFN()+ " | " +review.getLN() +" | "+review.getPhoto()+" | "+review.getAudio()+" | "+review.getVideo()+"> ";
 					}
 					return dump;
 				} finally {
@@ -1329,6 +1425,8 @@ public class DerbyDatabase implements IDatabase {
 		in.close();
 		DBUtil.closeQuietly(conn);
 	}
+
+
 
 
 	

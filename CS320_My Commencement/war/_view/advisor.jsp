@@ -70,7 +70,7 @@
 			</div>
 		<div id="checklist">
 			<!--TODO: MAKE SERIES OF CHECK BOXES IN A FORM FOR THE REVIEW CLASS-->
-			<form action="#">
+			<form action="${pageContext.servletContext.contextPath}/review" method = "post>
   				<input type="checkbox" name="AdvisorCheck" value="fname"> First Name
   				<input type="checkbox" name="AdvisorCheck" value="lname"> Last Name
   				<input type="checkbox" name="AdvisorCheck" value="honors"> Honors

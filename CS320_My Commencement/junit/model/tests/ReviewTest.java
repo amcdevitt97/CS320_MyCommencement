@@ -43,7 +43,7 @@ public class ReviewTest {
 		lnApproved = true;
 		explination = null;
 		email = null;
-		review = new Review(gpaApproved,quoteApproved,photoApproved,audioApproved, videoApproved, majorApproved, minorApproved, honorsApproved, sportsApproved, clubsApproved,fnApproved,lnApproved,explination,email);
+		review = new Review(0,gpaApproved,quoteApproved,photoApproved,audioApproved, videoApproved, majorApproved, minorApproved, honorsApproved, sportsApproved, clubsApproved,fnApproved,lnApproved,explination,email);
 		
 		gpaApproved = true;
 		quoteApproved = true;
@@ -58,7 +58,7 @@ public class ReviewTest {
 		fnApproved = true;
 		lnApproved = true;
 		explination = "There is an unapproved part of slide";
-		review2 = new Review(gpaApproved,quoteApproved,photoApproved,audioApproved, videoApproved, majorApproved, minorApproved, honorsApproved, sportsApproved, clubsApproved,fnApproved,lnApproved,explination, email);
+		review2 = new Review(0,gpaApproved,quoteApproved,photoApproved,audioApproved, videoApproved, majorApproved, minorApproved, honorsApproved, sportsApproved, clubsApproved,fnApproved,lnApproved,explination, email);
 	}
 	
 	@Test

@@ -30,7 +30,9 @@ public interface IDatabase {
 	
 	// SLIDE DATA
 	
-
+	//Review
+	public boolean getMajorFromEmailReview(String email);
+	public boolean getMinorFromEmailReview(String email);
 
 	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
 
@@ -49,5 +51,6 @@ public interface IDatabase {
 	public String showAllAccounts();
 	public String showAllStudents();
 	public String showAllSlides();
+	public String showAllReview();
 	
 }
