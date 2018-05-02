@@ -154,7 +154,7 @@ public class SlideServlet extends HttpServlet {
 		
 		
 		//	------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
-		controller.addSlide(photo, slideFN, slideLN, hasPhoto, false, false, quote, clubs, honors, sports, showGPA, addMajor, addMinor, false, email);
+		controller.addSlide(slideFN, slideLN, hasPhoto, false, false, quote, clubs, honors, sports, showGPA, addMajor, addMinor, false, email);
 
 
 	

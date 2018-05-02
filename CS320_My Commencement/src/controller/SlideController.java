@@ -24,8 +24,8 @@ public class SlideController {
 		database = DatabaseProvider.getInstance();		
 	}
 	
-	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
-		database.addSlide(photo, slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, clubs, honors, sports, showGPA, showMajor, showMinor, slideApproved, studentEmail);
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+		database.addSlide(slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, clubs, honors, sports, showGPA, showMajor, showMinor, slideApproved, studentEmail);
 
 		System.out.println(database.showAllSlides());
 	}
