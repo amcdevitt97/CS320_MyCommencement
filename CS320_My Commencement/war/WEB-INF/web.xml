@@ -27,6 +27,10 @@
     <servlet-name>SlideServlet</servlet-name>
     <servlet-class>servlet.SlideServlet</servlet-class>
   </servlet>  
+  <servlet>
+    <servlet-name>PresentServlet</servlet-name>
+    <servlet-class>servlet.PresentServlet</servlet-class>
+  </servlet>  
 
   <!-- Servlet mappings -->
   <servlet-mapping>
@@ -48,6 +52,10 @@
   <servlet-mapping>
     <servlet-name>SlideServlet</servlet-name>
     <url-pattern>/slide</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PresentServlet</servlet-name>
+    <url-pattern>/present</url-pattern>
   </servlet-mapping>
  
 </web-app>

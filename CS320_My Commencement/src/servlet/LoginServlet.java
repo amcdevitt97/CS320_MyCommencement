@@ -22,10 +22,11 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
+		
+		
 		System.out.println("\nLoginServlet: doGet");
 
-		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
 	}
 
 	@Override
@@ -85,30 +86,38 @@ public class LoginServlet extends HttpServlet {
 				
 				// SETS SLIDE ATTRIBUTES FROM DB
 				SlideController slideCont = new SlideController(null); 
-				/*Slide slide= slideCont.getSlideForEmail(email);
-				System.out.println(slide.getHonors());
-				req.getSession().setAttribute("slideFN", slide.getSlideFN());
-				req.getSession().setAttribute("slideLN", slide.getSlideLN());
+				Slide slide= slideCont.getSlideForEmail(email);
 				
-				if(slide.getShowMajor()){
-					req.getSession().setAttribute("major", studController.getMajorForEmail(email));
-				}
-				if(slide.getShowMinor()){
+				if(slide!=null){
+					System.out.println("Honors: "+slide.getHonors());
+					System.out.println("Clubs: "+slide.getClubs());
+					System.out.println("Quote: "+slide.getQuote());
+					
+					
+					req.setAttribute("slideFN", slide.getSlideFN());
+					req.setAttribute("slideLN", slide.getSlideLN());
+					
+					if(slide.getShowMajor()){
+						req.setAttribute("major", studController.getMajorForEmail(email));
+					}
+					if(slide.getShowMinor()){
 
-					req.getSession().setAttribute("minor", studController.getMinorForEmail(email));
+						req.setAttribute("minor", studController.getMinorForEmail(email));
+					}
+					req.setAttribute("honors", slide.getHonors());
+					req.setAttribute("sports", slide.getSports());
+					req.setAttribute("clubs", slide.getClubs());
+					if(slide.getShowGPA()){
+						req.setAttribute("gpa", studController.getGPAForEmail(email));
+					}
+					req.setAttribute("quote", slide.getQuote());	
 				}
-				req.getSession().setAttribute("honors", slide.getHonors());
-				req.getSession().setAttribute("sports", slide.getSports());
-				req.getSession().setAttribute("clubs", slide.getClubs());
-				if(slide.getShowGPA()){
-					req.getSession().setAttribute("gpa", studController.getGPAForEmail(email));
-				}
-				req.getSession().setAttribute("quote", slide.getQuote());
-				*/
+				
 				System.out.println("   Valid login - starting session, redirecting to /home");
 				req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);						
 			}
 			else{
+				
 				List<Student> students = null;
 				System.out.println(email);
 				students = acctController.getStudentsForAdvisor(email);

@@ -1,13 +1,20 @@
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Tue May 01 13:34:09 EDT 2018:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0163-1cc4-cb7e-0000033f02f0 
 on database directory C:\CS320-2018\library.db with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
 Loaded from file:/C:/Users/Robert%20Politi/git/CS320_MyCommencement/CS320_My%20Commencement/lib/derby.jar
+=======
+Tue May 01 21:30:12 EDT 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0163-1e78-a383-000004d757c8 
+on database directory /Users/alyssamcdevitt/git/CS320_MyCommencement/CS320_My Commencement/~/CS320-2018/library.db with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
+Loaded from file:/Users/alyssamcdevitt/git/CS320_MyCommencement/CS320_My%20Commencement/lib/derby.jar
+>>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_144-b01
-user.dir=C:\Users\Robert Politi\git\CS320_MyCommencement\CS320_My Commencement
-os.name=Windows 10
-os.arch=amd64
-os.version=10.0
+java.runtime.version=1.8.0_91-b14
+user.dir=/Users/alyssamcdevitt/git/CS320_MyCommencement/CS320_My Commencement
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.12.6
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

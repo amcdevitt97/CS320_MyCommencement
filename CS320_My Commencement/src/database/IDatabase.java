@@ -29,7 +29,11 @@ public interface IDatabase {
 	
 	// SLIDE DATA
 	
+<<<<<<< HEAD
 	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
+=======
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
+>>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 	public Double getGPAForEmail(String email);
 	public String getMajorForEmail(String email);
 	public String getMinorForEmail(String email);
@@ -42,6 +46,6 @@ public interface IDatabase {
 	//TESTING 
 	public String showAllAccounts();
 	public String showAllStudents();
-	public String showAllSlides();
+	public List<Slide> showAllSlides();
 	
 }

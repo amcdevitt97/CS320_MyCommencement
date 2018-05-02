@@ -14,8 +14,12 @@
 	<!-- navbar content -->
 	<div id="navBar">
 		<img id="logo" src="Media/logo.png" />
+		
 		<form id="logout" action="${pageContext.servletContext.contextPath}/logout" method="post">
 					<input type="Submit" value="Log Out" id="logOut" name="loginSubmit">
+		</form>
+		<form id="present" action="${pageContext.servletContext.contextPath}/present" method="post">
+					<input type="Submit" value="Present" id="Present" name="presentSubmit">
 		</form>
 		<!-- <a href="#"> <div id="logOut"> Log Out </div> </a> -->
 	</div>

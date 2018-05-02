@@ -52,8 +52,13 @@ public class SlideServlet extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("\nSlideServlet: doPost");
 		
+<<<<<<< HEAD
 
 		Blob photo;
+=======
+		// DISPLAYING SLIDE INFO
+		
+>>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 		String slideFN;
 		String slideLN;
 		String major;
@@ -72,7 +77,6 @@ public class SlideServlet extends HttpServlet {
 		boolean hasAudio;
 		Slide model = new Slide();
 		
-		
 		Student student = (Student) req.getSession().getAttribute("student");
 		SlideController controller = new SlideController(model);
 		
@@ -81,17 +85,13 @@ public class SlideServlet extends HttpServlet {
 		slideFN = req.getParameter("slideFN");
 		slideLN = req.getParameter("slideLN");
 		
-		
-		
 		//determines state of GPA checkbox
 		GPA = req.getParameter("gpaCheck");
 		if (GPA != null){
 		    showGPA = true;
 		    studentGPA = student.getGPA();
-		    System.out.println(studentGPA);
 		}
 		else{
-			 System.out.println("gpa not checked");
 		    showGPA= false;
 		}
 		
@@ -117,6 +117,7 @@ public class SlideServlet extends HttpServlet {
 		    addMinor= false;
 		}
 		
+<<<<<<< HEAD
 		Object temp = req.getAttribute("photo");
 		photo = (Blob)temp;
 		if (photo != null){
@@ -127,12 +128,15 @@ public class SlideServlet extends HttpServlet {
 		}
 		
 		
+=======
+>>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 		sports= req.getParameter("sports");
+		System.out.println("sport entered:"+ sports);
 		clubs= req.getParameter("clubs");
 		quote= req.getParameter("quote");
 		String email = (String) req.getSession().getAttribute("user");
 		
-		
+		// ADDS SLIDE ATTRIBUTES TO THE MODEL
 		model.setSlideFN(slideFN);
 		model.setSlideLN(slideLN);
 		model.setShowMajor(addMajor);
@@ -143,8 +147,12 @@ public class SlideServlet extends HttpServlet {
 		model.setClubs(clubs);
 		model.setQuote(quote);
 		model.setStudentEmail(email);
+<<<<<<< HEAD
 		
+=======
+>>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 		
+<<<<<<< HEAD
 		req.setAttribute("gpa", studentGPA);
 		req.setAttribute("major", major);
 		req.setAttribute("minor", minor);
@@ -157,7 +165,41 @@ public class SlideServlet extends HttpServlet {
 		
 		
 		controller.addSlide(photo, slideFN, slideLN, hasPhoto, false, false, quote, honors, showGPA, addMajor, addMinor, false, email);
+=======
+		//	------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
+		controller.addSlide(slideFN, slideLN, false, false, false, quote, clubs, honors, sports, showGPA, addMajor, addMinor, false, email);
+>>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 
+	
+		// ADDS SUBMITTED INFO TO NEXT PAGE
+		if(controller.getSlideForEmail(email).getShowGPA()){
+			req.setAttribute("gpa", student.getGPA());
+		}
+		if(controller.getSlideForEmail(email).getShowMajor()){
+			req.setAttribute("major", student.getMajor());
+		}
+		if(controller.getSlideForEmail(email).getShowMinor()){
+			req.setAttribute("minor", student.getMinor());
+		}
+		
+		
+		req.setAttribute("slideFN", controller.getSlideForEmail(email).getSlideFN());
+		
+		req.setAttribute("slideLN", controller.getSlideForEmail(email).getSlideLN());
+		req.setAttribute("quote", controller.getSlideForEmail(email).getQuote());
+		req.setAttribute("honors", controller.getSlideForEmail(email).getHonors());
+		req.setAttribute("sports", controller.getSlideForEmail(email).getSports());
+		System.out.println("sport fetched: "+controller.getSlideForEmail(email).getSports());
+		req.setAttribute("clubs", controller.getSlideForEmail(email).getClubs());
+		
+		
+		// SETTING NAME
+		Account acctModel = new Account();
+		AccountController acctController = new AccountController(acctModel);
+		System.out.println(acctController.getFirstnameForEmail(email));
+		req.setAttribute("fn", acctController.getFirstnameForEmail(email));
+		
+		
 		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 		
 	}
