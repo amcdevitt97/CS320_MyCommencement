@@ -72,12 +72,12 @@
       					<c:if test = "${major != null}">
       					</c:if>-->
          				
-         				<p>Major: <%= request.getAttribute("majorView") %></p>
-						<p>Minor:<%= request.getAttribute("minorView") %> </p>
-						<p>Honors: <%= request.getAttribute("honors") %></p>
-						<p>Sports: <%= request.getAttribute("sports") %></p>
-						<p>Clubs: <%= request.getAttribute("clubs") %></p>
-						<p>GPA:<%= request.getAttribute("gpa") %> </p>
+         				<p><%= request.getAttribute("majorView") %></p>
+						<p><%= request.getAttribute("minorView") %> </p>
+						<p><%= request.getAttribute("honors") %></p>
+						<p><%= request.getAttribute("sports") %></p>
+						<p><%= request.getAttribute("clubs") %></p>
+						<p><%= request.getAttribute("gpa") %> </p>
 					</div>
 				<div id="quotebox">	
 					<h2><i><%= request.getAttribute("quote") %></i></h2>

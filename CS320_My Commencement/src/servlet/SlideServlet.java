@@ -74,7 +74,10 @@ public class SlideServlet extends HttpServlet {
 		boolean hasAudio;
 		Slide model = new Slide();
 		
-		Student student = (Student) req.getSession().getAttribute("student");
+		String email = (String) req.getSession().getAttribute("user");
+		Student student  = new Student(0,"", "", "", "", 0.0, "", "", "");
+		StudentController studController = new StudentController(student);
+		student = studController.getStudentForEmail(email);
 		SlideController controller = new SlideController(model);
 		
 		// Decode form parameters and dispatch to controller
@@ -125,10 +128,9 @@ public class SlideServlet extends HttpServlet {
 		
 		
 		sports= req.getParameter("sports");
-		System.out.println("sport entered:"+ sports);
 		clubs= req.getParameter("clubs");
 		quote= req.getParameter("quote");
-		String email = (String) req.getSession().getAttribute("user");
+		//String email = (String) req.getSession().getAttribute("user");
 		
 		// ADDS SLIDE ATTRIBUTES TO THE MODEL
 		model.setSlideFN(slideFN);
@@ -143,8 +145,18 @@ public class SlideServlet extends HttpServlet {
 		model.setStudentEmail(email);
 		
 		req.setAttribute("gpa", studentGPA);
-		req.setAttribute("major", major);
-		req.setAttribute("minor", minor);
+		if(addMajor){
+			req.setAttribute("majorView", "Major: "+studController.getMajorForEmail(email));
+		}
+		else{
+			req.setAttribute("majorView","");
+		}
+		if(addMinor && !studController.getMinorForEmail(email).isEmpty() && !studController.getMinorForEmail(email).equals("null") ){
+			req.setAttribute("minorView", "Minor: "+studController.getMinorForEmail(email));
+		}
+		else{
+			req.setAttribute("minorView","");
+		}
 		req.setAttribute("slideFN", slideFN);
 		req.setAttribute("slideLN", slideLN);
 		req.setAttribute("quote", quote);
@@ -176,7 +188,6 @@ public class SlideServlet extends HttpServlet {
 		req.setAttribute("quote", controller.getSlideForEmail(email).getQuote());
 		req.setAttribute("honors", controller.getSlideForEmail(email).getHonors());
 		req.setAttribute("sports", controller.getSlideForEmail(email).getSports());
-		System.out.println("sport fetched: "+controller.getSlideForEmail(email).getSports());
 		req.setAttribute("clubs", controller.getSlideForEmail(email).getClubs());
 		
 		

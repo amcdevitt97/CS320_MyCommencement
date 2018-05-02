@@ -89,28 +89,57 @@ public class LoginServlet extends HttpServlet {
 				Slide slide= slideCont.getSlideForEmail(email);
 				
 				if(slide!=null){
-					System.out.println("Honors: "+slide.getHonors());
-					System.out.println("Clubs: "+slide.getClubs());
-					System.out.println("Quote: "+slide.getQuote());
 					
 					
 					req.setAttribute("slideFN", slide.getSlideFN());
 					req.setAttribute("slideLN", slide.getSlideLN());
 					
 					if(slide.getShowMajor()){
-						req.setAttribute("major", studController.getMajorForEmail(email));
+						req.setAttribute("majorView", "Major: "+studController.getMajorForEmail(email));
 					}
-					if(slide.getShowMinor()){
-
-						req.setAttribute("minor", studController.getMinorForEmail(email));
+					else{
+						req.setAttribute("majorView","");
 					}
-					req.setAttribute("honors", slide.getHonors());
-					req.setAttribute("sports", slide.getSports());
-					req.setAttribute("clubs", slide.getClubs());
+					if(slide.getShowMinor() && !studController.getMinorForEmail(email).isEmpty() && !studController.getMinorForEmail(email).equals("null") ){
+						req.setAttribute("minorView", "Minor: "+studController.getMinorForEmail(email));
+					}
+					else{
+						req.setAttribute("minorView","");
+					}
+					
+					if(!slide.getHonors().isEmpty()){
+						req.setAttribute("honors", "Honors:"+slide.getHonors());
+					}
+					else{
+						req.setAttribute("honors","");
+					}
+					if(!slide.getSports().isEmpty()){
+						req.setAttribute("sports", "Sports:"+slide.getSports());
+					}
+					else{
+						req.setAttribute("sports","");
+					}
+					if(!slide.getClubs().isEmpty()){
+						req.setAttribute("clubs", "Clubs:"+slide.getClubs());
+					}
+					else{
+						req.setAttribute("clubs","");
+					}
 					if(slide.getShowGPA()){
-						req.setAttribute("gpa", studController.getGPAForEmail(email));
+						req.setAttribute("gpa", "GPA:"+studController.getGPAForEmail(email));
 					}
 					req.setAttribute("quote", slide.getQuote());	
+				}
+				else{
+					req.setAttribute("slideFN", "First");
+					req.setAttribute("slideLN", "Last");
+					req.setAttribute("majorView","Major:");
+					req.setAttribute("minorView","Minor:");
+					req.setAttribute("honors", "Honors:");
+					req.setAttribute("sports", "Sports:");
+					req.setAttribute("clubs", "Clubs:");
+					req.setAttribute("gpa", "GPA:");
+					req.setAttribute("quote", "'Quote'");	
 				}
 				
 				System.out.println("   Valid login - starting session, redirecting to /home");
