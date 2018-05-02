@@ -81,10 +81,8 @@ public class SlideServlet extends HttpServlet {
 		if (GPA != null){
 		    showGPA = true;
 		    studentGPA = student.getGPA();
-		    System.out.println(studentGPA);
 		}
 		else{
-			 System.out.println("gpa not checked");
 		    showGPA= false;
 		}
 		
@@ -111,6 +109,7 @@ public class SlideServlet extends HttpServlet {
 		}
 		
 		sports= req.getParameter("sports");
+		System.out.println("sport entered:"+ sports);
 		clubs= req.getParameter("clubs");
 		quote= req.getParameter("quote");
 		String email = (String) req.getSession().getAttribute("user");
@@ -128,7 +127,7 @@ public class SlideServlet extends HttpServlet {
 		model.setStudentEmail(email);
 		
 		//	------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
-		controller.addSlide(slideFN, slideLN, false, false, false, quote, clubs, honors, showGPA, addMajor, addMinor, false, email);
+		controller.addSlide(slideFN, slideLN, false, false, false, quote, clubs, honors, sports, showGPA, addMajor, addMinor, false, email);
 
 	
 		// ADDS SUBMITTED INFO TO NEXT PAGE
@@ -144,10 +143,12 @@ public class SlideServlet extends HttpServlet {
 		
 		
 		req.setAttribute("slideFN", controller.getSlideForEmail(email).getSlideFN());
+		
 		req.setAttribute("slideLN", controller.getSlideForEmail(email).getSlideLN());
 		req.setAttribute("quote", controller.getSlideForEmail(email).getQuote());
 		req.setAttribute("honors", controller.getSlideForEmail(email).getHonors());
 		req.setAttribute("sports", controller.getSlideForEmail(email).getSports());
+		System.out.println("sport fetched: "+controller.getSlideForEmail(email).getSports());
 		req.setAttribute("clubs", controller.getSlideForEmail(email).getClubs());
 		
 		

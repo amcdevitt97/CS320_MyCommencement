@@ -283,7 +283,7 @@ public class DerbyDatabase implements IDatabase {
 	
 	// SLIDE RELATED QUERIES
 	
-	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
 	
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -295,72 +295,10 @@ public class DerbyDatabase implements IDatabase {
 				* IF NOT, USE THE PROVIDED CODE BELOW
 				*/ 
 				
-				/*
-				Slide lastSlide = getSlideForEmail(studentEmail);
 				
-				if(lastSlide.getSlideFN()==null && slideFN.isEmpty() && lastSlide!=null){
-					try{
-						insertSlide = conn.prepareStatement("update slides set slideFN = ? where studentEmail = ?");
-						insertSlide.setString(1, slideFN);
-						insertSlide.setString(2, studentEmail);
-						insertSlide.executeUpdate();
-					}
-					finally{
-						DBUtil.closeQuietly(insertSlide);
-					}
-				}
-				
-				if((lastSlide.getSlideLN()!=""||lastSlide.getSlideLN()!=null) && (slideLN!=""||slideLN!=null)){
-					try{
-						insertSlide = conn.prepareStatement("update slides set slideLN = ? where studentEmail = ?");
-						insertSlide.setString(1, slideLN);
-						insertSlide.setString(2, studentEmail);
-						insertSlide.executeUpdate();
-					}
-					finally{
-						DBUtil.closeQuietly(insertSlide);
-					}
-					
-				}
-				
-				if((lastSlide.getQuote()!=""||lastSlide.getQuote()!=null) && (quote!=""||quote!=null)){
-					try{
-						insertSlide = conn.prepareStatement("update slides set quote = ? where studentEmail = ?");
-						insertSlide.setString(1, quote);
-						insertSlide.setString(2, studentEmail);
-						insertSlide.executeUpdate();
-					}
-					finally{
-						DBUtil.closeQuietly(insertSlide);
-					}
-				}
-				
-				if((lastSlide.getClubs()!=""||lastSlide.getClubs()!=null) && (clubs!=""||clubs!=null)){
-					try{	
-						insertSlide = conn.prepareStatement("update slides set clubs = ? where studentEmail = ?");
-						insertSlide.setString(1, quote);
-						insertSlide.setString(2, clubs);
-						insertSlide.executeUpdate();
-					}
-					finally{
-						DBUtil.closeQuietly(insertSlide);
-					}
-				}
-				
-				if((lastSlide.getHonors()!=""||lastSlide.getHonors()!=null) && (honors!=""||honors!=null)){
-					try{	
-						insertSlide = conn.prepareStatement("update slides set honors = ? where studentEmail = ?");
-						insertSlide.setString(1, quote);
-						insertSlide.setString(2, honors);
-						insertSlide.executeUpdate();
-					}
-					finally{
-						DBUtil.closeQuietly(insertSlide);
-					}
-				}
-				
-				
-				if(lastSlide==null){*/
+				if(getSlideForEmail(studentEmail)==null){
+					System.out.println("New Slide!");
+
 					try {
 
 						int photo = hasPhoto? 1 : 0;
@@ -370,7 +308,7 @@ public class DerbyDatabase implements IDatabase {
 						int major = showMajor? 1 : 0;
 						int minor = showMinor? 1 : 0;
 						int approved = slideApproved? 1 : 0;
-						insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, clubs, honors, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+						insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, clubs, honors, sports, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
 						
 						insertSlide.setString(1, slideFN);
 						insertSlide.setString(2, slideLN);
@@ -380,11 +318,12 @@ public class DerbyDatabase implements IDatabase {
 						insertSlide.setString(6, quote);
 						insertSlide.setString(7, clubs);
 						insertSlide.setString(8, honors);
-						insertSlide.setInt(9, gpa);
-						insertSlide.setInt(10, major);
-						insertSlide.setInt(11, minor);
-						insertSlide.setInt(12, approved);
-						insertSlide.setString(13, studentEmail);
+						insertSlide.setString(9, sports);
+						insertSlide.setInt(10, gpa);
+						insertSlide.setInt(11, major);
+						insertSlide.setInt(12, minor);
+						insertSlide.setInt(13, approved);
+						insertSlide.setString(14, studentEmail);
 						
 						
 						
@@ -394,12 +333,55 @@ public class DerbyDatabase implements IDatabase {
 					finally{
 						DBUtil.closeQuietly(insertSlide);
 					}
-				/*}
-				return true;
-				*/	
-				
+				}
+				else{
+					System.out.println("Updating old slide");
+					try{
+						System.out.println(slideFN);
+						if(!slideFN.isEmpty()){
+							System.out.println("Updating fn");
+							insertSlide = conn.prepareStatement("update slides set slideFN = ? where studentEmail = ?");
+							insertSlide.setString(1, slideFN);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!slideLN.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set slideLN = ? where studentEmail = ?");
+							insertSlide.setString(1, slideLN);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!quote.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set quote = ? where studentEmail = ?");
+							insertSlide.setString(1, quote);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!clubs.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set clubs = ? where studentEmail = ?");
+							insertSlide.setString(1, clubs);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!honors.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set honors = ? where studentEmail = ?");
+							insertSlide.setString(1, honors);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!sports.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set sports = ? where studentEmail = ?");
+							insertSlide.setString(1, sports);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						return true;
+					}
+					finally{
+						DBUtil.closeQuietly(insertSlide);
+					}
+				}
 			}
-			
 		});
 	}  
 	
@@ -827,6 +809,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		slide.setClubs(resultSet.getString(index++));
 		slide.setHonors(resultSet.getString(index++));
+		slide.setSports(resultSet.getString(index++));
 		
 		// CONVERTS DATABASE VALUE OF 1 OR 0 TO A TRUE OR FALSE 
 		if(resultSet.getInt(index++) == 1 ){
@@ -925,6 +908,7 @@ public class DerbyDatabase implements IDatabase {
 									"	quote varchar(70)," +
 									"	clubs varchar(70)," +
 									"	honors varchar(70)," +
+									"	sports varchar(70)," +
 									"	showGPA int," +
 									"	showMajor int," +
 									"	showMinor int," +

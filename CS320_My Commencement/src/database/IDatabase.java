@@ -28,7 +28,7 @@ public interface IDatabase {
 	
 	// SLIDE DATA
 	
-	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail);
 	public Double getGPAForEmail(String email);
 	public String getMajorForEmail(String email);
 	public String getMinorForEmail(String email);
