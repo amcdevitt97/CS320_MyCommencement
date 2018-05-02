@@ -21,18 +21,18 @@ public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
     private String url = "http://localhost:8081/amcdevitt/login";
-    private String user = "rpoliti";
+    private String user = "rpoliti@ycp.edu";
     private String pass = "password";
     
-    protected void doPost(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    		throws ServletException, IOException {
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
          
         InputStream inputStream = null;
          
         // obtains the upload file part in this multipart request
-        Part filePart = request.getPart("photo");
+        Part filePart = req.getPart("photo");
         if (filePart != null) {
             // testing
             System.out.println(filePart.getName());
@@ -52,7 +52,8 @@ public class UploadServlet extends HttpServlet {
             conn = DriverManager.getConnection(url, user, pass);
  
             // constructs SQL statement
-            String sql = "INSERT INTO contacts (first_name, last_name, photo) values (?, ?, ?)";
+            String sql = "INSERT INTO photos (photo_id, length, width, file, studentEmail)"
+            		+ " values (?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, firstName);
             statement.setString(2, lastName);
@@ -79,10 +80,10 @@ public class UploadServlet extends HttpServlet {
                 }
             }
             // sets the message in request scope
-            request.setAttribute("Message", message);
+            req.setAttribute("Message", message);
              
             // forwards to the message page
-            getServletContext().getRequestDispatcher("/Message.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/Message.jsp").forward(req, resp);
         }
     }
 }

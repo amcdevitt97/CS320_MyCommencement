@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Blob;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -52,7 +53,7 @@ public class SlideServlet extends HttpServlet {
 		System.out.println("\nSlideServlet: doPost");
 		
 
-
+		Blob photo;
 		String slideFN;
 		String slideLN;
 		String major;
@@ -66,6 +67,9 @@ public class SlideServlet extends HttpServlet {
 		String sports;
 		String clubs;
 		String quote;
+		boolean hasPhoto;
+		boolean hasVideo;
+		boolean hasAudio;
 		Slide model = new Slide();
 		
 		
@@ -113,6 +117,15 @@ public class SlideServlet extends HttpServlet {
 		    addMinor= false;
 		}
 		
+		Object temp = req.getAttribute("photo");
+		photo = (Blob)temp;
+		if (photo != null){
+		    hasPhoto = true;
+		}
+		else{
+		    hasPhoto= false;
+		}
+		
 		
 		sports= req.getParameter("sports");
 		clubs= req.getParameter("clubs");
@@ -130,7 +143,7 @@ public class SlideServlet extends HttpServlet {
 		model.setClubs(clubs);
 		model.setQuote(quote);
 		model.setStudentEmail(email);
-	
+		
 		
 		req.setAttribute("gpa", studentGPA);
 		req.setAttribute("major", major);
@@ -142,8 +155,8 @@ public class SlideServlet extends HttpServlet {
 		req.setAttribute("sports", sports);
 		req.setAttribute("clubs", clubs);
 		
-		//	-------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
-		controller.addSlide(slideFN, slideLN, false, false, false, quote, honors, showGPA, addMajor, addMinor, false, email);
+		
+		controller.addSlide(photo, slideFN, slideLN, hasPhoto, false, false, quote, honors, showGPA, addMajor, addMinor, false, email);
 
 		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 		

@@ -1,6 +1,7 @@
 package database;
 
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 
 import database.DBUtil;
 import database.DerbyDatabase;
@@ -299,7 +301,33 @@ public class DerbyDatabase implements IDatabase {
 	
 	// SLIDE RELATED QUERIES
 	
-	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+	public void addPhoto(Blob photo, String studentEmail) {
+		
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement insertPhoto   = null;
+				
+				try {
+				insertPhoto = conn.prepareStatement("INSERT INTO photos (length, width, file, studentEmail)"
+	            		+ " values (?, ?, ?, ?)");
+				
+				insertPhoto.setInt(1, 0);
+				insertPhoto.setInt(2, 0);
+				insertPhoto.setBlob(3, photo);
+				insertPhoto.setString(4, studentEmail);
+				
+				insertPhoto.executeUpdate();
+				return true;
+				}
+				finally{
+					DBUtil.closeQuietly(insertPhoto);
+				}
+			}
+		});
+	}
+	
+	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
 	
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -322,7 +350,9 @@ public class DerbyDatabase implements IDatabase {
 					int minor = showMinor? 1 : 0;
 					int approved = slideApproved? 1 : 0;
 					
-					
+					if(photo == 1) {
+						addPhoto(null, studentEmail);
+					}
 					
 					insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
 					
