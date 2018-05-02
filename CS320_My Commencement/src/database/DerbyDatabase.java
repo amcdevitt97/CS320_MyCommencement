@@ -331,12 +331,9 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	
-	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto, boolean hasAudio,
-			boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA,
-			boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
+		
 
-	
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
@@ -347,6 +344,10 @@ public class DerbyDatabase implements IDatabase {
 				* IF NOT, USE THE PROVIDED CODE BELOW
 				*/ 
 				
+				
+				if(getSlideForEmail(studentEmail)==null){
+					System.out.println("New Slide!");
+
 					try {
 
 						int photo = hasPhoto? 1 : 0;
@@ -357,10 +358,6 @@ public class DerbyDatabase implements IDatabase {
 						int minor = showMinor? 1 : 0;
 						int approved = slideApproved? 1 : 0;
 						insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, clubs, honors, sports, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
-						
-						if(photo == 1) {
-							addPhoto(null, studentEmail);
-						}
 						
 						insertSlide.setString(1, slideFN);
 						insertSlide.setString(2, slideLN);
@@ -385,12 +382,57 @@ public class DerbyDatabase implements IDatabase {
 					finally{
 						DBUtil.closeQuietly(insertSlide);
 					}
-					
-				
+				}
+				else{
+					System.out.println("Updating old slide");
+					try{
+						System.out.println(slideFN);
+						if(!slideFN.isEmpty()){
+							System.out.println("Updating fn");
+							insertSlide = conn.prepareStatement("update slides set slideFN = ? where studentEmail = ?");
+							insertSlide.setString(1, slideFN);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!slideLN.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set slideLN = ? where studentEmail = ?");
+							insertSlide.setString(1, slideLN);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!quote.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set quote = ? where studentEmail = ?");
+							insertSlide.setString(1, quote);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!clubs.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set clubs = ? where studentEmail = ?");
+							insertSlide.setString(1, clubs);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!honors.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set honors = ? where studentEmail = ?");
+							insertSlide.setString(1, honors);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						if(!sports.isEmpty()){
+							insertSlide = conn.prepareStatement("update slides set sports = ? where studentEmail = ?");
+							insertSlide.setString(1, sports);
+							insertSlide.setString(2, studentEmail);
+							insertSlide.executeUpdate();
+						}
+						return true;
+					}
+					finally{
+						DBUtil.closeQuietly(insertSlide);
+					}
+				}
 			}
-			
 		});
-	} 
+	}  
 	
 	public void addReview(boolean slideFN, boolean slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, boolean quote, boolean honors, boolean showGPA, boolean showMajor, boolean showMinor, String studentEmail, String explination, boolean sports, boolean clubs){
 		
@@ -471,7 +513,13 @@ public class DerbyDatabase implements IDatabase {
 						loadSlide(slide, resultSet, 1);
 						result.add(slide);
 					}
-					return result.get(0);
+					if(result.size()==0){
+						return slide;
+					}
+					else{
+						return result.get(0);
+					}
+					
 					
 				} finally {
 					DBUtil.closeQuietly(resultSet);
@@ -513,63 +561,6 @@ public class DerbyDatabase implements IDatabase {
 		});															
 	}
 	
-	/*
-	public String getSlideFNForEmail(String email) {
-		return executeTransaction(new Transaction<String>() {
-			@Override
-			public String execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
-				String firstname= null;
-				try {
-					stmt = conn.prepareStatement(
-							"select slides.slideFN " +
-							"  from slides " +
-							" where slides.studentEmail = ?" 
-					);
-					stmt.setString(1, email);
-					
-					resultSet = stmt.executeQuery();
-					
-					firstname = resultSet.getString(1);
-					
-					return firstname;
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-		});															
-	}
-	
-	public String getSlideLNForEmail(String email) {
-		return executeTransaction(new Transaction<String>() {
-			@Override
-			public String execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
-				String lastname= null;
-				try {
-					stmt = conn.prepareStatement(
-							"select slides.slideLN " +
-							"  from slides " +
-							" where slides.studentEmail = ?" 
-					);
-					stmt.setString(1, email);
-					
-					resultSet = stmt.executeQuery();
-					
-					lastname = resultSet.getString(1);
-					
-					return lastname;
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-		});
-	}
-	*/
 	
 	public Double getGPAForEmail(String email) {
 		return executeTransaction(new Transaction<Double>() {
@@ -737,7 +728,6 @@ public class DerbyDatabase implements IDatabase {
 	}
 	/*
 	 * DEBUGGING ONLY:
-	 * 		showAllSlides(select * from slides)
 	 * 		showAllPhotos(select * from photos)
 	 * 		showAllVideos(select * from videos)
 	 * 		showAllAudio(select * from audio)
@@ -805,10 +795,10 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public String showAllSlides() {
-		return executeTransaction(new Transaction<String>() {
+	public List<Slide> showAllSlides() {
+		return executeTransaction(new Transaction<List<Slide>>() {
 			@Override
-			public String execute(Connection conn) throws SQLException {
+			public List<Slide> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				String dump = "All Slides: ";
@@ -827,7 +817,7 @@ public class DerbyDatabase implements IDatabase {
 						result.add(slide);
 						dump += "<"+slide.getSlideId()+ " | "+ slide.getSlideFN()+ " | " +slide.getSlideLN() +" | "+slide.getHasPhoto()+" | "+slide.getHasAudio()+" | "+slide.getHasVideo()+"> ";
 					}
-					return dump;
+					return result;
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -942,7 +932,14 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	public Connection connect() throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-2018/library.db;create=true");
+		String OS = System.getProperty("os.name").toLowerCase();
+		Connection conn;
+		if (OS.indexOf("win") >= 0) {
+			conn = DriverManager.getConnection("jdbc:derby:C:/CS320-2018/library.db;create=true");
+		}
+		else {
+			conn = DriverManager.getConnection("jdbc:derby:~/CS320-2018/library.db;create=true");
+		}
 
 		// Set autocommit to false to allow execution of
 		// multiple queries/statements as part of the same transaction.
@@ -1087,7 +1084,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		slide.setClubs(resultSet.getString(index++));
 		slide.setHonors(resultSet.getString(index++));
-		
+		slide.setSports(resultSet.getString(index++));
 		// CONVERTS DATABASE VALUE OF 1 OR 0 TO A TRUE OR FALSE 
 		if(resultSet.getInt(index++) == 1 ){
 			slide.setShowGPA(true);
@@ -1177,14 +1174,15 @@ public class DerbyDatabase implements IDatabase {
 							"create table slides (" +
 									"	slide_id integer primary key " +
 									"		generated always as identity (start with 1, increment by 1), " +
-									"	slideFN int," +
-									"	slideLN int," +
+									"	slideFN varchar(70)," +
+									"	slideLN varchar(70)," +
 									"	hasPhoto int," +
 									"	hasAudio int," +
 									"	hasVideo int," +
-									"	quote int," +
-									"	clubs int," +
-									"	honors int," +
+									"	quote varchar(70)," +
+									"	clubs varchar(70)," +
+									"	honors varchar(70)," +
+									"	sports varchar(70)," +
 									"	showGPA int," +
 									"	showMajor int," +
 									"	showMinor int," +

@@ -28,6 +28,10 @@
     <servlet-class>servlet.SlideServlet</servlet-class>
   </servlet>  
   <servlet>
+    <servlet-name>PresentServlet</servlet-name>
+    <servlet-class>servlet.PresentServlet</servlet-class>
+  </servlet>  
+  <servlet>
     <servlet-name>ReviewServlet</servlet-name>
     <servlet-class>servlet.ReviewServlet</servlet-class>
   </servlet> 
@@ -52,6 +56,10 @@
   <servlet-mapping>
     <servlet-name>SlideServlet</servlet-name>
     <url-pattern>/slide</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PresentServlet</servlet-name>
+    <url-pattern>/present</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ReviewServlet</servlet-name>
