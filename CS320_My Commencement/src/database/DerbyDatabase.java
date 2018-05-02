@@ -278,6 +278,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				List<Student> result = new ArrayList<Student>();
+				Student student = new Student(0, null, null, null, null, 0.0, null, null, null);
 				try {
 					stmt = conn.prepareStatement(
 							"select * " +
@@ -288,11 +289,18 @@ public class DerbyDatabase implements IDatabase {
 					resultSet = stmt.executeQuery();
 					
 					while (resultSet.next()) {
-						Student student = new Student(0, null, null, null, null, 0.0, null, null, null);
+						
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
-					return result.get(0);
+					if(result.size()==0){
+						// No student found with that email, returning a pointless student
+						return student;
+					}
+					else{
+						// Returning a student
+						return result.get(0);
+					}
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
