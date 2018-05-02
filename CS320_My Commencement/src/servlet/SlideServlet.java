@@ -52,13 +52,10 @@ public class SlideServlet extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("\nSlideServlet: doPost");
 		
-<<<<<<< HEAD
 
 		Blob photo;
-=======
 		// DISPLAYING SLIDE INFO
 		
->>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 		String slideFN;
 		String slideLN;
 		String major;
@@ -117,7 +114,6 @@ public class SlideServlet extends HttpServlet {
 		    addMinor= false;
 		}
 		
-<<<<<<< HEAD
 		Object temp = req.getAttribute("photo");
 		photo = (Blob)temp;
 		if (photo != null){
@@ -128,8 +124,6 @@ public class SlideServlet extends HttpServlet {
 		}
 		
 		
-=======
->>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 		sports= req.getParameter("sports");
 		System.out.println("sport entered:"+ sports);
 		clubs= req.getParameter("clubs");
@@ -147,12 +141,7 @@ public class SlideServlet extends HttpServlet {
 		model.setClubs(clubs);
 		model.setQuote(quote);
 		model.setStudentEmail(email);
-<<<<<<< HEAD
 		
-=======
->>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
-		
-<<<<<<< HEAD
 		req.setAttribute("gpa", studentGPA);
 		req.setAttribute("major", major);
 		req.setAttribute("minor", minor);
@@ -164,11 +153,9 @@ public class SlideServlet extends HttpServlet {
 		req.setAttribute("clubs", clubs);
 		
 		
-		controller.addSlide(photo, slideFN, slideLN, hasPhoto, false, false, quote, honors, showGPA, addMajor, addMinor, false, email);
-=======
 		//	------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
-		controller.addSlide(slideFN, slideLN, false, false, false, quote, clubs, honors, sports, showGPA, addMajor, addMinor, false, email);
->>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
+		controller.addSlide(photo, slideFN, slideLN, hasPhoto, false, false, quote, clubs, honors, sports, showGPA, addMajor, addMinor, false, email);
+
 
 	
 		// ADDS SUBMITTED INFO TO NEXT PAGE

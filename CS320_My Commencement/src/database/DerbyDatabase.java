@@ -285,7 +285,6 @@ public class DerbyDatabase implements IDatabase {
 	
 	// SLIDE RELATED QUERIES
 	
-<<<<<<< HEAD
 	public void addPhoto(Blob photo, String studentEmail) {
 		
 		executeTransaction(new Transaction<Boolean>() {
@@ -312,10 +311,7 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String honors, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
-=======
-	public void addSlide(String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
->>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
+	public void addSlide(Blob photo, String slideFN, String slideLN, boolean hasPhoto,boolean hasAudio, boolean hasVideo, String quote, String clubs, String honors, String sports, boolean showGPA, boolean showMajor, boolean showMinor, boolean slideApproved, String studentEmail){
 	
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -331,37 +327,6 @@ public class DerbyDatabase implements IDatabase {
 				if(getSlideForEmail(studentEmail)==null){
 					System.out.println("New Slide!");
 
-<<<<<<< HEAD
-					int photo = hasPhoto? 1 : 0;
-					int audio = hasAudio? 1 : 0;
-					int video = hasVideo? 1 : 0;
-					int gpa = showGPA? 1 : 0;
-					int major = showMajor? 1 : 0;
-					int minor = showMinor? 1 : 0;
-					int approved = slideApproved? 1 : 0;
-					
-					if(photo == 1) {
-						addPhoto(null, studentEmail);
-					}
-					
-					insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, honors, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
-					
-					insertSlide.setString(1, slideFN);
-					insertSlide.setString(2, slideLN);
-					insertSlide.setInt(3, photo);
-					insertSlide.setInt(4, audio);
-					insertSlide.setInt(5, video);
-					insertSlide.setString(6, quote);
-					insertSlide.setString(7, honors);
-					insertSlide.setInt(8, gpa);
-					insertSlide.setInt(9, major);
-					insertSlide.setInt(10, minor);
-					insertSlide.setInt(11, approved);
-					insertSlide.setString(12, studentEmail);
-					
-					insertSlide.executeUpdate();
-					return true;
-=======
 					try {
 
 						int photo = hasPhoto? 1 : 0;
@@ -372,6 +337,10 @@ public class DerbyDatabase implements IDatabase {
 						int minor = showMinor? 1 : 0;
 						int approved = slideApproved? 1 : 0;
 						insertSlide = conn.prepareStatement("insert into slides (slideFN, slideLN, hasPhoto, hasAudio, hasVideo, quote, clubs, honors, sports, showGPA, showMajor, showMinor, slideApproved, studentEmail) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+						
+						if(photo == 1) {
+							addPhoto(null, studentEmail);
+						}
 						
 						insertSlide.setString(1, slideFN);
 						insertSlide.setString(2, slideLN);
@@ -396,7 +365,6 @@ public class DerbyDatabase implements IDatabase {
 					finally{
 						DBUtil.closeQuietly(insertSlide);
 					}
->>>>>>> branch 'master' of https://github.com/amcdevitt97/CS320_MyCommencement.git
 				}
 				else{
 					System.out.println("Updating old slide");
