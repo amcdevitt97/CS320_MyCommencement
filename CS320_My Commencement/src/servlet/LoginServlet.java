@@ -128,7 +128,15 @@ public class LoginServlet extends HttpServlet {
 					if(slide.getShowGPA()){
 						req.setAttribute("gpa", "GPA:"+studController.getGPAForEmail(email));
 					}
-					req.setAttribute("quote", slide.getQuote());	
+					else{
+						req.setAttribute("gpa","");
+					}
+					if(!slide.getQuote().isEmpty()){
+						req.setAttribute("quote", slide.getQuote());
+					}
+					else{
+						req.setAttribute("quote","");
+					}
 				}
 				else{
 					req.setAttribute("slideFN", "First");

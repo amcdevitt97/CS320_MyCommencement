@@ -6,6 +6,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="main.css">
 <title>MyCommencement - Login</title>
+<link rel="icon" type="image/png" href="Media/icon.png">
 </head>
 <body>
 

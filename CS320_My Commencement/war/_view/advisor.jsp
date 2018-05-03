@@ -5,6 +5,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="main.css">
+<link rel="icon" type="image/png" href="Media/icon.png">
 <title>MyCommencement - Advisor View</title>
 
 </head>
@@ -31,7 +32,10 @@
 		<table style="width:380px;">
 		<c:forEach items="${students}" var="student">
 			<tr class="studentRowOdd" >
-				<td>${student.firstname} ${student.lastname}</td>           
+				<td>${student.firstname} ${student.lastname}</td>         
+				<form id="studentSelect" action="${pageContext.servletContext.contextPath}/present" method="post">
+					<input type="Submit" value="${student.email}" id="studentSelect" name=${student.email}>
+				</form>  
 			</tr>
 		</c:forEach>
 		</table>

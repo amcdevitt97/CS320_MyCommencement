@@ -33,12 +33,8 @@ public class SlideServlet extends HttpServlet {
 		Account model = new Account();
 		AccountController controller = new AccountController(model);
 		String userFirstName = controller.getFirstnameForEmail(email);
-		System.out.println(userFirstName);
 		req.getSession().setAttribute("fn", userFirstName);
 		
-		//TODO:
-		//getSlideForEmail
-		//set attributes to given slide elements
 		
 		
 		
@@ -90,8 +86,10 @@ public class SlideServlet extends HttpServlet {
 		if (GPA != null){
 		    showGPA = true;
 		    studentGPA = student.getGPA();
+		    System.out.println("GPA: "+studentGPA);
 		}
 		else{
+			studentGPA =  null;
 		    showGPA= false;
 		}
 		
@@ -100,7 +98,6 @@ public class SlideServlet extends HttpServlet {
 		if (major != null){
 		    addMajor = true;
 		    major = student.getMajor();
-		    System.out.println(major);
 		}
 		else{
 		    addMajor= false;
@@ -130,7 +127,7 @@ public class SlideServlet extends HttpServlet {
 		sports= req.getParameter("sports");
 		clubs= req.getParameter("clubs");
 		quote= req.getParameter("quote");
-		//String email = (String) req.getSession().getAttribute("user");
+		
 		
 		// ADDS SLIDE ATTRIBUTES TO THE MODEL
 		model.setSlideFN(slideFN);
@@ -144,57 +141,65 @@ public class SlideServlet extends HttpServlet {
 		model.setQuote(quote);
 		model.setStudentEmail(email);
 		
-		req.setAttribute("gpa", studentGPA);
-		if(addMajor){
+		
+		
+		//	------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
+		controller.addSlide(slideFN, slideLN, hasPhoto, false, false, quote, clubs, honors, sports, showGPA, addMajor, addMinor, false, email);
+		
+		req.setAttribute("slideFN", controller.getSlideForEmail(email).getSlideFN());
+		req.setAttribute("slideLN", controller.getSlideForEmail(email).getSlideLN());
+		
+		if(controller.getSlideForEmail(email).getShowMajor()){
 			req.setAttribute("majorView", "Major: "+studController.getMajorForEmail(email));
+			System.out.println("Major set to: "+ req.getAttribute("majorView"));
 		}
 		else{
 			req.setAttribute("majorView","");
 		}
-		if(addMinor && !studController.getMinorForEmail(email).isEmpty() && !studController.getMinorForEmail(email).equals("null") ){
+		if(controller.getSlideForEmail(email).getShowMinor() && !studController.getMinorForEmail(email).isEmpty() && !studController.getMinorForEmail(email).equals("null") ){
 			req.setAttribute("minorView", "Minor: "+studController.getMinorForEmail(email));
 		}
 		else{
 			req.setAttribute("minorView","");
 		}
-		req.setAttribute("slideFN", slideFN);
-		req.setAttribute("slideLN", slideLN);
-		req.setAttribute("quote", quote);
-		req.setAttribute("honors", honors);
-		req.setAttribute("sports", sports);
-		req.setAttribute("clubs", clubs);
-		
-		
-		//	------------ROBERT: CHANGE THESE ( V      V      V  ) 3 VALUES TO 'HASAUDIO' 'HASVIDEO' AND 'HASPHOTO' WHEN EMPLIMENTING FILE UPLOAD
-		controller.addSlide(slideFN, slideLN, hasPhoto, false, false, quote, clubs, honors, sports, showGPA, addMajor, addMinor, false, email);
 
+		if(!controller.getSlideForEmail(email).getHonors().isEmpty()){
+			req.setAttribute("honors", "Honors:"+controller.getSlideForEmail(email).getHonors());
+		}
+		else{
+			req.setAttribute("honors","");
+		}
+		if(!controller.getSlideForEmail(email).getSports().isEmpty()){
+			req.setAttribute("sports", "Sports:"+controller.getSlideForEmail(email).getSports());
+		}
+		else{
+			req.setAttribute("sports","");
+		}
+		if(!controller.getSlideForEmail(email).getClubs().isEmpty()){
+			req.setAttribute("clubs", "Clubs:"+controller.getSlideForEmail(email).getClubs());
 
-	
-		// ADDS SUBMITTED INFO TO NEXT PAGE
-		if(controller.getSlideForEmail(email).getShowGPA()){
-			req.setAttribute("gpa", student.getGPA());
+			System.out.println("Clubs set to: "+ req.getAttribute("clubs"));
 		}
-		if(controller.getSlideForEmail(email).getShowMajor()){
-			req.setAttribute("major", student.getMajor());
+		else{
+			req.setAttribute("clubs","");
 		}
-		if(controller.getSlideForEmail(email).getShowMinor()){
-			req.setAttribute("minor", student.getMinor());
+		if(controller.getSlideForEmail(email).getShowGPA() && studController.getGPAForEmail(email) != 0.0){
+			req.setAttribute("gpa", "GPA:"+studController.getGPAForEmail(email));
+			System.out.println("GPA set to: "+ req.getAttribute("gpa"));
 		}
-		
-		
-		req.setAttribute("slideFN", controller.getSlideForEmail(email).getSlideFN());
-		
-		req.setAttribute("slideLN", controller.getSlideForEmail(email).getSlideLN());
-		req.setAttribute("quote", controller.getSlideForEmail(email).getQuote());
-		req.setAttribute("honors", controller.getSlideForEmail(email).getHonors());
-		req.setAttribute("sports", controller.getSlideForEmail(email).getSports());
-		req.setAttribute("clubs", controller.getSlideForEmail(email).getClubs());
-		
+		else{
+			req.setAttribute("gpa","");
+		}
+		if(!controller.getSlideForEmail(email).getQuote().isEmpty()){
+			req.setAttribute("quote", controller.getSlideForEmail(email).getQuote());
+		}
+		else{
+			req.setAttribute("quote","");
+		}
 		
 		// SETTING NAME
 		Account acctModel = new Account();
 		AccountController acctController = new AccountController(acctModel);
-		System.out.println(acctController.getFirstnameForEmail(email));
 		req.setAttribute("fn", acctController.getFirstnameForEmail(email));
 		
 		

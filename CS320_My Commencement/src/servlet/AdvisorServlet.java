@@ -41,6 +41,11 @@ public class AdvisorServlet extends HttpServlet {
 			String email = req.getSession().getAttribute("user").toString();
 			System.out.println(email);
 			
+			// SETTING NAME
+			Account acctModel = new Account();
+			AccountController acctController = new AccountController(acctModel);
+			req.setAttribute("fn", acctController.getFirstnameForEmail(email));
+			
 			
 			req.getRequestDispatcher("/_view/advisor.jsp").forward(req, resp);
 		

@@ -196,7 +196,6 @@ public class DerbyDatabase implements IDatabase {
 						loadAccount(account, resultSet, 1);
 						result.add(account);
 					}
-					System.out.println(result.get(0).getLastname());
 					return result.get(0).getLastname();
 				} finally {
 					DBUtil.closeQuietly(resultSet);
@@ -394,9 +393,7 @@ public class DerbyDatabase implements IDatabase {
 				else{
 					System.out.println("Updating old slide");
 					try{
-						System.out.println(slideFN);
 						if(!slideFN.isEmpty()){
-							System.out.println("Updating fn");
 							insertSlide = conn.prepareStatement("update slides set slideFN = ? where studentEmail = ?");
 							insertSlide.setString(1, slideFN);
 							insertSlide.setString(2, studentEmail);
@@ -593,7 +590,7 @@ public class DerbyDatabase implements IDatabase {
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
-					System.out.println(result.get(0).getGPA());
+					System.out.println("GPA: "+result.get(0).getGPA());
 					return result.get(0).getGPA();
 				} finally {
 					DBUtil.closeQuietly(resultSet);
@@ -626,7 +623,7 @@ public class DerbyDatabase implements IDatabase {
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
-					System.out.println(result.get(0).getMajor());
+					System.out.println("Major: "+result.get(0).getMajor());
 					return result.get(0).getMajor();
 				} finally {
 					DBUtil.closeQuietly(resultSet);
@@ -658,7 +655,7 @@ public class DerbyDatabase implements IDatabase {
 						loadReview(review, resultSet, 1);
 						result.add(review);
 					}
-					System.out.println(result.get(0).getMajor());
+					System.out.println("Major: "+result.get(0).getMajor());
 					return result.get(0).getMajor();
 				} finally {
 					DBUtil.closeQuietly(resultSet);
@@ -691,7 +688,7 @@ public class DerbyDatabase implements IDatabase {
 						loadStudent(student, resultSet, 1);
 						result.add(student);
 					}
-					System.out.println(result.get(0).getMinor());
+					System.out.println("Minor: "+result.get(0).getMinor());
 					return result.get(0).getMinor();
 					
 				} finally {
@@ -724,7 +721,7 @@ public class DerbyDatabase implements IDatabase {
 						loadReview(review, resultSet, 1);
 						result.add(review);
 					}
-					System.out.println(result.get(0).getMinor());
+					System.out.println("Minor: "+result.get(0).getMinor());
 					return result.get(0).getMinor();
 					
 				} finally {
