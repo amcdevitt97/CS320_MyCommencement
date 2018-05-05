@@ -31,10 +31,11 @@
 		<div class="studentList" >
 		<table style="width:380px;">
 		<c:forEach items="${students}" var="student">
-			<tr class="studentRowOdd" >
-				<td>${student.firstname} ${student.lastname}</td>         
-				<form id="studentSelect" action="${pageContext.servletContext.contextPath}/present" method="post">
-					<input type="Submit" value="${student.email}" id="studentSelect" name=${student.email}>
+			<tr>
+				         
+				<form id="studentSelect" action="${pageContext.servletContext.contextPath}/studentSelect" method="post">
+					<input type="hidden" name="studentSelected" value=${student.email}>  
+					<input class="studentRowOdd" type="Submit" style="width: 100%;" value="${student.firstname} ${student.lastname}" id="studentRowButton" name="meme">
 				</form>  
 			</tr>
 		</c:forEach>
@@ -54,17 +55,22 @@
 				</audio>
 				
 				
-				<h3><b><u>Default Name</b></u></h3>
+				<h3><b><u> <%= request.getAttribute("slideFN") %> <%= request.getAttribute("slideLN") %></b></u></h3>
 					<div class="attributes">
-						<p>Major: </p>
-						<p>Minor: </p>
-						<p>Honors: </p>
-						<p>Sports: </p>
-						<p>Clubs: </p>
-						<p>GPA: </p>
+					
+						<!--<c:set var = "serverMajor" value = ""/>
+      					<c:if test = "${major != null}">
+      					</c:if>-->
+         				
+         				<p><%= request.getAttribute("majorView") %></p>
+						<p><%= request.getAttribute("minorView") %> </p>
+						<p><%= request.getAttribute("honors") %></p>
+						<p><%= request.getAttribute("sports") %></p>
+						<p><%= request.getAttribute("clubs") %></p>
+						<p><%= request.getAttribute("gpa") %> </p>
 					</div>
 				<div id="quotebox">	
-					<h2><i>This is a quote</i></h2>
+					<h2><i><%= request.getAttribute("quote") %></i></h2>
 				</div>
 				<video width="240" height="160" controls autoplay muted>
   					<source src="Media/15Sec.mp4" type="video/mp4" >

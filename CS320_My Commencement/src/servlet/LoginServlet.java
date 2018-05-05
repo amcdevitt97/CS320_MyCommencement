@@ -155,13 +155,24 @@ public class LoginServlet extends HttpServlet {
 			}
 			else{
 				
+				// Grabbing all students
 				List<Student> students = null;
 				System.out.println(email);
 				students = acctController.getStudentsForAdvisor(email);
 				System.out.println(students.get(0).getFirstname());
 				req.setAttribute("students",  students);
 				
-				System.out.println(acctController.getStudentsForAdvisor(email));
+				// Showing empty slide
+				req.setAttribute("slideFN", "Select a student");
+				req.setAttribute("slideLN","");
+				req.setAttribute("majorView","");
+				req.setAttribute("minorView","");
+				req.setAttribute("honors","");
+				req.setAttribute("sports","");
+				req.setAttribute("clubs","");
+				req.setAttribute("gpa","");
+				req.setAttribute("quote","");
+				
 				System.out.println("   Valid login - starting session, redirecting to /advisor");
 				// redirect to /advisor page
 				req.getRequestDispatcher("/_view/advisor.jsp").forward(req, resp);	
