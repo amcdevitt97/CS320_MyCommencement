@@ -35,9 +35,8 @@ public class ReviewController {
 		return students;
 	}
 	
-	public Review getSlideForEmail(String email){
+	public Review getReviewForEmail(String email){
 		Review review = database.getReviewForEmail(email);
 		return review;
 	}
-
 }

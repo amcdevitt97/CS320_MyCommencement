@@ -282,6 +282,7 @@ text-align:center;
 
 #checklist{
 position:fixed;
+text-align:center;
 left: 0px;
 bottom:0px;
 float: none;

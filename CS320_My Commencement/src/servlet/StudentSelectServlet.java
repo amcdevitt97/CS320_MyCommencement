@@ -43,13 +43,15 @@ public class StudentSelectServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("\nSlideServlet: doPost");
+		System.out.println("\nStudentSelectServlet: doPost");
 		
 
 		// DISPLAYING SLIDE INFO
 		String[] values= req.getParameterValues("studentSelected");
 		String email = values[0];
 		System.out.println("email is:"+email);
+		req.getSession().setAttribute("studentSelected", email);
+		req.setAttribute("studentSelected", email);
 		Student student  = new Student(0,"", "", "", "", 0.0, "", "", "");
 		StudentController studController = new StudentController(student);
 		student = studController.getStudentForEmail(email);

@@ -42,7 +42,7 @@ public class PresentServlet extends HttpServlet {
 				List<Slide> slides = null;
 				
 				// CHANGE TO CONTROLLER.getAllApprovedSlides WHEN REVIEW STUFF IS DONE
-				slides = controller.getAllSlides();
+				slides = controller.getAllValidSlides();
 				req.setAttribute("slides",  slides);
 				
 				System.out.println("   Valid login - starting session, redirecting to /present");

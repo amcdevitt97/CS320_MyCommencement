@@ -36,9 +36,9 @@
 		<p>Check to show my GPA: <input type="checkbox" name="gpaCheck" value="showGPA" id="gpaBox"></p>
 		<p>Check to show my Major: <input type="checkbox" name="showMajor" value="showMajor" id="gpaBox"></p>
 		<p>Check to show my Minor: <input type="checkbox" name="showMinor" value="showMinor" id="gpaBox"></p>
-		<p>Sports: <input type="text" name="sports"></p>
-		<p>Clubs: <input type="text" name="clubs"></p>
-		<p>Quote: <input type="text" name="quote"></p>
+		<p>Sports: <input type="text" name="sports" style="position:relative;bottom:15px;"></p>
+		<p>Clubs: <input type="text" name="clubs" style="position:relative;bottom:15px;"></p>
+		<p>Quote: <input type="text" name="quote" style="position:relative;bottom:15px;"></p>
 		<p>Upload Photo:</p> <input class="fileChoosers" type="file" name="photo" accept="image/*"></p>
 		<p>Upload name pronunciation:</p> <input class="fileChoosers" type="file" name="audio" accept="audio/*"></p>
 		<p>Upload video:</p> <input class="fileChoosers" type="file" name="video" accept="video/*"></p>

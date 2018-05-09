@@ -42,25 +42,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 	/*
 	 * TODO:
-	 * 		
-	 * 		SLIDE RELATED QUERIES:
-	 * 		getSlide (select slides where slides.studentEmail=?)
-	 * 		getSlideFNforEmail ()
-	 * 		getSlideLNforEmail ()
-	 * 		getSlideQuoteforEmail()
-	 * 		setGpaVisibilityforEmail()
-	 * 		setMajorVisibilityforEmail()
-	 * 		setAudioVisibilityforEmail()
-	 * 		setVideoVisibilityforEmail()
-	 * 		setPhotoVisibilityforEmail()
-	 * 		getStudentGPA()
-	 * 		getStudentMajor()
-	 * 		getStudentMinor()
-	 * 
 	 * 		DEBUGGING ONLY:
-	 * 		showAllAccounts(select * from accounts)
-	 * 		showAllStudents(select * from students)
-	 * 		showAllSlides(select * from slides)
 	 * 		showAllPhotos(select * from photos)
 	 * 		showAllVideos(select * from videos)
 	 * 		showAllAudio(select * from audio)
@@ -556,7 +538,12 @@ public class DerbyDatabase implements IDatabase {
 						loadReview(review, resultSet, 1);
 						result.add(review);
 					}
-					return result.get(0);
+					if(result.size()==0){
+						return null;
+					}
+					else{
+						return result.get(0);
+					}
 					
 				} finally {
 					DBUtil.closeQuietly(resultSet);

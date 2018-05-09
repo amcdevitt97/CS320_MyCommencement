@@ -25,6 +25,11 @@
 		<!-- <a href="#"> <div id="logOut"> Log Out </div> </a> -->
 	</div>
 <div id="content">
+	<div id="errorMessage">
+		<c:if test="${! empty errorMessage}">
+			<tr>${errorMessage}</tr>
+		</c:if>
+	</div>
 	<!-- left-sided content -->
 	<div class="left" style="height:430px">
 		<h3><%= request.getAttribute("fn") %>'s Students</h3>
@@ -54,7 +59,7 @@
   					<source src="Media/test.mp3">
 				</audio>
 				
-				
+				<p hidden><%= request.getAttribute("studentSelected") %></p>
 				<h3><b><u> <%= request.getAttribute("slideFN") %> <%= request.getAttribute("slideLN") %></b></u></h3>
 					<div class="attributes">
 					
@@ -80,7 +85,7 @@
 			</div>
 		<div id="checklist">
 			<!--TODO: MAKE SERIES OF CHECK BOXES IN A FORM FOR THE REVIEW CLASS-->
-			<form action="${pageContext.servletContext.contextPath}/review" method = "post>
+			<form action="${pageContext.servletContext.contextPath}/review" method = "post">
   				<input type="checkbox" name="AdvisorCheck" value="fname"> First Name
   				<input type="checkbox" name="AdvisorCheck" value="lname"> Last Name
   				<input type="checkbox" name="AdvisorCheck" value="honors"> Honors
@@ -92,6 +97,9 @@
   				<input type="checkbox" name="AdvisorCheck" value="audio"> Audio
   				<input type="submit" value="Submit">
 			</form>
+			<c:if test="${not empty submitDone}">
+  				<script>alert("Slide approvals sent!");
+			</script></c:if>
 		
 		</div>
 	</div>
