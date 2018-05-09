@@ -85,6 +85,7 @@
 			</div>
 		<div id="checklist">
 			<!--TODO: MAKE SERIES OF CHECK BOXES IN A FORM FOR THE REVIEW CLASS-->
+			<p>Please select the elements that you find acceptable:</p>
 			<form action="${pageContext.servletContext.contextPath}/review" method = "post">
   				<input type="checkbox" name="AdvisorCheck" value="fname"> First Name
   				<input type="checkbox" name="AdvisorCheck" value="lname"> Last Name
@@ -95,6 +96,7 @@
   				<input type="checkbox" name="AdvisorCheck" value="photo"> Photo
   				<input type="checkbox" name="AdvisorCheck" value="video"> Video
   				<input type="checkbox" name="AdvisorCheck" value="audio"> Audio
+  				<p> </p>
   				<input type="submit" value="Submit">
 			</form>
 			<c:if test="${not empty submitDone}">
