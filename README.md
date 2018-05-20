@@ -27,5 +27,5 @@ All tests can be found in the "junit" folder of our project. Simply right click 
 
 ## Authors
 
-See the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See the list of [contributors](https://github.com/amcdevitt97/CS320_MyCommencement/graphs/contributors) who participated in this project.
 
